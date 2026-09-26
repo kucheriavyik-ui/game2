@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- Dev helper: http://localhost:5173/scripts/asset-preview.html?f=characters/anselm/south.png,characters/anselm/west.png&z=6 -->
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Asset preview</title>
+    <style>
+      body { margin: 0; padding: 16px; background: #2a2a2a; color: #ddd; font: 14px monospace; }
+      .row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end; }
+      figure { margin: 0; text-align: center; }
+      img { image-rendering: pixelated; background: repeating-conic-gradient(#444 0 25%, #3a3a3a 0 50%) 0 0 / 16px 16px; display: block; }
+      figcaption { margin-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <div class="row" id="row"></div>
+    <script>
+      const p = new URLSearchParams(location.search);
+      const zoom = Number(p.get('z') || 6);
+      for (const f of (p.get('f') || '').split(',').filter(Boolean)) {
+        const fig = document.createElement('figure');
+        const img = new Image();
+        img.src = '/assets/' + f;
+        img.onload = () => { img.width = img.naturalWidth * zoom; img.height = img.naturalHeight * zoom; cap.textContent = `${f} (${img.naturalWidth}x${img.naturalHeight})`; };
+        const cap = document.createElement('figcaption');
+        fig.append(img, cap);
+        document.getElementById('row').append(fig);
+      }
+    </script>
+  </body>
+</html>

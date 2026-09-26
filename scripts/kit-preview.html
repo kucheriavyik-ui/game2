@@ -1,0 +1,106 @@
+<!doctype html>
+<!--
+  Dev helper: composes a test building from a PixelLab building kit so the
+  piece geometry can be checked by eye before it is wired into the engine.
+  http://localhost:5173/scripts/kit-preview.html?kit=port&w=5&h=3&door=2&roofDy=0&wallDy=0&z=3
+    kit     folder under assets/kits/
+    w, h    footprint in cells
+    door    column (0-based) of the door in the bottom row
+    roofDy  extra vertical shift for roof pieces (px, negative = up)
+    wallDy  extra vertical shift for the facade pieces
+-->
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kit preview</title>
+    <style>
+      body { margin: 0; padding: 16px; background: #2a2a2a; color: #ddd; font: 13px monospace; }
+      canvas { image-rendering: pixelated; background: #5c5652; display: block; margin-top: 12px; }
+      pre { white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <div id="info"></div>
+    <canvas id="c"></canvas>
+    <script>
+      // Piece indices from get_tiles_pro placement_rules of the kit.
+      const ROOF = {
+        interior: 79, pyramid: 78,
+        eaves: { N: 60, E: 61, S: 62, W: 63 },
+        hips: { NE: 64, SE: 65, SW: 66, NW: 67 },
+        valleys: { NE: 68, SE: 69, SW: 70, NW: 71 },
+        ridges: { EW: 72, NS: 73 },
+        ends: { E: 74, W: 75, N: 76, S: 77 },
+      };
+      const WALL_S = 3, DOOR_SA = 36, DOOR_SB = 37, CORNER_SW = 7, CORNER_SE = 6;
+
+      const p = new URLSearchParams(location.search);
+      const kit = p.get('kit') || 'port';
+      const W = +(p.get('w') || 5), H = +(p.get('h') || 3), DOOR = +(p.get('door') || 2);
+      const roofDy = +(p.get('roofDy') || 0), wallDy = +(p.get('wallDy') || 0);
+      const zoom = +(p.get('z') || 3);
+      const CELL = 32;
+
+      const load = (i) => new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = `/assets/kits/${kit}/tile_${i}.png`; });
+      const bbox = (im) => {
+        const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+        const x = c.getContext('2d'); x.drawImage(im, 0, 0);
+        const d = x.getImageData(0, 0, c.width, c.height).data;
+        let minx = 1e9, miny = 1e9, maxx = -1, maxy = -1;
+        for (let y = 0; y < c.height; y++) for (let xx = 0; xx < c.width; xx++) if (d[(y * c.width + xx) * 4 + 3] > 0) { minx = Math.min(minx, xx); maxx = Math.max(maxx, xx); miny = Math.min(miny, y); maxy = Math.max(maxy, y); }
+        return [minx, miny, maxx, maxy];
+      };
+
+      // Roof piece for a footprint cell from its 8 neighbours (true = also roof).
+      function roofPiece(n) {
+        const open = { N: !n.N, E: !n.E, S: !n.S, W: !n.W };
+        const openCount = Object.values(open).filter(Boolean).length;
+        if (openCount === 4) return ROOF.pyramid;
+        if (openCount === 3) { if (!open.N) return ROOF.ends.S; if (!open.S) return ROOF.ends.N; if (!open.E) return ROOF.ends.W; return ROOF.ends.E; }
+        if (open.N && open.S) return ROOF.ridges.EW;
+        if (open.E && open.W) return ROOF.ridges.NS;
+        if (open.N && open.E) return ROOF.hips.NE;
+        if (open.S && open.E) return ROOF.hips.SE;
+        if (open.S && open.W) return ROOF.hips.SW;
+        if (open.N && open.W) return ROOF.hips.NW;
+        if (open.N) return ROOF.eaves.N; if (open.E) return ROOF.eaves.E; if (open.S) return ROOF.eaves.S; if (open.W) return ROOF.eaves.W;
+        if (!n.NE) return ROOF.valleys.NE; if (!n.SE) return ROOF.valleys.SE; if (!n.SW) return ROOF.valleys.SW; if (!n.NW) return ROOF.valleys.NW;
+        return ROOF.interior;
+      }
+
+      (async () => {
+        const imgs = {}; for (let i = 0; i < 80; i++) imgs[i] = await load(i);
+        const fb = bbox(imgs[0]);
+        const anchor = { x: fb[0], y: fb[1] };
+        const floorH = fb[3] - fb[1] + 1;
+        document.getElementById('info').textContent = `floor bbox ${fb.join(',')} -> anchor (${anchor.x},${anchor.y}), floor cell ${fb[2]-fb[0]+1}x${floorH}; canvas ${imgs[0].naturalWidth}x${imgs[0].naturalHeight}`;
+
+        const cols = W + 4, rows = H + 6;
+        const cv = document.getElementById('c'); cv.width = cols * CELL; cv.height = rows * CELL;
+        cv.style.width = cv.width * zoom + 'px'; cv.style.height = cv.height * zoom + 'px';
+        const ctx = cv.getContext('2d');
+        // grid
+        ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+        for (let x = 0; x <= cols; x++) { ctx.beginPath(); ctx.moveTo(x * CELL + 0.5, 0); ctx.lineTo(x * CELL + 0.5, cv.height); ctx.stroke(); }
+        for (let y = 0; y <= rows; y++) { ctx.beginPath(); ctx.moveTo(0, y * CELL + 0.5); ctx.lineTo(cv.width, y * CELL + 0.5); ctx.stroke(); }
+
+        const ox = 2, oy = 2; // footprint origin in cells
+        const inside = (c, r) => c >= ox && c < ox + W && r >= oy && r < oy + H;
+        const draw = (i, c, r, dy = 0) => ctx.drawImage(imgs[i], c * CELL - anchor.x, r * CELL - anchor.y + dy);
+
+        // Facade: the footprint's bottom row. Walls rise 16px above their cell; a door replaces one column.
+        const facadeRow = oy + H - 1;
+        for (let c = ox; c < ox + W; c++) {
+          if (c === ox + DOOR) { draw(DOOR_SA, c, facadeRow, wallDy); draw(DOOR_SB, c, facadeRow, wallDy); }
+          else draw(WALL_S, c, facadeRow, wallDy);
+        }
+        // Roof over the remaining rows; its south eave overhangs the top of the facade.
+        const roofInside = (c, r) => inside(c, r) && r < facadeRow;
+        for (let r = oy; r < facadeRow; r++) for (let c = ox; c < ox + W; c++) {
+          const n = { N: roofInside(c, r - 1), S: roofInside(c, r + 1), E: roofInside(c + 1, r), W: roofInside(c - 1, r), NE: roofInside(c + 1, r - 1), NW: roofInside(c - 1, r - 1), SE: roofInside(c + 1, r + 1), SW: roofInside(c - 1, r + 1) };
+          draw(roofPiece(n), c, r, roofDy);
+        }
+      })();
+    </script>
+  </body>
+</html>

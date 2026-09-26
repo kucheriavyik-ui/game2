@@ -1,0 +1,22 @@
+{
+  "id": "gate",
+  "name": "Головна брама",
+  "map": "gate.map.txt",
+  "legend": {
+    "#": { "name": "wall", "solid": true, "color": "#3a3430", "overlay": "rgba(10,6,4,0.35)" },
+    "T": { "name": "tower", "solid": true, "color": "#2a2522" },
+    "G": { "name": "gate", "solid": true, "color": "#4a3320" },
+    ",": { "name": "cobblestone", "solid": false, "color": "#6b645c" },
+    ".": { "name": "mud", "solid": false, "color": "#4f4032" }
+  },
+  "spawns": {
+    "start": { "x": 17, "y": 12 }
+  },
+  "entities": [
+    { "id": "dec_barrels_1", "type": "decor", "x": 6, "y": 5, "sprite": "barrels" },
+    { "id": "dec_crates_1", "type": "decor", "x": 29, "y": 5, "sprite": "crates" },
+    { "id": "dec_sacks_1", "type": "decor", "x": 3, "y": 11, "sprite": "sacks" },
+    { "id": "dec_lantern_1", "type": "decor", "x": 14, "y": 4, "sprite": "lantern" },
+    { "id": "dec_lantern_2", "type": "decor", "x": 21, "y": 4, "sprite": "lantern" }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "id": "m01",
+    "number": 1,
+    "title": "Замкнені ворота",
+    "start": { "location": "gate", "spawn": "start" }
+  }
+]

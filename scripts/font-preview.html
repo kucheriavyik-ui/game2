@@ -1,0 +1,56 @@
+<!doctype html>
+<!--
+  Dev helper: how a font looks in the dialogue box on a real screen.
+  The game draws text at `size × k` physical pixels, where k is the zoom in
+  physical pixels (2 on a 1080p window at 100%, 3 at 125% or on larger windows).
+  Each sample is drawn exactly like that and shown 1:1, no extra scaling.
+  http://localhost:5173/scripts/font-preview.html
+-->
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Font preview</title>
+    <style>
+      @font-face { font-family: 'Press Start 2P'; src: url('/assets/fonts/PressStart2P-Regular.ttf'); }
+      body { margin: 0; padding: 8px; background: #0b0a0a; color: #8a7a66; font: 11px monospace; }
+      .row { margin-bottom: 8px; }
+      canvas { display: block; margin-top: 2px; }
+    </style>
+  </head>
+  <body>
+    <div id="out"></div>
+    <script>
+      const SAMPLE = ['Ансельм', 'Портовий квартал. Третій рік облоги, другий рік чуми,', 'перший день без дощу. Дзвін. Щур. Ґанок. Їжа. Є.'];
+      // [family, size in game pixels, k]
+      const CASES = [
+        ['Press Start 2P', 8, 2],
+        ['Press Start 2P', 8, 3],
+        ['Press Start 2P', 8, 4],
+      ];
+      Promise.all(CASES.map(([f, s]) => document.fonts.load(`${s}px "${f}"`))).then(() => {
+        const out = document.getElementById('out');
+        for (const [family, size, k] of CASES) {
+          const row = document.createElement('div');
+          row.className = 'row';
+          row.textContent = `${family}, ${size}px у грі, масштаб ${k}`;
+          const px = size * k;
+          const lineH = Math.round(px * 1.3);
+          const c = document.createElement('canvas');
+          c.width = Math.round(410 * k);
+          c.height = lineH * SAMPLE.length + 4;
+          const x = c.getContext('2d');
+          x.fillStyle = '#14100e';
+          x.fillRect(0, 0, c.width, c.height);
+          x.font = `${px}px "${family}"`;
+          x.textBaseline = 'top';
+          SAMPLE.forEach((line, j) => {
+            x.fillStyle = j === 0 ? '#d8b56a' : '#e8e0d0';
+            x.fillText(line, 4, 2 + j * lineH);
+          });
+          row.appendChild(c);
+          out.appendChild(row);
+        }
+      });
+    </script>
+  </body>
+</html>

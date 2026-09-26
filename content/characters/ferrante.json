@@ -4,5 +4,7 @@
   "short": "Ферранте",
   "role": "Скарбник",
   "color": "#8a7a3a",
-  "portraits": {}
+  "portraits": {
+    "neutral": "ferrante_nervous"
+  }
 }

@@ -1,0 +1,10 @@
+{
+  "id": "erik",
+  "name": "Писарчук Ерік",
+  "short": "Ерік",
+  "role": "Писарчук Гільдії",
+  "color": "#6a5a7a",
+  "portraits": {
+    "neutral": "clerk_neutral"
+  }
+}

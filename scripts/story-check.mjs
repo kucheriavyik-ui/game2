@@ -96,8 +96,66 @@ for (const { file, text } of inkSources) {
 }
 ok(`${council.advisors.length} advisors`);
 
+console.log('Characters:');
+{
+  const chars = new Set(readdirSync('content/characters').map((f) => f.replace(/\.json$/, '')));
+  for (const { file, text } of inkSources) {
+    for (const m of text.matchAll(/#\s*speaker:(\w+)/g)) if (!chars.has(m[1])) fail(`${file}: speaker "${m[1]}" has no character file`);
+  }
+  for (const file of readdirSync('content/locations').filter((f) => f.endsWith('.json'))) {
+    for (const e of readJson(path.join('content/locations', file)).entities) {
+      if (e.type === 'npc' && !chars.has(e.id)) fail(`${file}: npc "${e.id}" has no character file`);
+    }
+  }
+  ok(`${chars.size} characters`);
+}
+
+// --- 3b. Everyone can be walked up to -----------------------------------------
+// A rough check on the tile grid: walkable = a non-solid legend tile that no
+// solid entity stands on. From the "start" spawn every interactable must have a
+// reachable tile next to (or under) it. Entity sizes are ignored, so it can
+// miss a gap that big art closes — but it catches a person walled in by props.
+console.log('Reachability:');
+for (const file of readdirSync('content/locations').filter((f) => f.endsWith('.json'))) {
+  const loc = readJson(path.join('content/locations', file));
+  const rows = readFileSync(path.join('content/locations', loc.map), 'utf8').replace(/\r/g, '').split('\n').filter(Boolean);
+  const blocked = new Set(
+    loc.entities
+      .filter((e) => e.type !== 'door' && !e.wall && !e.floor && e.solid !== false)
+      .map((e) => `${Math.round(e.x)},${Math.round(e.y)}`),
+  );
+  const walkable = (x, y) => {
+    const ch = rows[y]?.[x];
+    return ch !== undefined && loc.legend[ch]?.solid === false && !blocked.has(`${x},${y}`);
+  };
+  const seen = new Set();
+  const queue = [[loc.spawns.start.x, loc.spawns.start.y]];
+  while (queue.length) {
+    const [x, y] = queue.pop();
+    const key = `${x},${y}`;
+    if (seen.has(key) || !walkable(x, y)) continue;
+    seen.add(key);
+    queue.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
+  }
+  const unreachable = loc.entities
+    .filter((e) => e.ink || e.type === 'council_table')
+    .filter((e) => {
+      const cx = Math.round(e.x);
+      const cy = Math.round(e.y);
+      return ![[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]].some(([dx, dy]) => seen.has(`${cx + dx},${cy + dy}`));
+    });
+  if (unreachable.length) fail(`${loc.id}: cannot walk up to ${unreachable.map((e) => e.id).join(', ')}`);
+  else ok(`${loc.id}: everyone reachable from "start"`);
+}
+
 // --- 4. Playing the loop ---------------------------------------------------
-/** Runs a knot, picking choices by matching the start of their text; returns every tag seen. */
+const MAX_CHOICES = 4; // keys 1-4
+
+/**
+ * Runs a knot like the engine does: picks choices by the start of their text,
+ * applies `# journal:<id>` to Knowledge VARs, returns every tag seen.
+ * With no picks left it leaves through «Піти» (or stops, with stopAtChoice).
+ */
 function play(story, knot, picks = [], { stopAtChoice = false } = {}) {
   const tags = [];
   story.ChoosePathString(knot);
@@ -105,12 +163,16 @@ function play(story, knot, picks = [], { stopAtChoice = false } = {}) {
     while (story.canContinue) {
       story.Continue();
       tags.push(...story.currentTags);
+      learn(story, story.currentTags);
     }
-    if (story.currentChoices.length === 0 || (stopAtChoice && picks.length === 0)) break;
+    const choices = story.currentChoices;
+    if (choices.length === 0) break;
+    if (choices.length > MAX_CHOICES) fail(`in "${knot}": ${choices.length} choices offered, keys go up to ${MAX_CHOICES}`);
+    if (stopAtChoice && picks.length === 0) break;
     const want = picks.shift();
-    const idx = want === undefined ? -1 : story.currentChoices.findIndex((c) => c.text.startsWith(want));
+    let idx = want === undefined ? choices.findIndex((c) => c.text.startsWith('Піти')) : choices.findIndex((c) => c.text.startsWith(want));
     if (idx === -1) {
-      fail(`in "${knot}": no choice starting with "${want}". Offered: ${story.currentChoices.map((c) => `"${c.text}"`).join(', ')}`);
+      fail(`in "${knot}": no choice starting with "${want ?? 'Піти'}". Offered: ${choices.map((c) => `"${c.text}"`).join(', ')}`);
       return tags;
     }
     story.ChooseChoiceIndex(idx);
@@ -124,41 +186,85 @@ function learn(story, tags) {
     if (id && inkVars.has(id)) story.variablesState.$(id, true);
   }
 }
-/** The choices a knot offers after its opening lines. */
+/** The choices a knot offers after the given picks. */
 function offered(story, knot, picks = []) {
   play(story, knot, picks, { stopAtChoice: true });
   return story.currentChoices.map((c) => c.text);
 }
+const has = (list, start) => list.some((t) => t.startsWith(start));
+const v = (s, name) => s.variablesState.$(name);
 
-console.log('Playthrough:');
+console.log('Every conversation can be finished:');
+{
+  let count = 0;
+  for (const file of readdirSync('content/locations').filter((f) => f.endsWith('.json'))) {
+    for (const e of readJson(path.join('content/locations', file)).entities) {
+      if (!e.ink) continue;
+      const s = new Story(compiled);
+      play(s, e.ink); // first visit
+      play(s, e.ink); // and a second one
+      count++;
+    }
+  }
+  ok(`${count} knots played twice`);
+}
+
+console.log('Knowledge opens options:');
+{
+  const s = new Story(compiled);
+  if (has(offered(s, 'm01_council', ['Так']), 'Впустити лише ремісників')) fail('smiths option offered without k_smiths');
+  play(s, 'm01_myroslava');
+  if (has(offered(s, 'm01_council', ['Так']), 'Впустити лише ремісників')) ok('Myroslava -> smiths option');
+  else fail('smiths option not offered after talking to Myroslava');
+}
+{
+  // Lukash (m01) -> Anselm marks him -> in m03 he talks -> the double-agent option.
+  const s = new Story(compiled);
+  if (has(offered(s, 'm01_wicket'), 'Розповісти')) fail('Lukash can be reported before meeting him');
+  play(s, 'm01_lukash');
+  play(s, 'm01_wicket', ['Розповісти']);
+  if (!v(s, 'f_spy_marked')) fail('reporting Lukash does not set f_spy_marked');
+  play(s, 'm03_spy');
+  if (has(offered(s, 'm03_council', ['Так', 'Закрити квартал']), 'Перевербувати')) ok('Lukash chain -> double-agent option');
+  else fail('double-agent option missing after the Lukash chain');
+  const fresh = new Story(compiled);
+  play(fresh, 'm03_spy');
+  if (has(offered(fresh, 'm03_council', ['Так', 'Закрити квартал']), 'Перевербувати')) fail('double agent offered without f_spy_marked');
+}
+{
+  // Gnat -> Isolde -> the night runs decision.
+  const s = new Story(compiled);
+  const without = play(new Story(compiled), 'm03_council', ['Так', 'Закрити квартал', 'Публічний суд']);
+  if (!without.includes('month_end')) fail('m03 council without the night runs does not end the month');
+  play(s, 'm03_gnat');
+  play(s, 'm03_isolde', ['Розповісти']);
+  if (has(offered(s, 'm03_council', ['Так', 'Закрити квартал', 'Публічний суд']), 'Дозволити Ізольді')) ok('Gnat + Isolde -> night runs decision');
+  else fail('night runs decision missing after Gnat and Isolde');
+}
+
+console.log('Three months:');
 {
   const s = new Story(compiled);
   if (play(s, 'prologue').includes(`goto:${months[0]?.id}`)) ok('prologue leads to the first month');
   else fail('prologue has no # goto to the first month');
-
-  // Hidden option: not offered without Knowledge, offered after learning it.
-  const before = offered(s, 'm01_council', ['Так']);
-  if (before.some((t) => t.startsWith('Впустити лише ремісників'))) fail('smiths option offered without k_smiths');
-  else ok('hidden option stays hidden without Knowledge');
-  const s2 = new Story(compiled);
-  learn(s2, play(s2, 'tobias_talk'));
-  if (offered(s2, 'm01_council', ['Так']).some((t) => t.startsWith('Впустити лише ремісників'))) ok('Knowledge opens the hidden option');
-  else fail('smiths option not offered after tobias_talk');
-
-  // A full month: open, council, end — month_end must be tagged, the city must survive.
-  const s3 = new Story(compiled);
-  play(s3, 'm01_open');
-  const councilTags = play(s3, 'm01_council', ['Так', 'Закрити ворота', 'Спалити']);
-  if (councilTags.includes('month_end')) ok('m01 council ends the month');
-  else fail('m01 council has no # month_end');
-  const endTags = play(s3, 'm01_end');
-  if (endTags.some((t) => t.startsWith('game_over'))) fail('m01 with ordinary choices ends in defeat');
-  else ok(`m01 survived: bread ${s3.variablesState.$('bread')}, order ${s3.variablesState.$('order')}`);
-
-  // Defeat: emptying the granaries in month 2 must end the game.
-  const lost = play(s3, 'm02_council', ['Так', 'Відкрити комори']).concat(play(s3, 'm02_end'));
-  if (lost.includes('game_over:famine')) ok('empty granaries -> game_over:famine');
-  else fail(`no famine after emptying the granaries (bread ${s3.variablesState.$('bread')})`);
+  const runs = [
+    ['m01', ['Так', 'Закрити ворота', 'Спалити']],
+    ['m02', ['Так', 'Пайки через міську варту', 'Конфіскувати три склади']],
+    ['m03', ['Так', 'Закрити квартал', 'Публічний суд']],
+  ];
+  for (const [id, picks] of runs) {
+    play(s, `${id}_open`);
+    if (!play(s, `${id}_council`, picks).includes('month_end')) fail(`${id}: council has no # month_end`);
+    const end = play(s, `${id}_end`);
+    if (end.some((t) => t.startsWith('game_over'))) fail(`${id}: ordinary choices end in defeat`);
+    else ok(`${id}: bread ${v(s, 'bread')}, gold ${v(s, 'gold')}, walls ${v(s, 'walls')}, order ${v(s, 'order')}`);
+  }
+}
+{
+  const s = new Story(compiled);
+  s.variablesState.$('bread', 5);
+  if (play(s, 'm01_end').includes('game_over:famine')) ok('bread 5 at the end of a month -> famine');
+  else fail('no famine with 5 bread at the month end');
 }
 
 if (failures > 0) {

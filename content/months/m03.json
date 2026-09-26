@@ -1,0 +1,10 @@
+{
+  "id": "m03",
+  "number": 3,
+  "title": "Щури в підвалах",
+  "flavor": "Ворожий флот закрив гавань. У порту кашляють.",
+  "location": "port",
+  "ink_open": "m03_open",
+  "ink_council": "m03_council",
+  "ink_end": "m03_end"
+}

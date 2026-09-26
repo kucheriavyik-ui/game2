@@ -1,0 +1,151 @@
+{
+  "id": "market",
+  "name": "Ринкова площа",
+  "map": "market.map.txt",
+  "legend": {
+    "H": {
+      "name": "house_stone",
+      "solid": true,
+      "color": "#3a3330",
+      "kit": "stone"
+    },
+    "T": {
+      "name": "house_timber",
+      "solid": true,
+      "color": "#4a3a2a",
+      "kit": "timber"
+    },
+    "C": {
+      "name": "chapel",
+      "solid": true,
+      "color": "#44464a",
+      "kit": "chapel"
+    },
+    "R": {
+      "name": "townhall",
+      "solid": true,
+      "color": "#4a4a52",
+      "kit": "townhall"
+    },
+    "G": {
+      "name": "guild",
+      "solid": true,
+      "color": "#5a4a3a",
+      "kit": "guild"
+    },
+    "X": {
+      "name": "ruin",
+      "solid": true,
+      "color": "#2a2624",
+      "kit": "ruin"
+    },
+    "r": {
+      "name": "rubble",
+      "solid": false,
+      "color": "#3a3634"
+    },
+    ".": {
+      "name": "cobblestone",
+      "solid": false,
+      "color": "#5c5652",
+      "overlay": "rgba(20,14,10,0.35)"
+    },
+    ",": {
+      "name": "mud",
+      "solid": false,
+      "color": "#4a3f2e",
+      "overlay": "rgba(20,14,10,0.4)"
+    },
+    "=": {
+      "name": "pier",
+      "solid": false,
+      "color": "#6b4f33"
+    },
+    "~": {
+      "name": "water",
+      "solid": true,
+      "color": "#243b3d"
+    }
+  },
+  "terrain": {
+    "priority": [
+      "water",
+      "mud",
+      "cobblestone",
+      "rubble",
+      "pier"
+    ],
+    "animate": "water",
+    "sets": [
+      {
+        "name": "shore",
+        "lower": "water",
+        "upper": "mud"
+      },
+      {
+        "name": "street",
+        "lower": "mud",
+        "upper": "cobblestone"
+      },
+      {
+        "name": "rubble",
+        "lower": "cobblestone",
+        "upper": "rubble"
+      },
+      {
+        "name": "pier_water",
+        "lower": "water",
+        "upper": "pier"
+      },
+      {
+        "name": "pier_mud",
+        "lower": "mud",
+        "upper": "pier"
+      }
+    ],
+    "aliases": {
+      "house_stone": "cobblestone",
+      "house_timber": "cobblestone",
+      "chapel": "cobblestone",
+      "townhall": "cobblestone",
+      "guild": "cobblestone",
+      "ruin": "rubble"
+    }
+  },
+  "spawns": {
+    "start": {
+      "x": 15,
+      "y": 12
+    }
+  },
+  "entities": [
+    { "id": "door_townhall", "type": "door", "x": 11, "y": 8, "label": "Міські комори" },
+    { "id": "council_table", "type": "council_table", "x": 14.5, "y": 10, "sprite": "hall_table" },
+    { "id": "door_guild", "type": "door", "x": 21, "y": 6, "label": "Дім Гільдії купців" },
+    { "id": "door_home", "type": "door", "x": 3, "y": 6, "label": "Шинок" },
+    { "id": "ferrante", "type": "npc", "x": 9.5, "y": 9.5, "ink": "m02_ferrante" },
+    { "id": "isolde", "type": "npc", "x": 22, "y": 7.6, "ink": "m02_isolde" },
+    { "id": "verena", "type": "npc", "x": 20.5, "y": 10.6, "ink": "m02_verena" },
+    { "id": "rat", "type": "npc", "x": 6, "y": 3, "ink": "m02_rat" },
+    { "id": "erik", "type": "npc", "x": 4.5, "y": 7.6, "sprite": "clerk", "ink": "m02_erik" },
+    { "id": "hanna", "type": "npc", "x": 7, "y": 12.4, "ink": "m02_hanna" },
+    { "id": "tobias", "type": "npc", "x": 8, "y": 11, "ink": "m02_tobias" },
+    { "id": "hedda", "type": "npc", "x": 12, "y": 11.6, "ink": "m02_hedda" },
+    { "id": "bozhena", "type": "npc", "x": 7, "y": 9, "ink": "m02_bozhena" },
+    { "id": "queue_body", "type": "object", "x": 10, "y": 11.6, "sprite": "hall_body", "ink": "m02_obj_body" },
+    { "id": "dec_stove", "type": "decor", "x": 5, "y": 11.4, "sprite": "home_stove" },
+    { "id": "dec_stall_1", "type": "decor", "x": 18.5, "y": 10, "sprite": "stall_veg" },
+    { "id": "dec_stall_2", "type": "decor", "x": 24, "y": 8.5, "sprite": "stall_grain" },
+    { "id": "dec_lantern_3", "type": "decor", "x": 6, "y": 8, "sprite": "lantern" },
+    { "id": "dec_lantern_4", "type": "decor", "x": 17, "y": 8, "sprite": "lantern" },
+    { "id": "dec_barrels_2", "type": "decor", "x": 20, "y": 12, "sprite": "barrels" },
+    { "id": "dec_crates_1", "type": "decor", "x": 18, "y": 12, "sprite": "crates" },
+    { "id": "dec_window_h1", "type": "decor", "x": 1.5, "y": 6, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_r1", "type": "decor", "x": 8.5, "y": 8, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_r2", "type": "decor", "x": 14.5, "y": 8, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_l1", "type": "decor", "x": 1.5, "y": 12, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_l2", "type": "decor", "x": 23, "y": 12, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_g1", "type": "decor", "x": 19, "y": 6, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_g2", "type": "decor", "x": 23.5, "y": 6, "sprite": "window_timber", "wall": true, "dy": -20 }
+  ]
+}

@@ -49,6 +49,8 @@ export class DialogueBox {
   private readonly choiceTexts: Phaser.GameObjects.Text[] = [];
   private readonly hint: Phaser.GameObjects.Text;
   private readonly textWidth: number;
+  private readonly textX: number;
+  private readonly portraitFrame: Phaser.GameObjects.Rectangle;
   /** Advisor stance chips next to the current choices; rebuilt for every line. */
   private chips: Phaser.GameObjects.GameObject[] = [];
 
@@ -79,6 +81,7 @@ export class DialogueBox {
     const textX = PAD * 2 + PORTRAIT_SIZE;
     const textWidth = width - textX - PAD;
     this.textWidth = textWidth;
+    this.textX = textX;
     // The speaker's name at twice the font's native size, so it reads as a heading.
     this.nameText = scene.add.text(textX, PAD, '', textStyle(scene, { color: COLORS.accent, fontSize: '16px' }));
     this.bodyText = scene.add.text(textX, PAD + 24, '', textStyle(scene, { wordWrap: { width: textWidth } }));
@@ -91,6 +94,7 @@ export class DialogueBox {
       .text(width - PAD, BOX_HEIGHT - PAD, '> Space', textStyle(scene, { color: COLORS.muted }))
       .setOrigin(1, 1);
 
+    this.portraitFrame = portraitFrame;
     this.container = scene.add.container(0, top, [
       bg,
       border,
@@ -133,7 +137,20 @@ export class DialogueBox {
       this.portraitLabel.setText(expression === 'neutral' ? who : `${who}\n${expression}`).setVisible(true);
     }
     this.nameText.setText(name);
+    // A character with no name is the narrator: no portrait, no heading, the text runs full width.
+    const narration = name === '';
+    this.portraitFrame.setVisible(!narration);
+    this.portraitFill.setVisible(!narration);
+    this.nameText.setVisible(!narration);
+    if (narration) {
+      this.portraitImage.setVisible(false);
+      this.portraitLabel.setVisible(false);
+    }
+    const textX = narration ? PAD : this.textX;
+    const textWidth = narration ? this.scene.scale.width - PAD * 2 : this.textWidth;
+    this.bodyText.setPosition(textX, narration ? PAD + 4 : PAD + 24).setWordWrapWidth(textWidth).setColor(narration ? COLORS.muted : COLORS.text);
     this.bodyText.setText(line.text);
+    for (const t of this.choiceTexts) t.setX(textX);
 
     for (const chip of this.chips) chip.destroy();
     this.chips = [];
@@ -146,7 +163,7 @@ export class DialogueBox {
       const stances = parseStances(line.choiceTags[i] ?? []);
       if (stances.length > 0) anyStance = true;
       const chipsWidth = stances.length * CHIP_STEP;
-      t.setWordWrapWidth(this.textWidth - (chipsWidth > 0 ? chipsWidth + 6 : 0));
+      t.setWordWrapWidth(textWidth - (chipsWidth > 0 ? chipsWidth + 6 : 0));
       t.setText(`${i + 1}. ${choice}`);
       t.setY(y);
       this.addChips(stances, y, lookup);

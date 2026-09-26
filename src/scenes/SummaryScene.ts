@@ -48,7 +48,7 @@ export class SummaryScene extends Phaser.Scene {
     this.councilColumn(top, before, after);
 
     this.add
-      .text(width / 2, height - 16, this.defeat ? '> Space' : 'Space - наступний місяць', textStyle(this, { color: COLORS.muted }))
+      .text(width / 2, height - 16, this.defeat ? '> Space' : 'Space - далі', textStyle(this, { color: COLORS.muted }))
       .setOrigin(0.5);
 
     this.time.delayedCall(400, () => {

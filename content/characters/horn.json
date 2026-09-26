@@ -4,5 +4,7 @@
   "short": "Горн",
   "role": "Капітан гарнізону",
   "color": "#6e4a2c",
-  "portraits": {}
+  "portraits": {
+    "neutral": "horn_angry"
+  }
 }

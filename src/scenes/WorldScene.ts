@@ -359,7 +359,8 @@ export class WorldScene extends Phaser.Scene {
         const knot = entity.ink ?? character.ink;
         if (!knot) throw new Error(`NPC "${entity.id}" has no ink knot`);
 
-        const idleKey = AssetKeys.idle(entity.id);
+        // `sprite` lets a character borrow another one's art (a guild clerk for Erik).
+        const idleKey = AssetKeys.idle(entity.sprite ?? entity.id);
         const key = this.textures.exists(idleKey)
           ? idleKey
           : placeholderTexture(this, `ph:npc:${entity.id}`, 20, 24, character.color, character.name.charAt(0));
@@ -377,10 +378,7 @@ export class WorldScene extends Phaser.Scene {
       }
       case 'object': {
         if (!entity.ink) throw new Error(`Object "${entity.id}" has no ink knot`);
-        const objectKey = AssetKeys.object(entity.sprite ?? entity.id);
-        const key = this.textures.exists(objectKey)
-          ? objectKey
-          : placeholderTexture(this, 'ph:object', 16, 16, '#7a6a4a');
+        const key = this.propTexture(entity.sprite ?? entity.id) ?? placeholderTexture(this, 'ph:object', 16, 16, '#7a6a4a');
         const prop = this.addProp(x, y, key, entity.solid ?? true, entity.flip);
         this.interactables.push({
           id: entity.id,
@@ -393,8 +391,7 @@ export class WorldScene extends Phaser.Scene {
         break;
       }
       case 'decor': {
-        const key = entity.sprite ? AssetKeys.decor(entity.sprite) : '';
-        const texture = key && this.textures.exists(key) ? key : placeholderTexture(this, 'ph:decor', 16, 16, '#5a5048');
+        const texture = (entity.sprite && this.propTexture(entity.sprite)) || placeholderTexture(this, 'ph:decor', 16, 16, '#5a5048');
         if (entity.wall) this.addWallDecor(x, y, texture, entity.dy ?? 0);
         // Above the ground texture (depth 1), below shadows (2) and everything standing.
         else if (entity.floor) this.add.image(x, y, texture).setDepth(1.5).setFlipX(entity.flip ?? false);
@@ -420,11 +417,25 @@ export class WorldScene extends Phaser.Scene {
         break;
       }
       case 'door': {
-        if (!entity.target) throw new Error(`Door "${entity.id}" has no target`);
         const doorKey = AssetKeys.object(entity.id);
         if (this.textures.exists(doorKey)) this.addProp(x, y, doorKey, false);
         else if (!doorwayDrawn) this.add.rectangle(x, y, 24, 28, 0x1d1613).setStrokeStyle(1, 0x6b5a48);
         const half = TILE_SIZE / 2;
+        // A door with nowhere to go is part of the facade: at most something to look at.
+        if (!entity.target) {
+          if (entity.ink) {
+            this.interactables.push({
+              id: entity.id,
+              x,
+              y,
+              area: { left: x - half, top: y - half, right: x + half, bottom: y + half },
+              verb: 'оглянути',
+              label: entity.label,
+              action: { kind: 'ink', knot: entity.ink },
+            });
+          }
+          break;
+        }
         this.interactables.push({
           id: entity.id,
           x,
@@ -439,6 +450,11 @@ export class WorldScene extends Phaser.Scene {
         break;
       }
     }
+  }
+
+  /** Art for a prop by name: an object image first, then a decor one (a barrel can be either). */
+  private propTexture(name: string): string | undefined {
+    return [AssetKeys.object(name), AssetKeys.decor(name)].find((k) => this.textures.exists(k));
   }
 
   /** A static thing on the map, standing on tile (x, y); solid ones block the hero at their base. */

@@ -4,5 +4,7 @@
   "short": "Ізольда",
   "role": "Гільдія купців",
   "color": "#7a3a4a",
-  "portraits": {}
+  "portraits": {
+    "neutral": "isolde_composed"
+  }
 }

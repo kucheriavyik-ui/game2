@@ -11,6 +11,7 @@ INCLUDE months/m04.ink
 INCLUDE months/m05.ink
 INCLUDE months/m06.ink
 INCLUDE betrayal.ink
+INCLUDE idle.ink
 
 // --- Resources, 0..100 (content/resources.json says how the HUD shows them) ---
 VAR bread = 60

@@ -3,7 +3,7 @@
   "number": 5,
   "title": "Молитва і кашель",
   "flavor": "Кашель чути в кожному кварталі. Храм переповнений.",
-  "location": "temple",
+  "location": "townhall",
   "ink_open": "m05_open",
   "ink_council": "m05_council",
   "ink_end": "m05_end"

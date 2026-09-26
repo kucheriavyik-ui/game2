@@ -1,0 +1,50 @@
+{
+  "id": "infirmary",
+  "name": "Лазарет при каплиці",
+  "map": "infirmary.map.txt",
+  "legend": {
+    "W": {
+      "name": "chapel",
+      "solid": true,
+      "color": "#2b2b2e",
+      "kit": "chapel"
+    },
+    "#": {
+      "name": "wall",
+      "solid": true,
+      "color": "#2b2b2e",
+      "overlay": "rgba(10,6,4,0.55)"
+    },
+    ".": {
+      "name": "flagstone",
+      "solid": false,
+      "color": "#4b4e4a",
+      "overlay": "rgba(14,12,14,0.35)"
+    }
+  },
+  "spawns": {
+    "door_in": {
+      "x": 7,
+      "y": 9
+    }
+  },
+  "entities": [
+    { "id": "door_out", "type": "door", "x": 7, "y": 11, "target": "city", "spawn": "from_infirmary", "label": "На вулицю" },
+    { "id": "dec_cot_1", "type": "decor", "x": 3, "y": 6.9, "sprite": "cot" },
+    { "id": "dec_cot_2", "type": "decor", "x": 3, "y": 9.1, "sprite": "cot" },
+    { "id": "dec_cot_3", "type": "decor", "x": 12, "y": 6.9, "sprite": "cot" },
+    { "id": "dec_cot_4", "type": "decor", "x": 12, "y": 9.1, "sprite": "cot" },
+    { "id": "dec_candles_1", "type": "decor", "x": 5.8, "y": 3, "sprite": "candles" },
+    { "id": "dec_barrel_1", "type": "decor", "x": 1, "y": 3, "sprite": "barrel" },
+    { "id": "dec_sacks_1", "type": "decor", "x": 14, "y": 10, "sprite": "sacks" },
+    { "id": "dec_window_1", "type": "decor", "x": 3.5, "y": 2, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    { "id": "dec_window_2", "type": "decor", "x": 8, "y": 2, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    {
+      "id": "inf_cot",
+      "type": "object",
+      "x": 3,
+      "y": 4.7,
+      "ink": "{month}_infirmary"
+    }
+  ]
+}

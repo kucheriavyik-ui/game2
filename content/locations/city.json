@@ -1,0 +1,302 @@
+{
+  "_comment": "Місто Корвен: на півночі — міська стіна з брамою, кузні, Храм і кладовище, житлові квартали; на півдні — порт, площа з ратушею і Домом Гільдії (мапа з «Тіней Корвена»). Люди й предмети мають поле month — у якому місяці вони тут. Двері будинків — «постукати» ({month}_house_N, інакше house_N_idle).",
+  "id": "city",
+  "name": "Корвен",
+  "map": "city.map.txt",
+  "legend": {
+    "H": {
+      "name": "house_stone",
+      "solid": true,
+      "color": "#3a3330",
+      "kit": "stone"
+    },
+    "T": {
+      "name": "house_timber",
+      "solid": true,
+      "color": "#4a3a2a",
+      "kit": "timber"
+    },
+    "C": {
+      "name": "chapel",
+      "solid": true,
+      "color": "#44464a",
+      "kit": "chapel"
+    },
+    "R": {
+      "name": "townhall",
+      "solid": true,
+      "color": "#4a4a52",
+      "kit": "townhall"
+    },
+    "G": {
+      "name": "guild",
+      "solid": true,
+      "color": "#5a4a3a",
+      "kit": "guild"
+    },
+    "X": {
+      "name": "ruin",
+      "solid": true,
+      "color": "#2a2624",
+      "kit": "ruin"
+    },
+    "r": {
+      "name": "rubble",
+      "solid": false,
+      "color": "#3a3634"
+    },
+    ".": {
+      "name": "cobblestone",
+      "solid": false,
+      "color": "#5c5652",
+      "overlay": "rgba(20,14,10,0.35)"
+    },
+    ",": {
+      "name": "mud",
+      "solid": false,
+      "color": "#4a3f2e",
+      "overlay": "rgba(20,14,10,0.4)"
+    },
+    "=": {
+      "name": "pier",
+      "solid": false,
+      "color": "#6b4f33"
+    },
+    "~": {
+      "name": "water",
+      "solid": true,
+      "color": "#243b3d"
+    },
+    "#": {
+      "name": "citywall",
+      "solid": true,
+      "color": "#3a3a42",
+      "kit": "townhall"
+    },
+    "q": {
+      "name": "grave_ground",
+      "solid": false,
+      "color": "#3b3a2c"
+    }
+  },
+  "terrain": {
+    "priority": [
+      "water",
+      "mud",
+      "cobblestone",
+      "rubble",
+      "pier"
+    ],
+    "animate": "water",
+    "sets": [
+      {
+        "name": "shore",
+        "lower": "water",
+        "upper": "mud"
+      },
+      {
+        "name": "street",
+        "lower": "mud",
+        "upper": "cobblestone"
+      },
+      {
+        "name": "rubble",
+        "lower": "cobblestone",
+        "upper": "rubble"
+      },
+      {
+        "name": "pier_water",
+        "lower": "water",
+        "upper": "pier"
+      },
+      {
+        "name": "pier_mud",
+        "lower": "mud",
+        "upper": "pier"
+      }
+    ],
+    "aliases": {
+      "house_stone": "cobblestone",
+      "house_timber": "cobblestone",
+      "chapel": "cobblestone",
+      "townhall": "cobblestone",
+      "guild": "cobblestone",
+      "ruin": "rubble",
+      "citywall": "cobblestone",
+      "grave_ground": "mud"
+    }
+  },
+  "spawns": {
+    "start": {
+      "x": 41,
+      "y": 30
+    },
+    "from_townhall": {
+      "x": 41,
+      "y": 30
+    },
+    "from_tavern": {
+      "x": 10,
+      "y": 28
+    },
+    "from_infirmary": {
+      "x": 26,
+      "y": 28
+    }
+  },
+  "entities": [
+    { "id": "door_townhall", "type": "door", "x": 41, "y": 28, "target": "townhall", "spawn": "door_in", "label": "Ратуша" },
+    { "id": "door_tavern", "type": "door", "x": 10, "y": 26, "target": "tavern", "spawn": "door_in", "label": "Таверна «Втоплений дзвін»" },
+    { "id": "door_infirmary", "type": "door", "x": 26, "y": 26, "target": "infirmary", "spawn": "door_in", "label": "Лазарет" },
+    { "id": "door_guild", "type": "door", "x": 51, "y": 26, "label": "Дім Гільдії купців" },
+    { "id": "door_cellar", "type": "door", "x": 17, "y": 26, "label": "Підвал Інквізиції" },
+    { "id": "door_harbour", "type": "door", "x": 3, "y": 26, "sprite": "door_home", "label": "Контора начальника порту" },
+    { "id": "door_shinok", "type": "door", "x": 33, "y": 26, "sprite": "door_home", "label": "Шинок" },
+    { "id": "door_gate_1", "type": "door", "x": 27, "y": 2, "label": "Головна брама" },
+    { "id": "door_gate_2", "type": "door", "x": 28, "y": 2, "label": "Головна брама" },
+    { "id": "door_wicket", "type": "door", "x": 21, "y": 2, "label": "Хвіртка" },
+    { "id": "door_arsenal", "type": "door", "x": 5, "y": 7, "sprite": "door_townhall", "label": "Арсенал" },
+    { "id": "door_forge", "type": "door", "x": 13, "y": 7, "sprite": "door_home", "label": "Кузня" },
+    { "id": "door_cech", "type": "door", "x": 20, "y": 7, "sprite": "door_home", "label": "Кузня цеху" },
+    { "id": "door_temple", "type": "door", "x": 40, "y": 8, "sprite": "door_infirmary", "label": "Храм" },
+    {
+      "id": "door_house_1",
+      "type": "door",
+      "x": 4,
+      "y": 13,
+      "sprite": "door_home",
+      "label": "Будинок",
+      "ink": "{month}_house_1"
+    },
+    {
+      "id": "door_house_2",
+      "type": "door",
+      "x": 12,
+      "y": 13,
+      "sprite": "door_home",
+      "label": "Будинок",
+      "ink": "{month}_house_2"
+    },
+    {
+      "id": "door_house_3",
+      "type": "door",
+      "x": 19,
+      "y": 13,
+      "sprite": "door_home",
+      "label": "Будинок",
+      "ink": "{month}_house_3"
+    },
+    {
+      "id": "door_house_4",
+      "type": "door",
+      "x": 36,
+      "y": 14,
+      "sprite": "door_home",
+      "label": "Будинок",
+      "ink": "{month}_house_4"
+    },
+    {
+      "id": "door_house_5",
+      "type": "door",
+      "x": 43,
+      "y": 14,
+      "sprite": "door_home",
+      "label": "Будинок",
+      "ink": "{month}_house_5"
+    },
+    { "id": "lukash", "type": "npc", "x": 26.5, "y": 2.3, "month": "m01", "ink": "m01_lukash" },
+    { "id": "myroslava", "type": "npc", "x": 29.5, "y": 2.3, "month": "m01", "ink": "m01_myroslava" },
+    { "id": "vido", "type": "npc", "x": 24, "y": 3.6, "month": "m01", "ink": "m01_vido" },
+    { "id": "hedda", "type": "npc", "x": 1, "y": 9, "month": "m01", "ink": "m01_hedda" },
+    { "id": "gate_tar", "type": "object", "x": 31.5, "y": 3.4, "month": "m01", "ink": "m01_obj_tar" },
+    { "id": "gate_breach", "type": "object", "x": 16, "y": 2.4, "month": "m01", "ink": "m01_obj_breach" },
+    { "id": "gate_flag", "type": "object", "x": 23, "y": 3.4, "month": "m01", "ink": "m01_obj_flag" },
+    { "id": "rat", "type": "npc", "x": 36, "y": 23, "month": "m02", "ink": "m02_rat" },
+    { "id": "hanna", "type": "npc", "x": 37, "y": 32.4, "month": "m02", "ink": "m02_hanna" },
+    { "id": "hedda", "type": "npc", "x": 43, "y": 31.6, "month": "m02", "ink": "m02_hedda" },
+    { "id": "queue_body", "type": "object", "x": 40.5, "y": 31.6, "month": "m02", "ink": "m02_obj_body", "sprite": "hall_body" },
+    { "id": "dec_stove_m02", "type": "decor", "x": 35, "y": 31.4, "sprite": "home_stove", "month": "m02" },
+    { "id": "bartosh", "type": "npc", "x": 4, "y": 31, "month": "m03", "ink": "m03_bartosh" },
+    { "id": "gnat", "type": "npc", "x": 22, "y": 33, "month": "m03", "ink": "m03_gnat" },
+    { "id": "hedda", "type": "npc", "x": 6, "y": 35, "month": "m03", "ink": "m03_hedda" },
+    { "id": "lukash", "type": "npc", "x": 17.5, "y": 28, "month": "m03", "ink": "m03_spy" },
+    { "id": "port_warehouses", "type": "object", "x": 1.5, "y": 29.5, "month": "m03", "ink": "m03_obj_warehouses", "sprite": "port_crate" },
+    { "id": "spy_letter", "type": "object", "x": 13, "y": 29.5, "month": "m03", "ink": "m03_obj_letter", "sprite": "hall_folder" },
+    { "id": "gnat_boat", "type": "object", "x": 23.5, "y": 34.7, "month": "m03", "ink": "m03_obj_boat", "sprite": "boat" },
+    { "id": "pier_bell", "type": "object", "x": 12, "y": 34.4, "month": "m03", "ink": "m03_obj_bell" },
+    { "id": "radko", "type": "npc", "x": 21, "y": 8.8, "month": "m04", "ink": "m04_radko" },
+    { "id": "stas", "type": "npc", "x": 17, "y": 5.5, "month": "m04", "ink": "m04_stas" },
+    { "id": "myroslava", "type": "npc", "x": 13, "y": 8.8, "month": "m04", "ink": "m04_myroslava", "when": "f_smiths_in" },
+    { "id": "vido", "type": "npc", "x": 12, "y": 3.6, "month": "m04", "ink": "m04_vido" },
+    { "id": "hedda", "type": "npc", "x": 1, "y": 9, "month": "m04", "ink": "m04_hedda" },
+    { "id": "forge_bricked", "type": "object", "x": 11, "y": 2.4, "month": "m04", "ink": "m04_obj_bricked", "sprite": "gate_breach" },
+    { "id": "forge_racks", "type": "object", "x": 8.5, "y": 8.6, "month": "m04", "ink": "m04_obj_racks", "sprite": "armor_stand" },
+    { "id": "forge_cold", "type": "object", "x": 18.3, "y": 8.6, "month": "m04", "ink": "m04_obj_cold", "sprite": "home_stove" },
+    { "id": "forge_scrap", "type": "object", "x": 15.5, "y": 9.4, "month": "m04", "ink": "m04_obj_scrap", "sprite": "rubble" },
+    { "id": "yeremiya", "type": "npc", "x": 40, "y": 9.6, "month": "m05", "ink": "m05_yeremiya" },
+    { "id": "hanna", "type": "npc", "x": 37, "y": 10, "month": "m05", "ink": "m05_hanna" },
+    { "id": "rat", "type": "npc", "x": 46, "y": 5.5, "month": "m05", "ink": "m05_rat" },
+    { "id": "hedda", "type": "npc", "x": 51, "y": 6, "month": "m05", "ink": "m05_hedda" },
+    { "id": "temple_bell", "type": "object", "x": 35, "y": 9.3, "month": "m05", "ink": "m05_obj_bell", "sprite": "pier_bell" },
+    { "id": "temple_candles", "type": "object", "x": 44, "y": 9.6, "month": "m05", "ink": "m05_obj_candles", "sprite": "stall_grain" },
+    {
+      "id": "square_well",
+      "type": "object",
+      "x": 35.5,
+      "y": 30,
+      "ink": "{month}_well",
+      "sprite": "well"
+    },
+    { "id": "dec_grave_1", "type": "decor", "x": 49, "y": 4, "sprite": "rubble" },
+    { "id": "dec_grave_2", "type": "decor", "x": 53, "y": 5, "sprite": "rubble" },
+    { "id": "dec_grave_3", "type": "decor", "x": 50.5, "y": 9, "sprite": "rubble" },
+    { "id": "dec_grave_post_1", "type": "decor", "x": 48, "y": 3.4, "sprite": "post" },
+    { "id": "dec_grave_post_2", "type": "decor", "x": 54.5, "y": 11, "sprite": "post" },
+    { "id": "dec_cart_n", "type": "decor", "x": 27, "y": 11, "sprite": "port_cart" },
+    { "id": "dec_sacks_n", "type": "decor", "x": 23, "y": 9, "sprite": "sacks" },
+    { "id": "dec_barrels_n", "type": "decor", "x": 9.6, "y": 9.4, "sprite": "barrels" },
+    { "id": "dec_crates_n", "type": "decor", "x": 32, "y": 15, "sprite": "crates" },
+    { "id": "dec_lantern_n1", "type": "decor", "x": 24, "y": 5, "sprite": "lantern" },
+    { "id": "dec_lantern_n2", "type": "decor", "x": 31.5, "y": 5, "sprite": "lantern" },
+    { "id": "dec_lantern_n3", "type": "decor", "x": 16, "y": 15.5, "sprite": "lantern" },
+    { "id": "dec_lantern_n4", "type": "decor", "x": 45, "y": 15.5, "sprite": "lantern" },
+    { "id": "dec_window_n1", "type": "decor", "x": 2.5, "y": 7, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_n2", "type": "decor", "x": 7.5, "y": 7, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_n3", "type": "decor", "x": 15, "y": 7, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_n4", "type": "decor", "x": 36, "y": 8, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    { "id": "dec_window_n5", "type": "decor", "x": 44, "y": 8, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    { "id": "dec_window_n6", "type": "decor", "x": 6.5, "y": 13, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_n7", "type": "decor", "x": 14, "y": 13, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_n8", "type": "decor", "x": 21, "y": 13, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_n9", "type": "decor", "x": 38, "y": 14, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_stall_1", "type": "decor", "x": 48.5, "y": 30, "sprite": "stall_veg" },
+    { "id": "dec_stall_2", "type": "decor", "x": 54, "y": 28.5, "sprite": "stall_grain" },
+    { "id": "dec_lantern_1", "type": "decor", "x": 6, "y": 28, "sprite": "lantern" },
+    { "id": "dec_lantern_2", "type": "decor", "x": 23, "y": 28, "sprite": "lantern" },
+    { "id": "dec_lantern_3", "type": "decor", "x": 36, "y": 28, "sprite": "lantern" },
+    { "id": "dec_lantern_4", "type": "decor", "x": 47, "y": 28, "sprite": "lantern" },
+    { "id": "dec_barrels_2", "type": "decor", "x": 50, "y": 32, "sprite": "barrels" },
+    { "id": "dec_sacks_1", "type": "decor", "x": 21, "y": 31, "sprite": "sacks" },
+    { "id": "dec_sacks_2", "type": "decor", "x": 34.5, "y": 31, "sprite": "sacks" },
+    { "id": "dec_crates_1", "type": "decor", "x": 48, "y": 32, "sprite": "crates" },
+    { "id": "dec_rubble_1", "type": "decor", "x": 17, "y": 22, "sprite": "rubble" },
+    { "id": "dec_puddle_1", "type": "decor", "x": 9, "y": 30, "sprite": "puddle", "solid": false },
+    { "id": "dec_post_1", "type": "decor", "x": 7, "y": 36, "sprite": "post" },
+    { "id": "dec_post_2", "type": "decor", "x": 20, "y": 36, "sprite": "post" },
+    { "id": "dec_boat_2", "type": "decor", "x": 40, "y": 34, "sprite": "boat" },
+    { "id": "dec_barrel_2", "type": "decor", "x": 16, "y": 34, "sprite": "barrel" },
+    { "id": "dec_window_t1", "type": "decor", "x": 1.5, "y": 26, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_s1", "type": "decor", "x": 8, "y": 26, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_s2", "type": "decor", "x": 12.5, "y": 26, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_t3", "type": "decor", "x": 21.5, "y": 26, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_c1", "type": "decor", "x": 24.5, "y": 26, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    { "id": "dec_window_c2", "type": "decor", "x": 28.5, "y": 26, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    { "id": "dec_window_h1", "type": "decor", "x": 31.5, "y": 26, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_r1", "type": "decor", "x": 38.5, "y": 28, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_r2", "type": "decor", "x": 44.5, "y": 28, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_l1", "type": "decor", "x": 31.5, "y": 32, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_l2", "type": "decor", "x": 53, "y": 32, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_g1", "type": "decor", "x": 49, "y": 26, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_g2", "type": "decor", "x": 53.5, "y": 26, "sprite": "window_timber", "wall": true, "dy": -20 }
+  ]
+}

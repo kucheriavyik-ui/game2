@@ -362,7 +362,8 @@ export class WorldScene extends Phaser.Scene {
       case 'npc': {
         const character = findCharacter(this, entity.id);
         if (!character) throw new Error(`Entity "${entity.id}" has no file in content/characters`);
-        const knot = entity.ink ?? character.ink;
+        const template = entity.ink ?? character.ink;
+        const knot = template && this.knotFor(template, entity.id);
         if (!knot) throw new Error(`NPC "${entity.id}" has no ink knot`);
 
         // `sprite` lets a character borrow another one's art (a guild clerk for Erik).
@@ -392,7 +393,7 @@ export class WorldScene extends Phaser.Scene {
           y,
           area: footprint(prop),
           verb: 'оглянути',
-          action: { kind: 'ink', knot: entity.ink },
+          action: { kind: 'ink', knot: this.knotFor(entity.ink, entity.id) },
         });
         break;
       }
@@ -437,7 +438,7 @@ export class WorldScene extends Phaser.Scene {
               area: { left: x - half, top: y - half, right: x + half, bottom: y + half },
               verb: 'оглянути',
               label: entity.label,
-              action: { kind: 'ink', knot: entity.ink },
+              action: { kind: 'ink', knot: this.knotFor(entity.ink, entity.id) },
             });
           }
           break;
@@ -456,6 +457,17 @@ export class WorldScene extends Phaser.Scene {
         break;
       }
     }
+  }
+
+  /**
+   * The knot an entity talks with. `{month}` stands for the month being played
+   * ("{month}_horn" is m04_horn in month 4); when the story has no such knot the
+   * entity falls back to `<id>_idle` — a line for months that have nothing special.
+   */
+  private knotFor(template: string, id: string): string {
+    const month = (this.registry.get('month') as string | undefined) ?? '';
+    const knot = template.replace('{month}', month);
+    return GameState.story.KnotContainerWithName(knot) ? knot : `${id}_idle`;
   }
 
   /** Art for a prop by name: an object image first, then a decor one (a barrel can be either). */

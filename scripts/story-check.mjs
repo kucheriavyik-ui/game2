@@ -56,7 +56,12 @@ console.log('Knots:');
 const referenced = new Set(['prologue', 'defeat_check']);
 for (const id of ['famine', 'bankrupt', 'fall', 'coup']) referenced.add(`game_over_${id}`);
 for (const file of readdirSync('content/locations').filter((f) => f.endsWith('.json'))) {
-  for (const e of readJson(path.join('content/locations', file)).entities) if (e.ink) referenced.add(e.ink);
+  for (const e of readJson(path.join('content/locations', file)).entities) {
+    if (!e.ink) continue;
+    // {month}_x: each month's own knot if the story has one, else <id>_idle, which must exist.
+    if (e.ink.includes('{month}')) referenced.add(`${e.id}_idle`);
+    else referenced.add(e.ink);
+  }
 }
 for (const knot of [...referenced].sort()) {
   if (hasKnot(knot)) ok(knot);
@@ -129,7 +134,8 @@ for (const file of readdirSync('content/locations').filter((f) => f.endsWith('.j
     return ch !== undefined && loc.legend[ch]?.solid === false && !blocked.has(`${x},${y}`);
   };
   const seen = new Set();
-  const queue = [[Math.round(loc.spawns.start.x), Math.round(loc.spawns.start.y)]];
+  const from = loc.spawns.start ?? Object.values(loc.spawns)[0];
+  const queue = [[Math.round(from.x), Math.round(from.y)]];
   while (queue.length) {
     const [x, y] = queue.pop();
     const key = `${x},${y}`;
@@ -202,10 +208,15 @@ console.log('Every conversation can be finished:');
   for (const file of readdirSync('content/locations').filter((f) => f.endsWith('.json'))) {
     for (const e of readJson(path.join('content/locations', file)).entities) {
       if (!e.ink) continue;
-      const s = new Story(compiled);
-      play(s, e.ink); // first visit
-      play(s, e.ink); // and a second one
-      count++;
+      const knots = e.ink.includes('{month}')
+        ? months.map((m) => e.ink.replace('{month}', m.id)).map((k) => (hasKnot(k) ? k : `${e.id}_idle`))
+        : [e.ink];
+      for (const knot of new Set(knots)) {
+        const s = new Story(compiled);
+        play(s, knot); // first visit
+        play(s, knot); // and a second one
+        count++;
+      }
     }
   }
   ok(`${count} knots played twice`);

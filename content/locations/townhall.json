@@ -118,32 +118,6 @@
       "when": "!out_verena"
     },
     {
-      "id": "martyn",
-      "type": "npc",
-      "x": 12,
-      "y": 3.6,
-      "ink": "m06_martyn",
-      "month": "m06"
-    },
-    {
-      "id": "m06_cup",
-      "type": "object",
-      "x": 8.3,
-      "y": 7.4,
-      "sprite": "hall_cup_marshal",
-      "ink": "m06_obj_cup",
-      "month": "m06"
-    },
-    {
-      "id": "m06_plate",
-      "type": "object",
-      "x": 12.7,
-      "y": 7.4,
-      "sprite": "hall_plate",
-      "ink": "m06_obj_plate",
-      "month": "m06"
-    },
-    {
       "id": "dec_fireplace_1",
       "type": "decor",
       "x": 10.5,
@@ -182,16 +156,8 @@
       "type": "npc",
       "x": 2.3,
       "y": 4.4,
-      "when": "!f_marshal_poisoned",
+      "when": "!out_shtarn",
       "ink": "{month}_shtarn"
-    },
-    {
-      "id": "office_desk",
-      "type": "object",
-      "x": 3.8,
-      "y": 3.6,
-      "ink": "m06_obj_desk",
-      "month": "m06"
     },
     {
       "id": "office_map",
@@ -199,23 +165,6 @@
       "x": 2.3,
       "y": 6.2,
       "ink": "{month}_obj_map"
-    },
-    {
-      "id": "m06_figs",
-      "type": "object",
-      "x": 5.3,
-      "y": 3.4,
-      "sprite": "wh_figs",
-      "when": "f_marshal_poisoned",
-      "ink": "m06_obj_figs"
-    },
-    {
-      "id": "nomi",
-      "type": "npc",
-      "x": 4.8,
-      "y": 6,
-      "ink": "m06_nomi",
-      "month": "m06"
     },
     {
       "id": "dec_window_2",
@@ -231,8 +180,8 @@
       "type": "object",
       "x": 3,
       "y": 8.8,
-      "when": "f_marshal_poisoned",
-      "ink": "m06_obj_body"
+      "ink": "m06_obj_body",
+      "month": "m06"
     },
     {
       "id": "tobias",
@@ -363,12 +312,81 @@
       "ink": "nomi_idle"
     },
     {
+      "id": "dytko",
+      "type": "npc",
+      "x": 16.5,
+      "y": 9.6,
+      "month": "m05",
+      "ink": "m05_dytko"
+    },
+    {
+      "id": "vido",
+      "type": "npc",
+      "x": 16.5,
+      "y": 9.6,
+      "month": "m06",
+      "ink": "m06_vido"
+    },
+    {
+      "id": "hedda",
+      "type": "npc",
+      "x": 1.5,
+      "y": 8.6,
+      "month": "m06",
+      "ink": "m06_hedda"
+    },
+    {
+      "id": "magda",
+      "type": "npc",
+      "x": 12,
+      "y": 3.6,
+      "month": "m06",
+      "when": "f_death_poison",
+      "ink": "m06_magda"
+    },
+    {
       "id": "nomi",
       "type": "npc",
-      "x": 12.4,
+      "x": 18.6,
+      "y": 5.4,
+      "month": "m06",
+      "ink": "m06_nomi"
+    },
+    {
+      "id": "marshal_chair",
+      "type": "object",
+      "x": 5.3,
+      "y": 4.2,
+      "month": "m06",
+      "sprite": "office_chair",
+      "ink": "m06_obj_chair"
+    },
+    {
+      "id": "office_desk",
+      "type": "object",
+      "x": 3.8,
+      "y": 3.6,
+      "month": "m06",
+      "ink": "m06_obj_desk"
+    },
+    {
+      "id": "shtarn_armor",
+      "type": "object",
+      "x": 2.2,
+      "y": 10.6,
+      "month": "m06",
+      "sprite": "armor_stand",
+      "ink": "m06_obj_armor"
+    },
+    {
+      "id": "hall_tray",
+      "type": "object",
+      "x": 12.7,
       "y": 7.4,
-      "month": "m05",
-      "ink": "nomi_idle"
+      "month": "m06",
+      "when": "f_death_poison",
+      "sprite": "hall_plate",
+      "ink": "m06_obj_tray"
     }
   ]
 }

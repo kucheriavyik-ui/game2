@@ -285,11 +285,10 @@
     ~ f_port_fed = true
 - # speaker:anselm
 Друге. Шпигун.
-* [Допит Інквізиції (Ансельм) #stance:anselm:for #stance:bozhena:against]
+* [Допит Інквізиції (Ансельм) #stance:anselm:for]
     ~ loy(loy_anselm, 2)
-    ~ loy(loy_bozhena, -2)
     ~ f_spy_names = true
-* [Публічний суд (Божена) #stance:bozhena:for #stance:anselm:against #stance:horn:against]
+* [Публічний суд (Божена) #stance:anselm:against #stance:horn:against]
     ~ res(order, 10)
     ~ loy(loy_bozhena, 2)
     ~ loy(loy_anselm, -1)
@@ -297,13 +296,12 @@
     ~ f_spy_trial = true
     # speaker:lukash
     (на площі, коли зачитують вирок) Скажіть моїй матері… ні. Нічого не кажіть.
-* [Повісити на стіні (Горн) #stance:horn:for #stance:bozhena:against]
+* [Повісити на стіні (Горн) #stance:horn:for]
     ~ res(walls, 5)
     ~ res(order, 5)
     ~ loy(loy_horn, 2)
-    ~ loy(loy_bozhena, -1)
     ~ f_spy_hanged = true
-* {k_spy_is_scribe} [Перевербувати: він писатиме ворогу те, що скажемо ми #stance:anselm:for #stance:horn:against #stance:bozhena:neutral]
+* {k_spy_is_scribe} [Перевербувати: він писатиме ворогу те, що скажемо ми #stance:anselm:for #stance:horn:against]
     ~ loy(loy_anselm, 1)
     ~ loy(loy_horn, -2)
     ~ f_double_agent = true
@@ -407,34 +405,32 @@
 ~ b_isolde = true
 # speaker:shtarn
 Четверте. Що робити зі змовницею.
-* [Публічна страта на Соляній брамі #stance:horn:for #stance:shtarn:for #stance:bozhena:against #stance:tobias:against]
+* [Публічна страта на Соляній брамі #stance:horn:for #stance:shtarn:for #stance:tobias:against]
     ~ res(order, 10)
     ~ loy(loy_horn, 1)
-    ~ loy(loy_bozhena, -1)
     ~ loy(loy_tobias, -1)
     ~ f_isolde_executed = true
     # speaker:isolde
     # portrait:isolde_composed
     (на брамі) Коли вони прийдуть — а вони прийдуть — згадайте, що я пропонувала вам життя.
-* [Суд Інквізиції і в'язниця #stance:bozhena:for #stance:anselm:against #stance:horn:against]
+* [Суд Інквізиції і в'язниця #stance:anselm:against #stance:horn:against]
     ~ res(order, 5)
     ~ loy(loy_bozhena, 2)
     ~ loy(loy_anselm, -1)
     ~ f_isolde_prison = true
     # speaker:bozhena
     Дякую, пане Протекторе. Сьогодні Інквізиція була законом.
-* [Конфіскувати все майно і вигнати за стіни — до її «друзів» #stance:ferrante:for #stance:verena:for #stance:bozhena:against]
+* [Конфіскувати все майно і вигнати за стіни — до її «друзів» #stance:ferrante:for #stance:verena:for]
     ~ res(bread, 15)
     ~ res(gold, 10)
     ~ loy(loy_ferrante, 1)
     ~ loy(loy_verena, 1)
-    ~ loy(loy_bozhena, -1)
     ~ f_isolde_exiled = true
     # speaker:narrator
     Ізольду виводять за Соляну браму з порожніми руками. На пагорбі її зустрічають вершники. Що було далі, зі стін не видно.
     # speaker:verena
     Орда не любить тих, хто програв, пане. Навіть своїх.
-* {f_double_agent or f_spy_names} [Лишити на волі під наглядом Інквізиції й годувати орду брехнею через неї #stance:anselm:for #stance:horn:against #stance:bozhena:neutral]
+* {f_double_agent or f_spy_names} [Лишити на волі під наглядом Інквізиції й годувати орду брехнею через неї #stance:anselm:for #stance:horn:against]
     ~ loy(loy_anselm, 2)
     ~ loy(loy_horn, -2)
     ~ loy_isolde = 1
@@ -449,7 +445,6 @@
     ~ loy(loy_shtarn, -1)
     ~ loy(loy_horn, -1)
     ~ loy(loy_anselm, -1)
-    ~ loy(loy_bozhena, -1)
     ~ loy(loy_ferrante, -1)
     ~ loy(loy_tobias, -1)
     ~ loy(loy_verena, -1)

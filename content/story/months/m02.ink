@@ -276,7 +276,7 @@
     ~ loy(loy_anselm, -1)
     ~ f_rations_verena = true
     ~ f_black_market_grows = true
-* {k_verena_black_market} [Пайки через людей Верени під наглядом Інквізиції #stance:anselm:for #stance:bozhena:for #stance:verena:against]
+* {k_verena_black_market} [Пайки через людей Верени під наглядом Інквізиції #stance:anselm:for #stance:verena:against]
     ~ res(bread, 15)
     ~ loy(loy_anselm, 1)
     ~ loy(loy_bozhena, 1)
@@ -307,10 +307,9 @@
     ~ loy(loy_isolde, 1)
     ~ loy(loy_tobias, -1)
     ~ f_guild_untouched = true
-* {k_hidden_warehouses} [Тихо домовитися: Гільдія віддає приховані склади, а ви мовчите #stance:isolde:for #stance:bozhena:against #stance:ferrante:neutral]
+* {k_hidden_warehouses} [Тихо домовитися: Гільдія віддає приховані склади, а ви мовчите #stance:isolde:for #stance:ferrante:neutral]
     ~ res(bread, 20)
     ~ loy(loy_isolde, 1)
-    ~ loy(loy_bozhena, -1)
     ~ f_isolde_debt = true
     # speaker:isolde
     (наодинці) Ви розумна людина. Я люблю розумних людей. Вони дорожчі, але надійніші.

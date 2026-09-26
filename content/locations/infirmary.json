@@ -30,16 +30,82 @@
     }
   },
   "entities": [
-    { "id": "door_out", "type": "door", "x": 7, "y": 11, "target": "city", "spawn": "from_infirmary", "label": "На вулицю" },
-    { "id": "dec_cot_1", "type": "decor", "x": 3, "y": 6.9, "sprite": "cot" },
-    { "id": "dec_cot_2", "type": "decor", "x": 3, "y": 9.1, "sprite": "cot" },
-    { "id": "dec_cot_3", "type": "decor", "x": 12, "y": 6.9, "sprite": "cot" },
-    { "id": "dec_cot_4", "type": "decor", "x": 12, "y": 9.1, "sprite": "cot" },
-    { "id": "dec_candles_1", "type": "decor", "x": 5.8, "y": 3, "sprite": "candles" },
-    { "id": "dec_barrel_1", "type": "decor", "x": 1, "y": 3, "sprite": "barrel" },
-    { "id": "dec_sacks_1", "type": "decor", "x": 14, "y": 10, "sprite": "sacks" },
-    { "id": "dec_window_1", "type": "decor", "x": 3.5, "y": 2, "sprite": "window_chapel", "wall": true, "dy": -16 },
-    { "id": "dec_window_2", "type": "decor", "x": 8, "y": 2, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    {
+      "id": "door_out",
+      "type": "door",
+      "x": 7,
+      "y": 11,
+      "target": "city",
+      "spawn": "from_infirmary",
+      "label": "На вулицю"
+    },
+    {
+      "id": "dec_cot_1",
+      "type": "decor",
+      "x": 3,
+      "y": 6.9,
+      "sprite": "cot"
+    },
+    {
+      "id": "dec_cot_2",
+      "type": "decor",
+      "x": 3,
+      "y": 9.1,
+      "sprite": "cot"
+    },
+    {
+      "id": "dec_cot_3",
+      "type": "decor",
+      "x": 12,
+      "y": 6.9,
+      "sprite": "cot"
+    },
+    {
+      "id": "dec_cot_4",
+      "type": "decor",
+      "x": 12,
+      "y": 9.1,
+      "sprite": "cot"
+    },
+    {
+      "id": "dec_candles_1",
+      "type": "decor",
+      "x": 5.8,
+      "y": 3,
+      "sprite": "candles"
+    },
+    {
+      "id": "dec_barrel_1",
+      "type": "decor",
+      "x": 1,
+      "y": 3,
+      "sprite": "barrel"
+    },
+    {
+      "id": "dec_sacks_1",
+      "type": "decor",
+      "x": 14,
+      "y": 10,
+      "sprite": "sacks"
+    },
+    {
+      "id": "dec_window_1",
+      "type": "decor",
+      "x": 3.5,
+      "y": 2,
+      "sprite": "window_chapel",
+      "wall": true,
+      "dy": -16
+    },
+    {
+      "id": "dec_window_2",
+      "type": "decor",
+      "x": 8,
+      "y": 2,
+      "sprite": "window_chapel",
+      "wall": true,
+      "dy": -16
+    },
     {
       "id": "inf_cot",
       "type": "object",
@@ -60,6 +126,15 @@
       "x": 6.5,
       "y": 7.6,
       "ink": "{month}_yulian"
+    },
+    {
+      "id": "inf_map",
+      "type": "object",
+      "x": 10.5,
+      "y": 3.4,
+      "month": "m05",
+      "sprite": "hall_map",
+      "ink": "m05_obj_map"
     }
   ]
 }

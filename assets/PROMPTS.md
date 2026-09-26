@@ -286,3 +286,13 @@ _Тут фіксуються реальні промпти, id завдань і
 | `envoy_tent` 96×72 | pixen `no_background`, low top-down: «small round steppe nomad felt tent (yurt) with a low domed roof, grey-white felt walls with dark rope bands, dark wooden door flap facing the viewer, a white cloth banner on a pole beside it, a few bulging burlap sacks by the entrance» | `28d2feb0` |
 
 Правило для `scripts/fetch-asset.mjs`: запускати з кореня проєкту і шлях давати відносно `assets/` — інакше файл лягає в `assets/assets/…`.
+
+## 18. Місяці 5–6: Ієронім, Дитко, Магда (2026-09-27)
+
+Ті самі параметри (standard 48, 4 dir; портрети pixen 64×64 `view: side`, «flat plain dark grey background»).
+
+| Асет | Опис | Id (спрайт / портрет) |
+|---|---|---|
+| `yeremiya` (Проповідник Ієронім) | gaunt barefoot medieval preacher ~45, long unkempt dark hair and beard, ragged patched burlap sackcloth robe tied with rope, bare feet, burning intense eyes | `ca2dffb3` / `c1ee0563` |
+| `dytko` (розвідник) | young wiry army scout ~20, hood, mud-smeared dark green cloak, leather jerkin, short bow | `f3231567` / `965b9474` |
+| `magda` (кухарка ратуші) | stout cook ~50, grey hair under white linen kerchief, flour-dusted brown dress, stained apron, wooden ladle | `bcb18ac7` / `2d720d5d` |

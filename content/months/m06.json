@@ -2,14 +2,15 @@
   "id": "m06",
   "number": 6,
   "title": "Залізний маршал",
-  "flavor": "Половина облоги. Рада збирається на вечерю, як у мирні часи.",
+  "flavor": "Корвен прокинувся без маршала.",
   "location": "townhall",
   "knowledge": [
-    "k_horn_poppy",
-    "k_figs_ribbon",
-    "k_marshal_report",
-    "k_maid_box",
-    "k_ferrante_letters"
+    "k_garrison_split",
+    "k_shtarn_last_words",
+    "k_knights_view",
+    "k_ferrante_contact",
+    "k_poison_sweet",
+    "k_poison_otto"
   ],
   "ink_open": "m06_open",
   "ink_council": "m06_council",

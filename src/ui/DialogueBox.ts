@@ -171,6 +171,7 @@ export class DialogueBox {
       t.setText(`${i + 1}. ${choice}`);
       t.setY(y);
       y += t.height + 2;
+      y = this.addEffects(line.choiceEffects[i] ?? [], textX + STANCE_INDENT, y, textWidth - STANCE_INDENT);
       y = this.addStances(parseStances(line.choiceTags[i] ?? []), textX + STANCE_INDENT, y, textWidth - STANCE_INDENT, lookup);
       y += 3;
     });
@@ -196,6 +197,42 @@ export class DialogueBox {
   }
 
   /**
+   * "Хліб +15 · Порядок +5" (gains, green) and "Золото −5" (costs, red) under a
+   * choice: what it does to the city, so no option is a surprise. Returns the y below.
+   */
+  private addEffects(effects: readonly { label: string; delta: number }[], x: number, y: number, width: number): number {
+    if (effects.length === 0) return y;
+    const part = (list: typeof effects, sign: string) => list.map((e) => `${e.label} ${sign}${Math.abs(e.delta)}`).join(' · ');
+    const gains = effects.filter((e) => e.delta > 0);
+    const costs = effects.filter((e) => e.delta < 0);
+    const parts = [
+      { text: part(gains, '+'), color: STANCE_FOR_COLOR },
+      { text: part(costs, '−'), color: STANCE_AGAINST_COLOR },
+    ].filter((p) => p.text !== '');
+    return this.addRow(parts, x, y, width);
+  }
+
+  /** Short coloured texts in one row, wrapping to the next when they do not fit. Returns the y below. */
+  private addRow(parts: { text: string; color: string }[], x: number, y: number, width: number): number {
+    let cx = x;
+    let rowHeight = 0;
+    for (const part of parts) {
+      const t = this.scene.add.text(0, 0, part.text, textStyle(this.scene, { color: part.color, wordWrap: { width } }));
+      if (cx > x && cx + t.width > x + width) {
+        y += rowHeight + 1;
+        cx = x;
+        rowHeight = 0;
+      }
+      t.setPosition(cx, y);
+      this.container.add(t);
+      this.stanceTexts.push(t);
+      cx += t.width + 24;
+      rowHeight = Math.max(rowHeight, t.height);
+    }
+    return y + rowHeight;
+  }
+
+  /**
    * "за: Штарн, Ферранте   проти: Тобіас" under a choice, by the advisors' short names.
    * "проти" moves to its own line when both do not fit. Returns the y below them.
    */
@@ -218,22 +255,6 @@ export class DialogueBox {
       { label: names('against'), prefix: 'проти: ', color: STANCE_AGAINST_COLOR },
     ].filter((p) => p.label !== '');
     if (parts.length === 0) return y;
-
-    let cx = x;
-    let rowHeight = 0;
-    for (const part of parts) {
-      const t = this.scene.add.text(0, 0, part.prefix + part.label, textStyle(this.scene, { color: part.color, wordWrap: { width } }));
-      if (cx > x && cx + t.width > x + width) {
-        y += rowHeight + 1;
-        cx = x;
-        rowHeight = 0;
-      }
-      t.setPosition(cx, y);
-      this.container.add(t);
-      this.stanceTexts.push(t);
-      cx += t.width + 24;
-      rowHeight = Math.max(rowHeight, t.height);
-    }
-    return y + rowHeight;
+    return this.addRow(parts.map((p) => ({ text: p.prefix + p.label, color: p.color })), x, y, width);
   }
 }

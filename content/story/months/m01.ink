@@ -236,17 +236,16 @@
 = decisions
 # council_open
 Перше. Біженці під брамою.
-* [Закрити ворота #stance:shtarn:for #stance:ferrante:for #stance:tobias:against #stance:bozhena:against #stance:verena:against]
+* [Закрити ворота #stance:shtarn:for #stance:ferrante:for #stance:tobias:against #stance:verena:against]
     ~ res(order, -10)
     ~ loy(loy_shtarn, 1)
     ~ loy(loy_ferrante, 1)
     ~ loy(loy_tobias, -2)
-    ~ loy(loy_bozhena, -1)
     ~ loy(loy_verena, -1)
     ~ f_gates_closed = true
     # speaker:tobias
     Я молитимусь за них. І за вас. Вам це знадобиться більше.
-* [Впустити всіх #stance:tobias:for #stance:bozhena:for #stance:verena:for #stance:shtarn:against #stance:ferrante:against #stance:anselm:against]
+* [Впустити всіх #stance:tobias:for #stance:verena:for #stance:shtarn:against #stance:ferrante:against #stance:anselm:against]
     ~ res(bread, -15)
     ~ res(order, 5)
     ~ loy(loy_tobias, 2)
@@ -256,11 +255,10 @@
     ~ f_refugees_in = true
     ~ f_spy_inside = true
     Добре серце, Протекторе. Сподіваюся, воно наїсться.
-* [Впустити через перевірку Інквізиції #stance:anselm:for #stance:bozhena:against #stance:tobias:against]
+* [Впустити через перевірку Інквізиції #stance:anselm:for #stance:tobias:against]
     ~ res(bread, -10)
     ~ res(order, -5)
     ~ loy(loy_anselm, 2)
-    ~ loy(loy_bozhena, -1)
     ~ loy(loy_tobias, -1)
     ~ f_refugees_filtered = true
     # speaker:bozhena

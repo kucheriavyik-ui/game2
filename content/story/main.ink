@@ -82,15 +82,20 @@ VAR k_militia_verena = false
 VAR k_envoy_eyes = false
 VAR k_horde_fever = false
 // Month 5
-VAR k_hedda_graves = false
-VAR k_rats = false
-VAR k_preacher_paid = false
+VAR k_bad_well = false
+VAR k_well_confirmed = false
+VAR k_preacher_westgard = false
+VAR k_horn_raid_plan = false
+VAR k_greyhand_doubt = false
+VAR k_shtarn_tired = false
+VAR k_truce_offer = false
 // Month 6
-VAR k_horn_poppy = false
-VAR k_figs_ribbon = false
-VAR k_marshal_report = false
-VAR k_maid_box = false
-VAR k_ferrante_letters = false
+VAR k_garrison_split = false
+VAR k_shtarn_last_words = false
+VAR k_knights_view = false
+VAR k_ferrante_contact = false
+VAR k_poison_sweet = false
+VAR k_poison_otto = false
 
 // --- Flags: consequences of decisions (f_*); where they return is in docs/story ---
 // Month 1
@@ -130,14 +135,14 @@ VAR f_spy_names = false
 VAR f_spy_trial = false
 VAR f_spy_hanged = false
 VAR f_double_agent = false
-VAR f_night_runs = false
-VAR f_night_runs_watched = false
 
 VAR f_fleet_burned = false
 VAR f_engineers_burned = false
 VAR f_no_sortie = false
 VAR f_victory_sortie = false
 VAR f_isolde_prison = false
+VAR f_isolde_executed = false
+VAR f_isolde_exiled = false
 VAR f_traitor_turned = false
 VAR f_isolde_vanished = false
 VAR f_victory_conspiracy = false
@@ -152,7 +157,6 @@ VAR f_tobias_expelled = false
 VAR f_verena_partner = false
 VAR f_drain_sealed = false
 // Month 4
-VAR f_bells_melted = false
 VAR f_feast = false
 VAR f_bells = false
 VAR f_no_feast = false
@@ -173,30 +177,43 @@ VAR f_envoy_hanged = false
 VAR f_horde_misled = false
 VAR f_horde_knows_we_know = false
 // Month 5
-VAR f_houses_sealed = false
-VAR f_procession = false
-VAR f_plague_city = false
-VAR f_plague_fires = false
-VAR f_rat_bounty = false
-VAR f_preacher_jailed = false
+VAR f_burn_houses = false
+VAR f_plague_slow = false
+VAR f_well_closed = false
+VAR f_preacher_banned = false
+VAR f_preacher_arrested = false
 VAR f_preacher_free = false
-VAR f_disputation = false
-VAR f_anselm_exposed = false
-VAR f_marshal_poisoned = false
-// Month 6
-VAR f_shtarn_dead = false
-VAR f_isolde_executed = false
-VAR f_isolde_owned = false
-VAR f_isolde_tried = false
-VAR f_isolde_exiled = false
-VAR f_horn_scapegoat = false
-VAR f_truth_buried = false
-VAR f_shtarn_stays = false
-VAR f_horn_command = false
-VAR f_horn_jailed = false
-VAR f_ferrante_hanged = false
-VAR f_letters_burned = false
-VAR f_enemy_channel = false
+VAR f_preacher_ally = false
+VAR f_truce = false
+VAR f_truce_refused = false
+VAR f_truce_broken = false
+VAR f_raid_approved = false
+VAR f_raid_forbidden = false
+VAR f_raid_delayed = false
+// Month 6: how the marshal died (decided at the end of month 5), who commands now, the letter, Ferrante
+VAR f_death_gate = false
+VAR f_death_rescue = false
+VAR f_death_plague = false
+VAR f_death_poison = false
+VAR f_marshal_horn = false
+VAR f_marshal_greyhand = false
+VAR f_marshal_split = false
+VAR f_marshal_protector = false
+VAR f_horn_forgiven = false
+VAR f_horn_prison = false
+VAR f_blame_horn = false
+VAR f_blame_protector = false
+VAR f_poisoner_caught = false
+VAR f_poison_hidden = false
+VAR f_inquisition_purge = false
+VAR f_truth_plague = false
+VAR f_death_hidden = false
+VAR f_letter_read = false
+VAR f_letter_burned = false
+VAR f_letter_anselm = false
+VAR f_ferrante_prison = false
+VAR f_ferrante_watched = false
+VAR f_ferrante_channel = false
 
 -> END
 
@@ -212,6 +229,7 @@ VAR f_enemy_channel = false
 === function upkeep()
 ~ res(bread, -8)
 ~ res(gold, -6)
+Утримання міста за місяць: Хліб −8, Золото −6.
 
 // Whether any resource has run out (the city falls at the end of the month).
 === function lost()

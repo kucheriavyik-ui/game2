@@ -476,56 +476,6 @@
       "ink": "m03_obj_bell"
     },
     {
-      "id": "yeremiya",
-      "type": "npc",
-      "x": 40,
-      "y": 9.6,
-      "month": "m05",
-      "ink": "m05_yeremiya"
-    },
-    {
-      "id": "hanna",
-      "type": "npc",
-      "x": 37,
-      "y": 10,
-      "month": "m05",
-      "ink": "m05_hanna"
-    },
-    {
-      "id": "rat",
-      "type": "npc",
-      "x": 46,
-      "y": 5.5,
-      "month": "m05",
-      "ink": "m05_rat"
-    },
-    {
-      "id": "hedda",
-      "type": "npc",
-      "x": 51,
-      "y": 6,
-      "month": "m05",
-      "ink": "m05_hedda"
-    },
-    {
-      "id": "temple_bell",
-      "type": "object",
-      "x": 35,
-      "y": 9.3,
-      "month": "m05",
-      "ink": "m05_obj_bell",
-      "sprite": "pier_bell"
-    },
-    {
-      "id": "temple_candles",
-      "type": "object",
-      "x": 44,
-      "y": 9.6,
-      "month": "m05",
-      "ink": "m05_obj_candles",
-      "sprite": "stall_grain"
-    },
-    {
       "id": "square_well",
       "type": "object",
       "x": 35.5,
@@ -1075,6 +1025,84 @@
       "y": 27.4,
       "month": "m04",
       "ink": "m04_rat"
+    },
+    {
+      "id": "yeremiya",
+      "type": "npc",
+      "x": 40,
+      "y": 9.6,
+      "month": "m05",
+      "ink": "m05_yeremiya"
+    },
+    {
+      "id": "preacher_sackcloth",
+      "type": "object",
+      "x": 38,
+      "y": 9.6,
+      "month": "m05",
+      "sprite": "sacks",
+      "ink": "m05_obj_sackcloth"
+    },
+    {
+      "id": "temple_plaque",
+      "type": "object",
+      "x": 42.5,
+      "y": 9.4,
+      "month": "m05",
+      "sprite": "guard_roster",
+      "ink": "m05_obj_plaque"
+    },
+    {
+      "id": "temple_bell",
+      "type": "object",
+      "x": 35,
+      "y": 9.3,
+      "month": "m05",
+      "sprite": "pier_bell",
+      "ink": "m05_obj_bell"
+    },
+    {
+      "id": "hedda",
+      "type": "npc",
+      "x": 50,
+      "y": 8.6,
+      "month": "m05",
+      "ink": "m05_hedda"
+    },
+    {
+      "id": "grave_pits",
+      "type": "object",
+      "x": 52.5,
+      "y": 9.6,
+      "month": "m05",
+      "sprite": "rubble",
+      "ink": "m05_obj_pits"
+    },
+    {
+      "id": "envoy_tent",
+      "type": "object",
+      "x": 26,
+      "y": 4.6,
+      "month": "m05",
+      "when": "f_horde_knows_we_know",
+      "ink": "m05_erden"
+    },
+    {
+      "id": "erden",
+      "type": "npc",
+      "x": 29.5,
+      "y": 5.2,
+      "month": "m05",
+      "when": "f_horde_knows_we_know",
+      "ink": "m05_erden"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 36.6,
+      "y": 27.8,
+      "month": "m05",
+      "ink": "m05_nomi"
     }
   ]
 }

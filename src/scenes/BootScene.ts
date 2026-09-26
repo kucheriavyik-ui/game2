@@ -1,7 +1,9 @@
 import Phaser from 'phaser';
 import { queueManifest, queueManifestImages } from '../systems/Assets';
+import { setPreviewVars } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
-import { queueContentFiles, STORY_KEY } from '../systems/LocationLoader';
+import { queueContentFiles, RESOURCES_KEY, STORY_KEY } from '../systems/LocationLoader';
+import type { ResourceDef } from '../ui/ResourceBar';
 import { previewMonth } from '../systems/MonthFlow';
 import { SaveSystem } from '../systems/SaveSystem';
 
@@ -27,6 +29,8 @@ export class BootScene extends Phaser.Scene {
 
   private openMenu(): void {
     GameState.init(this.cache.json.get(STORY_KEY) as Record<string, unknown>);
+    // Every choice shows what it does to these before it is taken.
+    setPreviewVars(((this.cache.json.get(RESOURCES_KEY) ?? []) as ResourceDef[]).map((r) => ({ var: r.var, label: r.label })));
 
     // Music outlives every other scene, so it is launched once and never stopped.
     if (!this.scene.isActive('Music')) this.scene.launch('Music');

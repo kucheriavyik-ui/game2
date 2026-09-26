@@ -369,8 +369,8 @@ console.log('Six months:');
     ['m02', ['Так', 'Пайки через міську варту', 'Конфіскувати три склади', 'Половину варти']],
     ['m03', ['Так', 'Закрити квартал', 'Публічний суд', 'Не ризикувати', 'Суд Інквізиції']],
     ['m04', ['Так', 'Служба в Храмі', 'Лише під присягою', 'Божена', 'Прогнати з честю']],
-    ['m05', ['Так', 'Зачиняти хворих', 'Дати йому амвон']],
-    ['m06', ['Так', 'Штарн лишається']],
+    ['m05', ['Так', 'Спалювати лише тіла', 'Дати йому говорити', 'Заборонити']],
+    ['m06', ['Так', 'Капітан Горн', 'Не шукати винних', 'Спалити не читаючи']],
   ];
   for (const [id, picks] of runs) {
     play(s, `${id}_open`, [], { firstIfNoPick: true });
@@ -410,43 +410,67 @@ console.log('Betrayals:');
   else ok('next months: Tobias, then nobody twice');
 }
 
-console.log('Month 6 variants:');
+console.log('The death of the marshal (month 5 -> 6):');
 {
-  // A: unwatched night runs -> the marshal is poisoned.
+  // Approved raid -> he falls at the gate; the council then asks who is to blame.
   const s = new Story(compiled);
-  s.variablesState.$('f_night_runs', true);
+  play(s, 'm05_council', ['Так', 'Спалювати лише тіла', 'Дати йому говорити', 'Дозволити вилазку']);
   play(s, 'm05_end');
-  if (!v(s, 'f_marshal_poisoned')) fail('unwatched night runs do not lead to the poisoning');
-  play(s, 'm06_open');
-  if (!v(s, 'f_shtarn_dead') || !v(s, 'out_shtarn')) fail('the marshal did not die in variant A');
+  if (!v(s, 'f_death_gate') || !v(s, 'out_shtarn')) fail('an approved raid does not kill the marshal at the gate');
+  play(s, 'm06_open', [], { firstIfNoPick: true });
+  if (has(offered(s, 'm06_council', ['Так', 'Капітан Горн']), 'Протектор бере провину')) ok('gate: the blame decision follows');
+  else fail('gate: no blame decision');
+}
+{
+  // Forbidden raid with a bitter Horn -> he goes anyway, the marshal dies saving him.
+  const s = new Story(compiled);
+  s.variablesState.$('loy_horn', 4);
+  play(s, 'm05_council', ['Так', 'Спалювати лише тіла', 'Дати йому говорити', 'Заборонити']);
+  play(s, 'm05_end');
+  if (!v(s, 'f_death_rescue')) fail(`a forbidden raid with Horn at ${v(s, 'loy_horn')} does not end in the rescue`);
+  play(s, 'm06_open', [], { firstIfNoPick: true });
+  if (has(offered(s, 'm06_council', ['Так', 'Капітан Горн']), 'Пробачити')) ok('rescue: Horn fate is decided');
+  else fail('rescue: no decision about Horn');
+}
+{
+  // Plague left to spread -> the marshal dies of it.
+  const s = new Story(compiled);
+  s.variablesState.$('f_plague_spreads', true);
+  s.variablesState.$('loy_horn', 7); // forbidding the raid costs Horn 2; at 3 or less he would go anyway
+  play(s, 'm05_council', ['Так', 'Молитися', 'Дати йому говорити', 'Заборонити']);
+  play(s, 'm05_end');
+  if (v(s, 'f_death_plague')) ok('plague: the marshal dies of the sickness');
+  else fail('plague path does not set f_death_plague');
+}
+{
+  // Otherwise poison: the cook names Otto, a turned Isolde can be blamed; Nomi finds Ferrante's letter.
+  const s = new Story(compiled);
+  s.variablesState.$('f_traitor_turned', true);
+  s.variablesState.$('loy_horn', 7);
+  play(s, 'm05_council', ['Так', 'Спалювати лише тіла', 'Дати йому говорити', 'Заборонити']);
+  play(s, 'm05_end');
+  if (!v(s, 'f_death_poison')) fail('the default death is not the poisoning');
+  play(s, 'm06_open', [], { firstIfNoPick: true });
+  const saved = s.state.ToJson();
+  if (has(offered(s, 'm06_council', ['Так', 'Капітан Горн']), 'Відповідь Ізольди')) fail('Isolde blamed without k_poison_otto');
+  s.state.LoadJson(saved);
+  play(s, 'm06_magda');
+  if (!has(offered(s, 'm06_council', ['Так', 'Капітан Горн']), 'Відповідь Ізольди')) fail('k_poison_otto + turned Isolde does not offer her execution');
+  else ok('poison: Magda -> Otto -> Isolde can answer');
+  s.state.LoadJson(saved);
+  if (has(offered(s, 'm06_council', ['Так', 'Капітан Горн', 'Не шукати винних', 'Спалити не читаючи']), 'Заарештувати за зраду')) fail('Ferrante judged without the letter');
+  s.state.LoadJson(saved);
   play(s, 'm06_nomi');
-  const verdict = offered(s, 'm06_council', ['Так']);
-  if (has(verdict, 'Правда: Ізольда')) ok('A: poisoning, the ribbon opens the truth about Isolde');
-  else fail(`A: no truth option after the ribbon: ${verdict.join(' / ')}`);
+  if (has(offered(s, 'm06_council', ['Так', 'Капітан Горн', 'Не шукати винних', 'Спалити не читаючи']), 'Заарештувати за зраду')) ok('Nomi on the letters -> the Ferrante decision');
+  else fail('no Ferrante decision after Nomi');
 }
 {
-  // B with watched runs: the marshal lives, Isolde's smuggling comes up at the council.
-  const s = new Story(compiled);
-  s.variablesState.$('f_night_runs', true);
-  s.variablesState.$('f_night_runs_watched', true);
-  play(s, 'm05_end');
-  play(s, 'm06_open');
-  if (v(s, 'f_shtarn_dead')) fail('watched runs still kill the marshal');
-  const runs = offered(s, 'm06_council', ['Так', 'Штарн лишається']);
-  if (has(runs, 'Публічний суд')) ok('B + watched: marshal lives, Isolde judged at the council');
-  else fail(`B + watched: no decision about Isolde's ships: ${runs.join(' / ')}`);
-}
-{
-  // Ferrante's letters appear only after the folder is opened.
-  const s = new Story(compiled);
-  play(s, 'm06_open');
-  const tags = play(s, 'm06_council', ['Так', 'Штарн лишається']);
-  if (!tags.includes('month_end')) fail('B without letters does not end the month');
-  const t = new Story(compiled);
-  play(t, 'm06_open');
-  play(t, 'm06_ferrante', ['«Покажіть теку»']);
-  if (has(offered(t, 'm06_council', ['Так', 'Штарн лишається']), 'Лишити канал')) ok('the letters decision needs the folder');
-  else fail('no letters decision after opening the folder');
+  // Bozhena advises but holds no seat: no vote lines, and nothing the council does lowers her regard.
+  for (const { file, text } of inkSources) {
+    if (/stance:bozhena/.test(text)) fail(`${file}: Bozhena has a stance, but no seat`);
+    if (text.includes('loy(loy_bozhena, -')) fail(`${file}: the regard of Bozhena is lowered`);
+  }
+  ok('Bozhena keeps her counsel and her regard');
 }
 
 if (failures > 0) {

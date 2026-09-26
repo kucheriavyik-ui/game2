@@ -175,6 +175,15 @@
     },
     "erden": {
       "idle": "characters/erden/south.png"
+    },
+    "yeremiya": {
+      "idle": "characters/yeremiya/south.png"
+    },
+    "dytko": {
+      "idle": "characters/dytko/south.png"
+    },
+    "magda": {
+      "idle": "characters/magda/south.png"
     }
   },
   "kits": {
@@ -364,6 +373,9 @@
     "hrytsko_neutral": "characters/hrytsko/portrait_neutral.png",
     "yulian_neutral": "characters/yulian/portrait_neutral.png",
     "olena_neutral": "characters/olena/portrait_neutral.png",
-    "erden_neutral": "characters/erden/portrait_neutral.png"
+    "erden_neutral": "characters/erden/portrait_neutral.png",
+    "yeremiya_neutral": "characters/yeremiya/portrait_neutral.png",
+    "dytko_neutral": "characters/dytko/portrait_neutral.png",
+    "magda_neutral": "characters/magda/portrait_neutral.png"
   }
 }

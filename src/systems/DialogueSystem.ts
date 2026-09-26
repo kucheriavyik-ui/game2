@@ -8,11 +8,42 @@ export interface DialogueLine {
   choices: string[];
   /** Tags of each choice, same order (`stance:shtarn:for`). */
   choiceTags: string[][];
+  /** What each choice would do to the city's resources, same order: label and change, non-zero only. */
+  choiceEffects: { label: string; delta: number }[][];
   /** Raw tags of this line (and of tag-only lines just before it), e.g. `journal:k_timber`. */
   tags: string[];
 }
 
 const DEFAULT_SPEAKER = 'protector';
+
+/** Resources whose change every choice is previewed for (set once from content/resources.json). */
+let previewVars: { var: string; label: string }[] = [];
+
+export function setPreviewVars(vars: { var: string; label: string }[]): void {
+  previewVars = vars;
+}
+
+/**
+ * What each current choice would do to the previewed resources. Each option is
+ * tried on the story and the state is put back, so the numbers are exactly what
+ * the option's Ink does — writers never repeat them in the text.
+ */
+function previewChoices(): { label: string; delta: number }[][] {
+  const story = GameState.story;
+  if (previewVars.length === 0 || story.currentChoices.length === 0) return story.currentChoices.map(() => []);
+  const saved = story.state.ToJson();
+  const before = previewVars.map((v) => GameState.num(v.var));
+  const result = story.currentChoices.map((_, i) => {
+    story.ChooseChoiceIndex(i);
+    while (story.canContinue) story.Continue();
+    const effects = previewVars
+      .map((v, j) => ({ label: v.label, delta: GameState.num(v.var) - (before[j] ?? 0) }))
+      .filter((e) => e.delta !== 0);
+    story.state.LoadJson(saved);
+    return effects;
+  });
+  return result;
+}
 
 /**
  * Plays a knot to the end with nobody watching: the month's summary knot, or a
@@ -117,6 +148,7 @@ export class DialogueSystem {
       text,
       choices: choices.map((c) => c.text),
       choiceTags: choices.map((c) => c.tags ?? []),
+      choiceEffects: more ? [] : previewChoices(),
       tags,
     };
   }

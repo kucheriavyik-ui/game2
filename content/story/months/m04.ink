@@ -320,7 +320,7 @@
     ~ loy(loy_horn, 1)
     ~ loy(loy_ferrante, -1)
     ~ f_feast = true
-* [Служба в Храмі і дзвони #stance:tobias:for #stance:bozhena:for]
+* [Служба в Храмі і дзвони #stance:tobias:for]
     ~ res(order, 8)
     ~ loy(loy_tobias, 2)
     ~ f_bells = true
@@ -378,11 +378,10 @@
     ~ loy(loy_verena, 1)
     ~ loy(loy_horn, -1)
     ~ f_hero_common = true
-* [Сам Протектор #stance:anselm:for #stance:horn:against #stance:bozhena:against]
+* [Сам Протектор #stance:anselm:for #stance:horn:against]
     ~ res(order, 5)
     ~ loy(loy_anselm, 1)
     ~ loy(loy_horn, -1)
-    ~ loy(loy_bozhena, -1)
     ~ f_hero_protector = true
 - -> envoy
 
@@ -393,27 +392,24 @@
     ~ f_hero_knights = true
     # speaker:sira_ruka
     Лицарі не потребують пісень, пане Протекторе. (пауза) Але вони їх запам'ятають.
-* [Капітан Горн і гарнізон — хоча вилазку вели не вони #stance:horn:for #stance:bozhena:against]
+* [Капітан Горн і гарнізон — хоча вилазку вели не вони #stance:horn:for]
     ~ res(order, 5)
     ~ loy(loy_horn, 3)
-    ~ loy(loy_bozhena, -1)
     ~ f_hero_horn = true
     # speaker:narrator
     Сіра Рука мовчить. Але запам'ятовує.
-* [Сам Протектор #stance:anselm:for #stance:bozhena:against]
+* [Сам Протектор #stance:anselm:for]
     ~ res(order, 5)
     ~ loy(loy_anselm, 1)
-    ~ loy(loy_bozhena, -1)
     ~ f_hero_protector = true
 - -> envoy
 
 // No sortie: the glory goes to whoever uncovered the conspiracy.
 = hero_conspiracy
-* [Ансельм #stance:anselm:for #stance:bozhena:against]
+* [Ансельм #stance:anselm:for]
     ~ loy(loy_anselm, 2)
-    ~ loy(loy_bozhena, -1)
     ~ f_hero_anselm = true
-* [Божена #stance:bozhena:for #stance:anselm:against]
+* [Божена #stance:anselm:against]
     ~ res(order, 5)
     ~ loy(loy_bozhena, 2)
     ~ loy(loy_anselm, -1)
@@ -437,22 +433,21 @@
     ~ f_envoy_heard = true
     # speaker:erden
     Каган терплячий, Протекторе. Але терпіння теж має дно.
-* [Прогнати з честю, дарунки повернути #stance:shtarn:for #stance:bozhena:for]
+* [Прогнати з честю, дарунки повернути #stance:shtarn:for]
     ~ res(order, 5)
     ~ loy(loy_shtarn, 1)
     ~ f_envoy_refused = true
     # speaker:erden
     (кланяється) Ви гідний ворог. Шкода. З вас був би гідний друг.
-* [Повісити посла на Соляній брамі #stance:horn:for #stance:bozhena:against #stance:ferrante:against #stance:tobias:against]
+* [Повісити посла на Соляній брамі #stance:horn:for #stance:ferrante:against #stance:tobias:against]
     ~ res(order, 10)
     ~ loy(loy_horn, 2)
-    ~ loy(loy_bozhena, -2)
     ~ loy(loy_ferrante, -2)
     ~ loy(loy_tobias, -1)
     ~ f_envoy_hanged = true
     # speaker:narrator
     Площа реве. Божена відвертається. Наступного ранку на пагорбі навпроти Соляної брами орда розпалює вогнище, і з нього всю ніч лунає барабан.
-* {f_traitor_turned or f_double_agent} [Показати послу те, що ми хочемо: фальшиві комори, порожні вежі там, де вони повні #stance:anselm:for #stance:horn:against #stance:bozhena:neutral]
+* {f_traitor_turned or f_double_agent} [Показати послу те, що ми хочемо: фальшиві комори, порожні вежі там, де вони повні #stance:anselm:for #stance:horn:against]
     ~ loy(loy_anselm, 2)
     ~ f_horde_misled = true
     # speaker:anselm

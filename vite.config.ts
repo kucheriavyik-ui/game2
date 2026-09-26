@@ -10,4 +10,10 @@ export default defineConfig({
     // watcher tries to open them mid-write and crashes the dev server (EBUSY).
     watch: { awaitWriteFinish: { stabilityThreshold: 800, pollInterval: 100 } },
   },
+  build: {
+    // Small files are normally inlined as base64 data URLs. Phaser decodes those
+    // as Latin-1, which turns Cyrillic in JSON (names, labels) into mojibake, so
+    // text content always ships as real files. Small images may still be inlined.
+    assetsInlineLimit: (file) => (/\.(json|txt)$/.test(file) ? false : undefined),
+  },
 });

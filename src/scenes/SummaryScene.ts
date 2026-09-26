@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { DialogueSystem } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
-import { council, findCharacter, findMonth, isOut, loyaltyLevel, RESOURCES_KEY } from '../systems/LocationLoader';
+import { activeAdvisors, council, findCharacter, findMonth, loyaltyLevel, RESOURCES_KEY } from '../systems/LocationLoader';
 import { gameOver, nextMonth, snapshot, type Snapshot } from '../systems/MonthFlow';
 import type { ResourceDef } from '../ui/ResourceBar';
 import { COLORS, textStyle } from '../ui/theme';
@@ -108,9 +108,7 @@ export class SummaryScene extends Phaser.Scene {
     this.add.text(COLUMN_RIGHT, top, 'Рада', textStyle(this, { color: COLORS.muted }));
     const def = council(this);
     const isTrue = (name: string): boolean => Boolean(GameState.get(name));
-    const moved = def.advisors.filter(
-      (id) => !isOut(id, isTrue) && (after[`loy_${id}`] ?? 0) !== (before[`loy_${id}`] ?? 0),
-    );
+    const moved = activeAdvisors(def, isTrue).filter((id) => (after[`loy_${id}`] ?? 0) !== (before[`loy_${id}`] ?? 0));
     if (moved.length === 0) {
       this.add.text(COLUMN_RIGHT, top + ROW + 4, 'Ніхто не змінив думки.', textStyle(this));
       return;

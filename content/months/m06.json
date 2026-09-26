@@ -4,6 +4,13 @@
   "title": "Залізний маршал",
   "flavor": "Половина облоги. Рада збирається на вечерю, як у мирні часи.",
   "location": "townhall",
+  "knowledge": [
+    "k_horn_poppy",
+    "k_figs_ribbon",
+    "k_marshal_report",
+    "k_maid_box",
+    "k_ferrante_letters"
+  ],
   "ink_open": "m06_open",
   "ink_council": "m06_council",
   "ink_end": "m06_end"

@@ -1,14 +1,14 @@
 import Phaser from 'phaser';
-import { findMonth } from '../systems/LocationLoader';
-import { continueGame, startNewGame } from '../systems/MonthFlow';
+import { findMonth, months } from '../systems/LocationLoader';
+import { continueGame, startFromMonth, startNewGame } from '../systems/MonthFlow';
 import { SaveSystem } from '../systems/SaveSystem';
 import { Settings } from '../systems/Settings';
 import { CONTROLS_TEXT, MenuList, settingsItems, type MenuItem } from '../ui/MenuList';
 import { COLORS, textStyle } from '../ui/theme';
 
-type View = 'main' | 'settings' | 'controls' | 'confirmNew' | 'badSave';
+type View = 'main' | 'chooseMonth' | 'settings' | 'controls' | 'confirmNew' | 'badSave';
 
-/** Title screen: continue, new game, controls. */
+/** Title screen: continue, new game (from any month written so far), controls. */
 export class MenuScene extends Phaser.Scene {
   private list!: MenuList;
   private info!: Phaser.GameObjects.Text;
@@ -70,9 +70,19 @@ export class MenuScene extends Phaser.Scene {
               if (!continueGame(this)) this.show('badSave');
             },
           },
-          { label: 'Нова гра', onConfirm: () => (hasSave ? this.show('confirmNew') : startNewGame(this)) },
+          { label: 'Нова гра', onConfirm: () => this.show(hasSave ? 'confirmNew' : 'chooseMonth') },
           { label: 'Налаштування', onConfirm: () => this.show('settings') },
           { label: 'Керування', onConfirm: () => this.show('controls') },
+        ],
+      },
+      chooseMonth: {
+        text: 'З якого місяця почати?\nДля пізнішого місяця спершу оберете,\nщо вирішувала рада до нього.',
+        items: [
+          ...months(this).map((m, i) => ({
+            label: `Місяць ${m.number}. ${m.title}`,
+            onConfirm: () => (i === 0 ? startNewGame(this) : startFromMonth(this, m.id)),
+          })),
+          back,
         ],
       },
       settings: { text: '', items: settingsItems(this, Settings, () => this.show('main')) },
@@ -81,7 +91,7 @@ export class MenuScene extends Phaser.Scene {
         text: 'Почати заново?\nПоточне збереження буде втрачено.',
         items: [
           { label: 'Ні, назад', onConfirm: () => this.show('main') },
-          { label: 'Так, нова гра', onConfirm: () => startNewGame(this) },
+          { label: 'Так, нова гра', onConfirm: () => this.show('chooseMonth') },
         ],
       },
       badSave: {

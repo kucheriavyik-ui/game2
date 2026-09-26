@@ -9,8 +9,8 @@ const BOX_HEIGHT = 96;
 const PAD = 8;
 const PORTRAIT_SIZE = 56;
 const HINT_SPACE = 12;
-/** Keys 1-4 pick an answer. */
-export const MAX_CHOICES = 4;
+/** Keys 1-6 pick an answer (council decisions go up to six options; talks keep to three or four). */
+export const MAX_CHOICES = 6;
 
 /** Who backs and who opposes a choice, written out under it in these colours. */
 const STANCE_FOR_COLOR = '#8fcf8a';

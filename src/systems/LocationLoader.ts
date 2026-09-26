@@ -116,9 +116,14 @@ export interface MonthDef {
   id: string;
   number: number;
   title: string;
-  /** One sentence of atmosphere on the month's title card. */
-  flavor: string;
+  /** One sentence of atmosphere on the month's title card; or several, the first whose `when` holds. */
+  flavor: string | { when?: string; text: string }[];
   location: string;
+  /**
+   * Knowledge (`k_*`) that this month's people and places can give. A game
+   * started from a later month counts all of it as learned.
+   */
+  knowledge?: string[];
   /** Knot played on arrival: the council reports and names the crisis. */
   ink_open: string;
   /** Knot behind the council table: the decisions; ends with `# month_end`. */
@@ -127,10 +132,17 @@ export interface MonthDef {
   ink_end: string;
 }
 
+/**
+ * A seat on the council: an advisor id, or one who holds the seat only while an
+ * Ink condition is true (Erik takes the Guild's seat once Isolde is out:
+ * `{ "id": "erik", "when": "out_isolde" }`).
+ */
+export type CouncilSeat = string | { id: string; when?: string };
+
 /** Shape of content/council.json: who sits on the council and how loyalty reads in words. */
 export interface CouncilDef {
-  /** Advisor ids in display order; each has a character file and an Ink VAR loy_<id>. */
-  advisors: string[];
+  /** Seats in display order; every advisor has a character file and an Ink VAR loy_<id>. */
+  advisors: CouncilSeat[];
   /** Highest first: the first level whose `min` the loyalty reaches is shown. */
   levels: { min: number; label: string; color: string }[];
 }
@@ -150,6 +162,31 @@ export function findMonth(scene: Phaser.Scene, id: string | undefined): MonthDef
 
 export function council(scene: Phaser.Scene): CouncilDef {
   return (scene.cache.json.get(COUNCIL_KEY) as CouncilDef | undefined) ?? { advisors: [], levels: [] };
+}
+
+export function seatId(seat: CouncilSeat): string {
+  return typeof seat === 'string' ? seat : seat.id;
+}
+
+/** Everyone who can ever sit on the council. */
+export function allAdvisors(def: CouncilDef): string[] {
+  return def.advisors.map(seatId);
+}
+
+/** Advisors whose seat exists right now (the journal lists them, even those out for good). */
+export function seatedAdvisors(def: CouncilDef, isTrue: (name: string) => boolean): string[] {
+  return def.advisors.filter((s) => typeof s === 'string' || conditionHolds(s.when, isTrue)).map(seatId);
+}
+
+/** Advisors who take part in decisions now: seated and not out. */
+export function activeAdvisors(def: CouncilDef, isTrue: (name: string) => boolean): string[] {
+  return seatedAdvisors(def, isTrue).filter((id) => !isOut(id, isTrue));
+}
+
+/** The title card's line for the current state of the story. */
+export function monthFlavor(month: MonthDef, isTrue: (name: string) => boolean): string {
+  if (typeof month.flavor === 'string') return month.flavor;
+  return month.flavor.find((f) => conditionHolds(f.when, isTrue))?.text ?? '';
 }
 
 /**

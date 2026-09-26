@@ -2,7 +2,17 @@ import Phaser from 'phaser';
 import type { ResourceDef } from '../ui/ResourceBar';
 import { GameState } from './GameState';
 import { Journal } from './Journal';
-import { council, findMonth, months, RESOURCES_KEY, STORY_KEY } from './LocationLoader';
+import {
+  activeAdvisors,
+  allAdvisors,
+  council,
+  findCharacter,
+  findMonth,
+  months,
+  RESOURCES_KEY,
+  STORY_KEY,
+  type CharacterDef,
+} from './LocationLoader';
 import { SaveSystem } from './SaveSystem';
 
 /**
@@ -23,8 +33,18 @@ export type Snapshot = Record<string, number>;
 /** Current values of every resource and every advisor's loyalty. */
 export function snapshot(scene: Phaser.Scene): Snapshot {
   const resources = (scene.cache.json.get(RESOURCES_KEY) ?? []) as ResourceDef[];
-  const names = [...resources.map((r) => r.var), ...council(scene).advisors.map((id) => `loy_${id}`)];
+  const names = [...resources.map((r) => r.var), ...allAdvisors(council(scene)).map((id) => `loy_${id}`)];
   return Object.fromEntries(names.map((name) => [name, GameState.num(name)]));
+}
+
+/**
+ * For the dialogue box's "за / проти" lines: the character of an advisor who
+ * takes part in decisions now. Those out of the council, or not seated yet
+ * (Erik before Isolde falls), take no side.
+ */
+export function councilLookup(scene: Phaser.Scene): (id: string) => CharacterDef | undefined {
+  const active = activeAdvisors(council(scene), (name) => Boolean(GameState.get(name)));
+  return (id) => (active.includes(id) ? findCharacter(scene, id) : undefined);
 }
 
 function resetStory(scene: Phaser.Scene): void {
@@ -50,6 +70,27 @@ export function startNewGame(scene: Phaser.Scene): void {
   const first = months(scene)[0];
   if (!first) throw new Error('content/months has no months');
   startMonth(scene, first.id);
+}
+
+/**
+ * A new game that opens at a later month. The player first replays the council
+ * tables of every earlier month (SetupScene), so the past is theirs to choose;
+ * the Knowledge those months offer counts as learned.
+ */
+export function startFromMonth(scene: Phaser.Scene, id: string): void {
+  const list = months(scene);
+  const index = list.findIndex((m) => m.id === id);
+  if (index < 0) throw new Error(`Unknown month "${id}"`);
+  const earlier = list.slice(0, index);
+  if (earlier.length === 0) {
+    startNewGame(scene);
+    return;
+  }
+  SaveSystem.clear();
+  resetStory(scene);
+  for (const month of earlier) for (const k of month.knowledge ?? []) Journal.add(k);
+  stopPlay(scene);
+  scene.scene.start('Setup', { months: earlier.map((m) => m.id), target: id });
 }
 
 /** Saves, remembers the starting numbers and shows the month's title card. */

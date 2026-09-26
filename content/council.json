@@ -1,10 +1,39 @@
 {
-  "_comment": "Рада: хто в ній сидить (порядок у журналі й на підсумках) і як лояльність 0-10 звучить словами. Для кожного радника потрібен content/characters/<id>.json і VAR loy_<id> у main.ink. Рівні — від вищого до нижчого: показується перший, чий min досягнуто.",
-  "advisors": ["shtarn", "horn", "anselm", "bozhena", "ferrante", "isolde", "tobias", "verena"],
+  "_comment": "Рада: хто в ній сидить (порядок у журналі й на підсумках) і як лояльність 0-10 звучить словами. Крісло може бути умовним: { \"id\": \"erik\", \"when\": \"out_isolde\" } — Ерік сидить лише коли Ізольда вибула. Для кожного радника потрібен content/characters/<id>.json і VAR loy_<id> у main.ink. Рівні — від вищого до нижчого: показується перший, чий min досягнуто.",
+  "advisors": [
+    "shtarn",
+    "horn",
+    "anselm",
+    "bozhena",
+    "ferrante",
+    "isolde",
+    {
+      "id": "erik",
+      "when": "out_isolde"
+    },
+    "tobias",
+    "verena"
+  ],
   "levels": [
-    { "min": 8, "label": "відданий", "color": "#9fc4a8" },
-    { "min": 4, "label": "спокійний", "color": "#e8e0d0" },
-    { "min": 1, "label": "невдоволений", "color": "#d8a06a" },
-    { "min": 0, "label": "ворожий", "color": "#d0604a" }
+    {
+      "min": 8,
+      "label": "відданий",
+      "color": "#9fc4a8"
+    },
+    {
+      "min": 4,
+      "label": "спокійний",
+      "color": "#e8e0d0"
+    },
+    {
+      "min": 1,
+      "label": "невдоволений",
+      "color": "#d8a06a"
+    },
+    {
+      "min": 0,
+      "label": "ворожий",
+      "color": "#d0604a"
+    }
   ]
 }

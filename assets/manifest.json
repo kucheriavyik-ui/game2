@@ -172,6 +172,9 @@
     },
     "olena": {
       "idle": "characters/olena/south.png"
+    },
+    "erden": {
+      "idle": "characters/erden/south.png"
     }
   },
   "kits": {
@@ -305,7 +308,8 @@
     "council_table": "objects/council_table.png",
     "gate_breach": "objects/gate_breach.png",
     "gate_flag": "objects/gate_flag.png",
-    "pier_bell": "objects/pier_bell.png"
+    "pier_bell": "objects/pier_bell.png",
+    "envoy_tent": "objects/envoy_tent.png"
   },
   "portraits": {
     "anselm_neutral": "characters/anselm/portrait_neutral.png",
@@ -359,6 +363,7 @@
     "myron_neutral": "characters/myron/portrait_neutral.png",
     "hrytsko_neutral": "characters/hrytsko/portrait_neutral.png",
     "yulian_neutral": "characters/yulian/portrait_neutral.png",
-    "olena_neutral": "characters/olena/portrait_neutral.png"
+    "olena_neutral": "characters/olena/portrait_neutral.png",
+    "erden_neutral": "characters/erden/portrait_neutral.png"
   }
 }

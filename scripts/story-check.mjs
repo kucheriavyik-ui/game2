@@ -89,17 +89,38 @@ for (const r of readJson('content/resources.json')) {
 
 console.log('Council:');
 const council = readJson('content/council.json');
-for (const id of council.advisors) {
+const seatId = (seat) => (typeof seat === 'string' ? seat : seat.id);
+const advisorIds = council.advisors.map(seatId);
+for (const seat of council.advisors) {
+  if (typeof seat !== 'string' && seat.when && !inkVars.has(seat.when.replace(/^!/, ''))) fail(`council: seat ${seat.id} waits on unknown VAR ${seat.when}`);
+}
+for (const id of advisorIds) {
   if (!existsSync(path.join('content/characters', `${id}.json`))) fail(`council: ${id} has no character file`);
   if (!inkVars.has(`loy_${id}`)) fail(`council: ${id} has no VAR loy_${id}`);
 }
 for (const { file, text } of inkSources) {
   for (const m of text.matchAll(/#stance:(\w+):(\w+)/g)) {
-    if (!council.advisors.includes(m[1])) fail(`${file}: stance for "${m[1]}", who is not on the council`);
+    if (!advisorIds.includes(m[1])) fail(`${file}: stance for "${m[1]}", who is not on the council`);
     if (!['for', 'against', 'neutral'].includes(m[2])) fail(`${file}: stance "${m[2]}" is not for/against/neutral`);
   }
 }
-ok(`${council.advisors.length} advisors`);
+ok(`${advisorIds.length} advisors`);
+
+// Every Knowledge VAR belongs to exactly one month's `knowledge` list (a game
+// started later treats earlier months' Knowledge as learned).
+console.log('Knowledge per month:');
+{
+  const owner = new Map();
+  for (const m of months) {
+    for (const k of m.knowledge ?? []) {
+      if (!inkVars.has(k)) fail(`${m.id}: knowledge "${k}" is not a VAR`);
+      if (owner.has(k)) fail(`${k} is listed in both ${owner.get(k)} and ${m.id}`);
+      owner.set(k, m.id);
+    }
+  }
+  for (const name of inkVars) if (name.startsWith('k_') && !owner.has(name)) fail(`${name} is in no month's knowledge list`);
+  ok(`${owner.size} Knowledge VARs assigned`);
+}
 
 console.log('Characters:');
 {
@@ -155,7 +176,7 @@ for (const file of readdirSync('content/locations').filter((f) => f.endsWith('.j
 }
 
 // --- 4. Playing the loop ---------------------------------------------------
-const MAX_CHOICES = 4; // keys 1-4
+const MAX_CHOICES = 6; // keys 1-6
 
 /**
  * Runs a knot like the engine does: picks choices by the start of their text,
@@ -245,16 +266,73 @@ console.log('Knowledge opens options:');
   if (has(offered(fresh, 'm03_council', ['Так', 'Закрити квартал']), 'Перевербувати')) fail('double agent offered without f_spy_marked');
 }
 {
-  // Gnat -> Isolde -> the night runs decision.
+  // Gnat -> Horn -> the fireships; the Knights' sortie is always there.
   const s = new Story(compiled);
-  const without = play(new Story(compiled), 'm03_council', ['Так', 'Закрити квартал', 'Публічний суд']);
-  if (!without.includes('month_end')) fail('m03 council without the night runs does not end the month');
-  play(s, 'm03_gnat');
-  play(s, 'm03_isolde', ['Розповісти']);
-  if (has(offered(s, 'm03_council', ['Так', 'Закрити квартал', 'Публічний суд']), 'Дозволити Ізольді')) ok('Gnat + Isolde -> night runs decision');
-  else fail('night runs decision missing after Gnat and Isolde');
+  const plain = offered(s, 'm03_council', ['Так', 'Закрити квартал', 'Публічний суд']);
+  if (has(plain, 'Брандери')) fail('fireships offered without k_fireships_plan');
+  if (!has(plain, 'Вилазка Лицарів')) fail('the Knights sortie is missing');
+  const t = new Story(compiled);
+  play(t, 'm03_gnat');
+  play(t, 'm03_horn', ['Розповісти']);
+  if (has(offered(t, 'm03_council', ['Так', 'Закрити квартал', 'Публічний суд']), 'Брандери')) ok('Gnat + Horn -> fireships');
+  else fail('fireships missing after Gnat and Horn');
 }
-
+{
+  // The conspiracy: Isolde leaves the council unless turned; Erik takes the seat.
+  const s = new Story(compiled);
+  const tags = play(s, 'm03_council', ['Так', 'Закрити квартал', 'Публічний суд', 'Не ризикувати', 'Публічна страта']);
+  if (!tags.includes('month_end')) fail('m03 council does not end the month');
+  if (!v(s, 'out_isolde') || v(s, 'loy_erik') !== 6) fail('after the execution Isolde is still in, or Erik not appointed');
+  else ok('execution: Isolde out, Erik appointed with loyalty 6');
+  const turned = new Story(compiled);
+  if (has(offered(turned, 'm03_council', ['Так', 'Закрити квартал', 'Публічний суд', 'Не ризикувати']), 'Лишити на волі')) fail('turning Isolde offered without names or a double agent');
+  const u = new Story(compiled);
+  play(u, 'm03_council', ['Так', 'Закрити квартал', 'Допит Інквізиції', 'Не ризикувати', 'Лишити на волі']);
+  if (v(u, 'out_isolde') || !v(u, 'f_traitor_turned')) fail('a turned Isolde left the council');
+  else ok('turned Isolde stays, broken');
+  // Three pieces of evidence -> the full confession.
+  const w = new Story(compiled);
+  play(w, 'm02_erik');
+  play(w, 'm03_obj_purse');
+  play(w, 'm03_gnat');
+  play(w, 'm03_isolde', ['Розповісти']);
+  const before = w.variablesState.$('k_hidden_warehouses') && w.variablesState.$('k_guild_silver') && w.variablesState.$('k_isolde_offer');
+  if (!before) fail('evidence Knowledge did not stick');
+  else ok('three pieces of evidence can be gathered');
+}
+{
+  // Month 4: the hero decision follows month 3, the envoy has its hidden options.
+  const s = new Story(compiled);
+  play(s, 'm03_council', ['Так', 'Закрити квартал', 'Допит Інквізиції', 'Вилазка Лицарів', 'Лишити на волі']);
+  play(s, 'm03_end');
+  play(s, 'm04_open', [], { firstIfNoPick: true });
+  // Choices marked * are once-only, so every look at the council starts from the same saved state.
+  const saved = s.state.ToJson();
+  const hero = offered(s, 'm04_council', ['Так', 'Служба в Храмі', 'Не озброювати']);
+  if (!has(hero, 'Лицарі Тіла')) fail(`after the Knights sortie the hero options are: ${hero.join(' / ')}`);
+  s.state.LoadJson(saved);
+  const envoy = offered(s, 'm04_council', ['Так', 'Служба в Храмі', 'Не озброювати', 'Лицарі Тіла']);
+  s.state.LoadJson(saved);
+  if (has(envoy, 'Показати послу')) ok('turned Isolde -> misleading the envoy');
+  else fail('misleading the envoy missing with a turned Isolde');
+  if (has(envoy, 'Відпустити посла з подарунком')) fail('the medicine option offered without k_horde_fever');
+  play(s, 'm04_erden');
+  play(s, 'm04_obj_sacks');
+  if (has(offered(s, 'm04_council', ['Так', 'Служба в Храмі', 'Не озброювати', 'Лицарі Тіла']), 'Відпустити посла з подарунком')) ok('Erden + sacks -> the medicine option');
+  else fail('the medicine option missing after the sacks');
+}
+{
+  // Starting from a later month: the councils of earlier months replay with all their Knowledge.
+  const s = new Story(compiled);
+  for (const m of months.slice(0, 3)) for (const k of m.knowledge ?? []) s.variablesState.$(k, true);
+  for (const m of months.slice(0, 3)) {
+    const tags = play(s, m.ink_council, ['Так'], { firstIfNoPick: true });
+    if (!tags.includes('month_end')) fail(`setup replay of ${m.id} does not reach month_end`);
+    play(s, m.ink_end);
+  }
+  play(s, 'm04_open', [], { firstIfNoPick: true });
+  ok(`replaying months 1-3 with first picks: bread ${v(s, 'bread')}, gold ${v(s, 'gold')}, walls ${v(s, 'walls')}, order ${v(s, 'order')}`);
+}
 {
   // Military: Myron and Sira Ruka's Knowledge opens or improves the army decisions.
   const s = new Story(compiled);
@@ -284,8 +362,8 @@ console.log('Six months:');
   const runs = [
     ['m01', ['Так', 'Закрити ворота', 'Спалити', 'Усі сили']],
     ['m02', ['Так', 'Пайки через міську варту', 'Конфіскувати три склади', 'Половину варти']],
-    ['m03', ['Так', 'Закрити квартал', 'Публічний суд']],
-    ['m04', ['Так', 'Переплавити дзвони', 'Примусова праця']],
+    ['m03', ['Так', 'Закрити квартал', 'Публічний суд', 'Не ризикувати', 'Суд Інквізиції']],
+    ['m04', ['Так', 'Служба в Храмі', 'Лише під присягою', 'Божена', 'Прогнати з честю']],
     ['m05', ['Так', 'Зачиняти хворих', 'Дати йому амвон']],
     ['m06', ['Так', 'Штарн лишається']],
   ];

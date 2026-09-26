@@ -15,7 +15,10 @@ export interface JournalData {
   /** Unlocked entries, oldest first. */
   entryIds: readonly string[];
   entries: JournalDefs;
+  /** Loyalty levels. */
   council: CouncilDef;
+  /** Advisors whose seat exists now, in display order. */
+  advisors: readonly string[];
   /** An advisor's loyalty, 0..10 (shown only as a word). */
   loyalty(id: string): number;
   /** Whether the advisor has left the council for good. */
@@ -142,10 +145,10 @@ export class JournalPanel {
   }
 
   private renderCouncil(data: JournalData): number {
-    if (data.council.advisors.length === 0) return this.empty('Ради немає.');
+    if (data.advisors.length === 0) return this.empty('Ради немає.');
     const textX = PORTRAIT + 10;
     let y = 0;
-    for (const id of data.council.advisors) {
+    for (const id of data.advisors) {
       const character = data.character(id);
       const portraitKey = AssetKeys.portrait(character?.portraits.neutral ?? `${id}_neutral`);
       if (this.scene.textures.exists(portraitKey)) {

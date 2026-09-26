@@ -4,6 +4,11 @@
   "title": "Молитва і кашель",
   "flavor": "Кашель чути в кожному кварталі. Храм переповнений.",
   "location": "townhall",
+  "knowledge": [
+    "k_hedda_graves",
+    "k_rats",
+    "k_preacher_paid"
+  ],
   "ink_open": "m05_open",
   "ink_council": "m05_council",
   "ink_end": "m05_end"

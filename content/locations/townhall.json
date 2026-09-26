@@ -54,9 +54,28 @@
     }
   },
   "entities": [
-    { "id": "door_out", "type": "door", "x": 10.5, "y": 12, "target": "city", "spawn": "from_townhall", "label": "На площу" },
-    { "id": "door_kitchen", "type": "door", "x": 13, "y": 2, "label": "Кухня" },
-    { "id": "council_table", "type": "council_table", "x": 10.5, "y": 5.6 },
+    {
+      "id": "door_out",
+      "type": "door",
+      "x": 10.5,
+      "y": 12,
+      "target": "city",
+      "spawn": "from_townhall",
+      "label": "На площу"
+    },
+    {
+      "id": "door_kitchen",
+      "type": "door",
+      "x": 13,
+      "y": 2,
+      "label": "Кухня"
+    },
+    {
+      "id": "council_table",
+      "type": "council_table",
+      "x": 10.5,
+      "y": 5.6
+    },
     {
       "id": "isolde",
       "type": "npc",
@@ -64,6 +83,15 @@
       "y": 7.9,
       "when": "!out_isolde",
       "ink": "{month}_isolde"
+    },
+    {
+      "id": "erik",
+      "type": "npc",
+      "x": 13.3,
+      "y": 7.9,
+      "when": "out_isolde",
+      "sprite": "clerk",
+      "ink": "{month}_erik"
     },
     {
       "id": "anselm",
@@ -89,13 +117,66 @@
       "ink": "{month}_verena",
       "when": "!out_verena"
     },
-    { "id": "martyn", "type": "npc", "x": 12, "y": 3.6, "ink": "m06_martyn", "month": "m06" },
-    { "id": "m06_cup", "type": "object", "x": 8.3, "y": 7.4, "sprite": "hall_cup_marshal", "ink": "m06_obj_cup", "month": "m06" },
-    { "id": "m06_plate", "type": "object", "x": 12.7, "y": 7.4, "sprite": "hall_plate", "ink": "m06_obj_plate", "month": "m06" },
-    { "id": "dec_fireplace_1", "type": "decor", "x": 10.5, "y": 2, "sprite": "fireplace", "wall": true, "dy": -16 },
-    { "id": "dec_fireplace_2", "type": "decor", "x": 2.2, "y": 2, "sprite": "fireplace", "wall": true, "dy": -16 },
-    { "id": "dec_candles_1", "type": "decor", "x": 14.3, "y": 7.5, "sprite": "candles" },
-    { "id": "dec_window_1", "type": "decor", "x": 8.8, "y": 2, "sprite": "window_tall_stone", "wall": true, "dy": -24 },
+    {
+      "id": "martyn",
+      "type": "npc",
+      "x": 12,
+      "y": 3.6,
+      "ink": "m06_martyn",
+      "month": "m06"
+    },
+    {
+      "id": "m06_cup",
+      "type": "object",
+      "x": 8.3,
+      "y": 7.4,
+      "sprite": "hall_cup_marshal",
+      "ink": "m06_obj_cup",
+      "month": "m06"
+    },
+    {
+      "id": "m06_plate",
+      "type": "object",
+      "x": 12.7,
+      "y": 7.4,
+      "sprite": "hall_plate",
+      "ink": "m06_obj_plate",
+      "month": "m06"
+    },
+    {
+      "id": "dec_fireplace_1",
+      "type": "decor",
+      "x": 10.5,
+      "y": 2,
+      "sprite": "fireplace",
+      "wall": true,
+      "dy": -16
+    },
+    {
+      "id": "dec_fireplace_2",
+      "type": "decor",
+      "x": 2.2,
+      "y": 2,
+      "sprite": "fireplace",
+      "wall": true,
+      "dy": -16
+    },
+    {
+      "id": "dec_candles_1",
+      "type": "decor",
+      "x": 14.3,
+      "y": 7.5,
+      "sprite": "candles"
+    },
+    {
+      "id": "dec_window_1",
+      "type": "decor",
+      "x": 8.8,
+      "y": 2,
+      "sprite": "window_tall_stone",
+      "wall": true,
+      "dy": -24
+    },
     {
       "id": "shtarn",
       "type": "npc",
@@ -104,7 +185,14 @@
       "when": "!f_marshal_poisoned",
       "ink": "{month}_shtarn"
     },
-    { "id": "office_desk", "type": "object", "x": 3.8, "y": 3.6, "ink": "m06_obj_desk", "month": "m06" },
+    {
+      "id": "office_desk",
+      "type": "object",
+      "x": 3.8,
+      "y": 3.6,
+      "ink": "m06_obj_desk",
+      "month": "m06"
+    },
     {
       "id": "office_map",
       "type": "object",
@@ -112,10 +200,40 @@
       "y": 6.2,
       "ink": "{month}_obj_map"
     },
-    { "id": "m06_figs", "type": "object", "x": 5.3, "y": 3.4, "sprite": "wh_figs", "when": "f_marshal_poisoned", "ink": "m06_obj_figs" },
-    { "id": "nomi", "type": "npc", "x": 4.8, "y": 6, "ink": "m06_nomi", "month": "m06" },
-    { "id": "dec_window_2", "type": "decor", "x": 4.4, "y": 2, "sprite": "window_tall_stone", "wall": true, "dy": -24 },
-    { "id": "hall_body", "type": "object", "x": 3, "y": 8.8, "when": "f_marshal_poisoned", "ink": "m06_obj_body" },
+    {
+      "id": "m06_figs",
+      "type": "object",
+      "x": 5.3,
+      "y": 3.4,
+      "sprite": "wh_figs",
+      "when": "f_marshal_poisoned",
+      "ink": "m06_obj_figs"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 4.8,
+      "y": 6,
+      "ink": "m06_nomi",
+      "month": "m06"
+    },
+    {
+      "id": "dec_window_2",
+      "type": "decor",
+      "x": 4.4,
+      "y": 2,
+      "sprite": "window_tall_stone",
+      "wall": true,
+      "dy": -24
+    },
+    {
+      "id": "hall_body",
+      "type": "object",
+      "x": 3,
+      "y": 8.8,
+      "when": "f_marshal_poisoned",
+      "ink": "m06_obj_body"
+    },
     {
       "id": "tobias",
       "type": "npc",
@@ -124,7 +242,13 @@
       "when": "!out_tobias",
       "ink": "{month}_tobias"
     },
-    { "id": "dec_candles_2", "type": "decor", "x": 5.3, "y": 11, "sprite": "candles" },
+    {
+      "id": "dec_candles_2",
+      "type": "decor",
+      "x": 5.3,
+      "y": 11,
+      "sprite": "candles"
+    },
     {
       "id": "ferrante",
       "type": "npc",
@@ -133,10 +257,36 @@
       "when": "!out_ferrante",
       "ink": "{month}_ferrante"
     },
-    { "id": "dec_coffer_1", "type": "decor", "x": 20.2, "y": 5.9, "sprite": "treasury_coffer" },
-    { "id": "dec_bookshelf_1", "type": "decor", "x": 16.4, "y": 3, "sprite": "bookshelf" },
-    { "id": "dec_chest_1", "type": "decor", "x": 20.2, "y": 3.5, "sprite": "chest" },
-    { "id": "dec_window_3", "type": "decor", "x": 18.8, "y": 2, "sprite": "window_tall_stone", "wall": true, "dy": -24 },
+    {
+      "id": "dec_coffer_1",
+      "type": "decor",
+      "x": 20.2,
+      "y": 5.9,
+      "sprite": "treasury_coffer"
+    },
+    {
+      "id": "dec_bookshelf_1",
+      "type": "decor",
+      "x": 16.4,
+      "y": 3,
+      "sprite": "bookshelf"
+    },
+    {
+      "id": "dec_chest_1",
+      "type": "decor",
+      "x": 20.2,
+      "y": 3.5,
+      "sprite": "chest"
+    },
+    {
+      "id": "dec_window_3",
+      "type": "decor",
+      "x": 18.8,
+      "y": 2,
+      "sprite": "window_tall_stone",
+      "wall": true,
+      "dy": -24
+    },
     {
       "id": "horn",
       "type": "npc",
@@ -145,10 +295,34 @@
       "when": "!out_horn",
       "ink": "{month}_horn"
     },
-    { "id": "dec_roster_1", "type": "decor", "x": 20.3, "y": 8.4, "sprite": "guard_roster" },
-    { "id": "dec_table_1", "type": "decor", "x": 18, "y": 8.8, "sprite": "table" },
-    { "id": "dec_armor_1", "type": "decor", "x": 20.3, "y": 10.8, "sprite": "armor_stand" },
-    { "id": "dec_crates_1", "type": "decor", "x": 16.3, "y": 11, "sprite": "crates" },
+    {
+      "id": "dec_roster_1",
+      "type": "decor",
+      "x": 20.3,
+      "y": 8.4,
+      "sprite": "guard_roster"
+    },
+    {
+      "id": "dec_table_1",
+      "type": "decor",
+      "x": 18,
+      "y": 8.8,
+      "sprite": "table"
+    },
+    {
+      "id": "dec_armor_1",
+      "type": "decor",
+      "x": 20.3,
+      "y": 10.8,
+      "sprite": "armor_stand"
+    },
+    {
+      "id": "dec_crates_1",
+      "type": "decor",
+      "x": 16.3,
+      "y": 11,
+      "sprite": "crates"
+    },
     {
       "id": "sira_ruka",
       "type": "npc",
@@ -156,10 +330,45 @@
       "y": 11.2,
       "ink": "{month}_sira_ruka"
     },
-    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m01", "ink": "nomi_idle" },
-    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m02", "ink": "nomi_idle" },
-    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m03", "ink": "nomi_idle" },
-    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m04", "ink": "nomi_idle" },
-    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m05", "ink": "nomi_idle" }
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 12.4,
+      "y": 7.4,
+      "month": "m01",
+      "ink": "nomi_idle"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 12.4,
+      "y": 7.4,
+      "month": "m02",
+      "ink": "nomi_idle"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 12.4,
+      "y": 7.4,
+      "month": "m03",
+      "ink": "nomi_idle"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 12.4,
+      "y": 7.4,
+      "month": "m04",
+      "ink": "nomi_idle"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 12.4,
+      "y": 7.4,
+      "month": "m05",
+      "ink": "nomi_idle"
+    }
   ]
 }

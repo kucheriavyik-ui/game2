@@ -29,6 +29,8 @@ VAR loy_ferrante = 5
 VAR loy_isolde = 5
 VAR loy_tobias = 5
 VAR loy_verena = 5
+// Erik Stolz holds the Guild seat once Isolde is out (set to 6 when appointed at the end of month 3).
+VAR loy_erik = 5
 
 // --- Betrayal (from month 4): at or below this loyalty an advisor betrays once (betrayal.ink) ---
 VAR BETRAYAL_AT = 3
@@ -70,10 +72,15 @@ VAR k_dockers_riot_risk = false
 VAR k_strait = false
 VAR k_isolde_offer = false
 VAR k_spy_is_scribe = false
+VAR k_guild_silver = false
+VAR k_fireships_plan = false
+VAR k_engineers_camp = false
 // Month 4
-VAR k_horn_sally = false
-VAR k_cech_iron = false
-VAR k_old_armory = false
+VAR k_horn_plans = false
+VAR k_forge_capacity = false
+VAR k_militia_verena = false
+VAR k_envoy_eyes = false
+VAR k_horde_fever = false
 // Month 5
 VAR k_hedda_graves = false
 VAR k_rats = false
@@ -126,6 +133,14 @@ VAR f_double_agent = false
 VAR f_night_runs = false
 VAR f_night_runs_watched = false
 VAR f_no_night_runs = false
+VAR f_fleet_burned = false
+VAR f_engineers_burned = false
+VAR f_no_sortie = false
+VAR f_victory_sortie = false
+VAR f_isolde_prison = false
+VAR f_traitor_turned = false
+VAR f_isolde_vanished = false
+VAR f_victory_conspiracy = false
 // Betrayals
 VAR f_shtarn_retired = false
 VAR f_horn_demoted = false
@@ -137,15 +152,26 @@ VAR f_tobias_expelled = false
 VAR f_verena_partner = false
 VAR f_drain_sealed = false
 // Month 4
-VAR f_arsenal_fire = false
 VAR f_bells_melted = false
-VAR f_iron_bought = false
-VAR f_iron_levy = false
-VAR f_old_armory = false
-VAR f_cech_paid = false
-VAR f_forced_forges = false
-VAR f_refugee_forges = false
-VAR f_cech_broken = false
+VAR f_feast = false
+VAR f_bells = false
+VAR f_no_feast = false
+VAR f_militia_armed = false
+VAR f_militia_horn = false
+VAR f_militia_trained = false
+VAR f_militia_split = false
+VAR f_hero_horn = false
+VAR f_hero_common = false
+VAR f_hero_knights = false
+VAR f_hero_protector = false
+VAR f_hero_anselm = false
+VAR f_hero_bozhena = false
+VAR f_hero_erik = false
+VAR f_envoy_heard = false
+VAR f_envoy_refused = false
+VAR f_envoy_hanged = false
+VAR f_horde_misled = false
+VAR f_horde_knows_we_know = false
 // Month 5
 VAR f_houses_sealed = false
 VAR f_procession = false

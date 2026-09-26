@@ -4,6 +4,12 @@
   "title": "Хліб і сіль",
   "flavor": "Хліб подорожчав учетверо. Черги до комор починаються до світанку.",
   "location": "townhall",
+  "knowledge": [
+    "k_real_reserves",
+    "k_verena_black_market",
+    "k_hidden_warehouses",
+    "k_pay_arrears"
+  ],
   "ink_open": "m02_open",
   "ink_council": "m02_council",
   "ink_end": "m02_end"

@@ -1,9 +1,24 @@
 {
   "id": "m04",
   "number": 4,
-  "title": "Вогонь і залізо",
-  "flavor": "Стріл лишилось на два штурми. У кузнях холодні горна.",
+  "title": "Дзвони Корвена",
+  "flavor": [
+    {
+      "when": "f_victory_sortie",
+      "text": "Уперше за облогу дзвони Корвена б'ють не на сполох."
+    },
+    {
+      "text": "Зрадницю викрито. Місто видихає."
+    }
+  ],
   "location": "townhall",
+  "knowledge": [
+    "k_horn_plans",
+    "k_forge_capacity",
+    "k_militia_verena",
+    "k_envoy_eyes",
+    "k_horde_fever"
+  ],
   "ink_open": "m04_open",
   "ink_council": "m04_council",
   "ink_end": "m04_end"

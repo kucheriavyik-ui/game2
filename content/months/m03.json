@@ -4,6 +4,16 @@
   "title": "Щури в підвалах",
   "flavor": "Ворожий флот закрив гавань. У порту кашляють.",
   "location": "townhall",
+  "knowledge": [
+    "k_plague_spreading",
+    "k_dockers_riot_risk",
+    "k_strait",
+    "k_isolde_offer",
+    "k_spy_is_scribe",
+    "k_guild_silver",
+    "k_fireships_plan",
+    "k_engineers_camp"
+  ],
   "ink_open": "m03_open",
   "ink_council": "m03_council",
   "ink_end": "m03_end"

@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 import { DialogueSystem, type DialogueLine } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
 import { Journal, type JournalDefs } from '../systems/Journal';
-import { council, findCharacter, isOut, JOURNAL_KEY, RESOURCES_KEY } from '../systems/LocationLoader';
-import { finishMonth, gameOver } from '../systems/MonthFlow';
+import { council, findCharacter, isOut, JOURNAL_KEY, RESOURCES_KEY, seatedAdvisors } from '../systems/LocationLoader';
+import { councilLookup, finishMonth, gameOver } from '../systems/MonthFlow';
 import { DialogueBox } from '../ui/DialogueBox';
 import { JournalPanel, type JournalTab } from '../ui/JournalPanel';
 import { ResourceBar, type ResourceDef } from '../ui/ResourceBar';
@@ -76,7 +76,7 @@ export class UIScene extends Phaser.Scene {
     };
     keyboard.on('keydown-SPACE', once(() => this.advance()));
     keyboard.on('keydown-ENTER', once(() => this.advance()));
-    (['ONE', 'TWO', 'THREE', 'FOUR'] as const).forEach((name, i) => {
+    (['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX'] as const).forEach((name, i) => {
       keyboard.on(`keydown-${name}`, once(() => this.choose(i)));
     });
     keyboard.on('keydown-J', once(() => this.toggleJournal()));
@@ -128,9 +128,7 @@ export class UIScene extends Phaser.Scene {
     this.current = line;
     if (line) {
       this.handleTags(line.tags);
-      // Advisors who have left the council take no side any more.
-      const inCouncil = (id: string) => (isOut(id, (name) => Boolean(GameState.get(name))) ? undefined : findCharacter(this, id));
-      this.box.show(line, findCharacter(this, line.speaker), inCouncil);
+      this.box.show(line, findCharacter(this, line.speaker), councilLookup(this));
       return;
     }
 
@@ -183,13 +181,15 @@ export class UIScene extends Phaser.Scene {
   }
 
   private openJournal(tab?: JournalTab): void {
+    const isTrue = (name: string): boolean => Boolean(GameState.get(name));
     this.journalPanel.show(
       {
         entryIds: Journal.ids,
         entries: (this.cache.json.get(JOURNAL_KEY) ?? {}) as JournalDefs,
         council: council(this),
+        advisors: seatedAdvisors(council(this), isTrue),
         loyalty: (id) => GameState.num(`loy_${id}`),
-        out: (id) => isOut(id, (name) => Boolean(GameState.get(name))),
+        out: (id) => isOut(id, isTrue),
         character: (id) => findCharacter(this, id),
       },
       tab,

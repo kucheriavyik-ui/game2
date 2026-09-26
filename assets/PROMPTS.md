@@ -276,3 +276,13 @@ _Тут фіксуються реальні промпти, id завдань і
 |---|---|---|
 | `myron` спрайт | `create_character` standard 48, 4 dir, low top-down: «weathered medieval garrison sergeant about 45, bareheaded with close-cropped grey hair and short grizzled beard, scar across the cheek, padded brown quilted gambeson with leather belt, short sword at the hip, worn leather boots, no helmet, no metal armor on the head» + стиль | `18bef3d7` |
 | `myron_neutral` | pixen 64×64 `view: side`: «close-up head and shoulders … bareheaded, close-cropped grey hair, short grizzled beard, old scar across the cheek, tired shrewd eyes, padded brown quilted gambeson …, no helmet, flat plain dark grey background» | `cf3d54af` |
+
+## 17. Місяць 4 «Дзвони Корвена»: посол Ерден (2026-09-26)
+
+| Асет | Опис | Id |
+|---|---|---|
+| `erden` спрайт | `create_character` standard 48, 4 dir: «steppe nomad envoy, short slim man about 50, weathered tan face, thin grey moustache, simple plain dark blue quilted coat without ornament, soft felt cap, one large gold ring with a red stone, calm polite posture, hands folded» + стиль | `1b1e68df` |
+| `erden_neutral` | pixen 64×64 `view: side`: «close-up head and shoulders … weathered tan face, high cheekbones, narrow calm dark eyes, thin grey moustache, soft felt cap, plain dark blue quilted collar, polite faint smile, flat plain dark grey background» | `4133ff26` |
+| `envoy_tent` 96×72 | pixen `no_background`, low top-down: «small round steppe nomad felt tent (yurt) with a low domed roof, grey-white felt walls with dark rope bands, dark wooden door flap facing the viewer, a white cloth banner on a pole beside it, a few bulging burlap sacks by the entrance» | `28d2feb0` |
+
+Правило для `scripts/fetch-asset.mjs`: запускати з кореня проєкту і шлях давати відносно `assets/` — інакше файл лягає в `assets/assets/…`.

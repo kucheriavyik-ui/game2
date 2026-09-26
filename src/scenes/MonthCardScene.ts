@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import { findMonth } from '../systems/LocationLoader';
+import { GameState } from '../systems/GameState';
+import { findMonth, monthFlavor } from '../systems/LocationLoader';
 import { enterWorld } from '../systems/MonthFlow';
 import { COLORS, textStyle } from '../ui/theme';
 
@@ -26,7 +27,12 @@ export class MonthCardScene extends Phaser.Scene {
       .text(width / 2, height / 2 - 12, month.title, textStyle(this, { fontSize: '24px', color: COLORS.accent }))
       .setOrigin(0.5);
     const flavor = this.add
-      .text(width / 2, height / 2 + 16, month.flavor, textStyle(this, { align: 'center', wordWrap: { width: width - 80 } }))
+      .text(
+        width / 2,
+        height / 2 + 16,
+        monthFlavor(month, (name) => Boolean(GameState.get(name))),
+        textStyle(this, { align: 'center', wordWrap: { width: width - 80 } }),
+      )
       .setOrigin(0.5, 0);
     const texts = [number, title, flavor];
     for (const t of texts) t.setAlpha(0);

@@ -2,6 +2,7 @@
   "id": "infirmary",
   "name": "Лазарет при каплиці",
   "map": "infirmary.map.txt",
+  "music": "infirmary",
   "legend": {
     "W": {
       "name": "chapel",
@@ -45,6 +46,20 @@
       "x": 3,
       "y": 4.7,
       "ink": "{month}_infirmary"
+    },
+    {
+      "id": "hrytsko",
+      "type": "npc",
+      "x": 10,
+      "y": 4.4,
+      "ink": "{month}_hrytsko"
+    },
+    {
+      "id": "yulian",
+      "type": "npc",
+      "x": 6.5,
+      "y": 7.6,
+      "ink": "{month}_yulian"
     }
   ]
 }

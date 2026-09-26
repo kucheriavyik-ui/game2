@@ -117,6 +117,34 @@ export class MenuList {
   }
 }
 
+/** The rows of the settings screen, shared by the main menu and the pause menu. */
+export function settingsItems(
+  scene: Phaser.Scene,
+  settings: { get(): { musicVolume: number; musicOn: boolean }; update(p: object): void },
+  onBack: () => void,
+): MenuItem[] {
+  // Plain ASCII: the pixel font has no block characters.
+  const bar = (v: number) => `[${'='.repeat(v)}${'-'.repeat(10 - v)}]`;
+  return [
+    {
+      label: () => `Гучність  ${bar(settings.get().musicVolume)}`,
+      onAdjust: (step) => settings.update({ musicVolume: settings.get().musicVolume + step }),
+      onConfirm: () => settings.update({ musicVolume: (settings.get().musicVolume + 1) % 11 }),
+    },
+    {
+      label: () => `Музика: ${settings.get().musicOn ? 'увімк.' : 'вимк.'}`,
+      onAdjust: () => settings.update({ musicOn: !settings.get().musicOn }),
+      onConfirm: () => settings.update({ musicOn: !settings.get().musicOn }),
+    },
+    {
+      label: () => `Повний екран: ${scene.scale.isFullscreen ? 'так' : 'ні'}`,
+      onConfirm: () => scene.scale.toggleFullscreen(),
+      onAdjust: () => scene.scale.toggleFullscreen(),
+    },
+    { label: 'Назад', onConfirm: onBack },
+  ];
+}
+
 export const CONTROLS_TEXT = [
   'WASD / стрілки - рух',
   'E - поговорити, оглянути',
@@ -124,6 +152,7 @@ export const CONTROLS_TEXT = [
   '1-4 - вибрати відповідь',
   'J - журнал',
   'R - ресурси: показати/сховати',
+  'M - музика увімк./вимк.',
   'Коліщатко миші - масштаб',
   'Esc - пауза',
 ].join('\n');

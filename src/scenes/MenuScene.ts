@@ -2,10 +2,11 @@ import Phaser from 'phaser';
 import { findMonth } from '../systems/LocationLoader';
 import { continueGame, startNewGame } from '../systems/MonthFlow';
 import { SaveSystem } from '../systems/SaveSystem';
-import { CONTROLS_TEXT, MenuList, type MenuItem } from '../ui/MenuList';
+import { Settings } from '../systems/Settings';
+import { CONTROLS_TEXT, MenuList, settingsItems, type MenuItem } from '../ui/MenuList';
 import { COLORS, textStyle } from '../ui/theme';
 
-type View = 'main' | 'controls' | 'confirmNew' | 'badSave';
+type View = 'main' | 'settings' | 'controls' | 'confirmNew' | 'badSave';
 
 /** Title screen: continue, new game, controls. */
 export class MenuScene extends Phaser.Scene {
@@ -20,6 +21,7 @@ export class MenuScene extends Phaser.Scene {
   create(): void {
     const { width, height } = this.scale;
     this.cameras.main.setBackgroundColor('#0b0a0a');
+    this.registry.set('music', 'port');
 
     // 24px is three times the font's native 8px grid: large and still sharp.
     this.add.text(width / 2, 44, 'ОБЛОГА КОРВЕНА', textStyle(this, { fontSize: '24px', color: COLORS.accent })).setOrigin(0.5);
@@ -69,9 +71,11 @@ export class MenuScene extends Phaser.Scene {
             },
           },
           { label: 'Нова гра', onConfirm: () => (hasSave ? this.show('confirmNew') : startNewGame(this)) },
+          { label: 'Налаштування', onConfirm: () => this.show('settings') },
           { label: 'Керування', onConfirm: () => this.show('controls') },
         ],
       },
+      settings: { text: '', items: settingsItems(this, Settings, () => this.show('main')) },
       controls: { text: CONTROLS_TEXT, items: [back] },
       confirmNew: {
         text: 'Почати заново?\nПоточне збереження буде втрачено.',

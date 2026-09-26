@@ -305,6 +305,47 @@
         Біженці тягають колоди краще за моїх солдатів. Може, ви були праві, Протекторе.
     }
 - # speaker:shtarn
+Третє. Військо: що понад усе?
+* [Усі сили — на браму і стіни #stance:shtarn:for #stance:horn:against]
+    ~ res(walls, 5)
+    ~ loy(loy_shtarn, 1)
+    ~ loy(loy_horn, -1)
+    ~ f_mil_hold = true
+    # speaker:horn
+    Сидіти. Знову сидіти. Орда нам за це подякує.
+* [Нічна вилазка на обоз орди #stance:horn:for #stance:shtarn:against #stance:ferrante:against]
+    ~ f_mil_sally = true
+    ~ loy(loy_shtarn, -1)
+    {k_ford:
+        ~ res(bread, 15)
+        ~ res(walls, -5)
+        ~ loy(loy_horn, 2)
+        ~ f_sally_ford = true
+        # speaker:horn
+        Брід на Сивій річці. Вартують підкорені. (вперше усміхається) Вони не помруть за чужий хліб. Ми — за свій.
+    - else:
+        ~ res(bread, 5)
+        ~ res(walls, -15)
+        ~ loy(loy_horn, 1)
+        # speaker:shtarn
+        Ти не знаєш, де стоїть обоз, капітане. Ти знаєш лише, що хочеш туди.
+    }
+* [Лицарі Тіла — на стіни, міська варта — на вулиці #stance:shtarn:for #stance:horn:for #stance:anselm:against]
+    ~ res(walls, 10)
+    ~ res(order, -5)
+    ~ loy(loy_anselm, -1)
+    ~ f_knights_walls = true
+    # speaker:sira_ruka
+    Як накажете. (пауза) Місто побачить, що біля вас стало менше сталі. Місто завжди рахує сталь.
+* {k_north_tower} [Перекинути камінь і людей на північну вежу #stance:shtarn:for #stance:ferrante:against]
+    ~ res(walls, 10)
+    ~ res(gold, -5)
+    ~ loy(loy_shtarn, 1)
+    ~ loy(loy_ferrante, -1)
+    ~ f_north_tower = true
+    # speaker:shtarn
+    Глина замість вапна. (довго мовчить) Двадцять років я ходив повз цю вежу. Дякую, Протекторе.
+- # speaker:shtarn
 Рада розходиться.
 # month_end
 -> END
@@ -315,4 +356,8 @@
 {f_suburbs_left: На третю ніч у вікнах передмістя з'явились ворожі вогні.}
 {f_suburbs_timber: Там, де стояли будинки, тепер лише фундаменти. Мур на північ став на лікоть вищим.}
 {f_gates_closed and not f_smiths_in: Крики під брамою стихли на п'яту ніч.}
+{f_sally_ford: Уночі біля броду на Сивій річці горіли вози орди. Заграву було видно зі стін.}
+{f_mil_sally and not f_sally_ford: З нічної вилазки повернулась половина. Горн не спав до ранку.}
+{f_knights_walls: Темні обладунки Лицарів Тіла тепер видно на стінах. Солдати Штарна дивляться на них скоса.}
+{f_north_tower: Північну вежу перекладають удень і вночі. Камінь беруть з розібраних стаєнь.}
 -> defeat_check

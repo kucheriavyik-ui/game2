@@ -58,6 +58,7 @@ export class WorldScene extends Phaser.Scene {
 
   create(data: WorldSceneData): void {
     const location = parseLocation(this, data.location);
+    this.registry.set('music', location.def.music ?? null);
     const layer = this.buildTiles(location);
     this.terrainAnimate = location.def.terrain ? renderTerrain(this, location, location.def.terrain)?.animate : undefined;
 

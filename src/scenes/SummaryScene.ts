@@ -30,6 +30,7 @@ export class SummaryScene extends Phaser.Scene {
     if (!month) throw new Error(`Unknown month "${data.month}"`);
     const { width, height } = this.scale;
     this.cameras.main.setBackgroundColor('#0b0a0a');
+    this.registry.set('music', 'infirmary');
     this.leaving = false;
     this.defeat = null;
 

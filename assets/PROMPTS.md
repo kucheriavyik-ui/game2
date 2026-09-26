@@ -248,3 +248,18 @@ _Тут фіксуються реальні промпти, id завдань і
 | `nomi` (спрайт) | `create_character` quadruped `cat`, size 32: «thin scruffy grey cat with a torn left ear, lean body, long tail, pale green eyes, plain solid grey fur without stripes» | `dd07d531` | ✅ полотно 48×48 |
 | `nomi_neutral` | pixen 64×64: перша спроба `6107d708` — смугастий таббі ❌; друга «solid uniform smoky grey fur, NO stripes, NO tabby markings, left ear clearly torn with a ragged notch» | `a05a40c9` | ⚠️ сіріший, ледь смугастий, щербина на вусі є |
 | `knight` (Лицар Тіла) | `create_character` standard 48: «royal bodyguard knight in dark blackened plate armor without any heraldry, closed great helm hiding the face, a small gold royal seal on the shoulder plate, long dark cloak, tall halberd held upright» | `fba6cef0` | ✅ двоє на варті біля ратуші |
+
+## 14. Рада і городяни (2026-09-26, 16 генерацій)
+
+Параметри як у розділах 9–11 (персонажі standard 48, 4 напрямки; портрети pixen 64×64 «close-up head and shoulders … flat plain dark grey background»).
+
+| Асет | Опис | Id (спрайт / портрет) |
+|---|---|---|
+| `council_table` v2 160×112 (замінив 96×64) | «long heavy dark oak council table … eight high-backed wooden chairs around it, a large unrolled war map of the besieged city … seen from straight in front and slightly above, perfectly horizontal …», `no_background`, `view: high top-down` | `f2b1e31d` |
+| `sira_ruka` (пробний) | silent commander of royal bodyguard knights, closed great helm with a narrow slit, one gauntlet painted ash grey, gold royal seal on the shoulder | `efca7958` / `e6c3997f` |
+| `orest` | portly merchant, trimmed grey beard, fur-trimmed brown coat worn thin, heavy purse, rings | `8a42aaa0` / `40e76308` |
+| `yadviga` | stern merchant woman ~50, dark green velvet dress, grey bun under a lace cap, account book, keys | `cc3ed8e3` / `b98def9d` |
+| `myron` | off-duty veteran sergeant ~40, unbuckled gambeson over mail, scar on the cheek, tankard | `cc3f1839` / `7c9810e1` |
+| `hrytsko` | wounded young soldier, bandaged head, arm in a sling, crutch | `4f04f2d1` / `e827fe9c` |
+| `yulian` | young novice monk, brown habit, tonsure, stained apron, bowl | `1784b946` / `bc8a9bd1` |
+| `olena` | townswoman seamstress ~35, patched grey dress, faded red headscarf, shawl | `75753992` / `4d166973` |

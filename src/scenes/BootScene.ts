@@ -28,6 +28,9 @@ export class BootScene extends Phaser.Scene {
   private openMenu(): void {
     GameState.init(this.cache.json.get(STORY_KEY) as Record<string, unknown>);
 
+    // Music outlives every other scene, so it is launched once and never stopped.
+    if (!this.scene.isActive('Music')) this.scene.launch('Music');
+
     const params = new URLSearchParams(window.location.search);
     // `?new` in the URL wipes the save slot (a developer shortcut).
     if (params.has('new')) SaveSystem.clear();

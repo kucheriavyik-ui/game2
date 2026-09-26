@@ -17,6 +17,7 @@ export class MonthCardScene extends Phaser.Scene {
     const { width, height } = this.scale;
     this.leaving = false;
     this.cameras.main.setBackgroundColor('#000000');
+    this.registry.set('music', 'infirmary');
 
     const number = this.add
       .text(width / 2, height / 2 - 34, `Місяць ${month.number}`, textStyle(this, { color: COLORS.muted }))

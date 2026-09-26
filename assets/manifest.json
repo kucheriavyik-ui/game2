@@ -149,6 +149,27 @@
     },
     "knight": {
       "idle": "characters/knight/south.png"
+    },
+    "sira_ruka": {
+      "idle": "characters/sira_ruka/south.png"
+    },
+    "orest": {
+      "idle": "characters/orest/south.png"
+    },
+    "yadviga": {
+      "idle": "characters/yadviga/south.png"
+    },
+    "myron": {
+      "idle": "characters/myron/south.png"
+    },
+    "hrytsko": {
+      "idle": "characters/hrytsko/south.png"
+    },
+    "yulian": {
+      "idle": "characters/yulian/south.png"
+    },
+    "olena": {
+      "idle": "characters/olena/south.png"
     }
   },
   "kits": {
@@ -329,6 +350,13 @@
     "verena_smirk": "characters/verena/portrait_smirk.png",
     "kopar_neutral": "characters/protector/portrait_neutral.png",
     "kopar_grim": "characters/protector/portrait_grim.png",
-    "kopar_amused": "characters/protector/portrait_amused.png"
+    "kopar_amused": "characters/protector/portrait_amused.png",
+    "sira_ruka_neutral": "characters/sira_ruka/portrait_neutral.png",
+    "orest_neutral": "characters/orest/portrait_neutral.png",
+    "yadviga_neutral": "characters/yadviga/portrait_neutral.png",
+    "myron_neutral": "characters/myron/portrait_neutral.png",
+    "hrytsko_neutral": "characters/hrytsko/portrait_neutral.png",
+    "yulian_neutral": "characters/yulian/portrait_neutral.png",
+    "olena_neutral": "characters/olena/portrait_neutral.png"
   }
 }

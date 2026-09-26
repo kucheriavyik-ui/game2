@@ -255,14 +255,35 @@ console.log('Knowledge opens options:');
   else fail('night runs decision missing after Gnat and Isolde');
 }
 
+{
+  // Military: Myron and Sira Ruka's Knowledge opens or improves the army decisions.
+  const s = new Story(compiled);
+  if (has(offered(s, 'm01_council', ['Так', 'Закрити ворота', 'Спалити']), 'Перекинути камінь')) fail('north tower option without k_north_tower');
+  const t = new Story(compiled);
+  play(t, 'm01_myron', ['«Як вам стіна?»']);
+  if (has(offered(t, 'm01_council', ['Так', 'Закрити ворота', 'Спалити']), 'Перекинути камінь')) ok('Myron -> north tower option');
+  else fail('north tower option missing after Myron');
+  const u = new Story(compiled);
+  play(u, 'm02_myron', ['«Скільки гарнізону винні?»']);
+  if (has(offered(u, 'm02_council', ['Так', 'Пайки через міську варту', 'Не чіпати']), 'Виплатити гарнізону')) ok('Myron -> pay the garrison option');
+  else fail('pay-arrears option missing after Myron');
+  const blind = new Story(compiled);
+  play(blind, 'm01_council', ['Так', 'Закрити ворота', 'Спалити', 'Нічна вилазка']);
+  const scouted = new Story(compiled);
+  play(scouted, 'm01_sira_ruka', ['«Що бачать ваші розвідники?»']);
+  play(scouted, 'm01_council', ['Так', 'Закрити ворота', 'Спалити', 'Нічна вилазка']);
+  if (v(scouted, 'walls') > v(blind, 'walls') && v(scouted, 'f_sally_ford')) ok('scouting the ford makes the sally cheaper');
+  else fail('the ford Knowledge does not change the sally');
+}
+
 console.log('Six months:');
 {
   const s = new Story(compiled);
   if (play(s, 'prologue').includes(`goto:${months[0]?.id}`)) ok('prologue leads to the first month');
   else fail('prologue has no # goto to the first month');
   const runs = [
-    ['m01', ['Так', 'Закрити ворота', 'Спалити']],
-    ['m02', ['Так', 'Пайки через міську варту', 'Конфіскувати три склади']],
+    ['m01', ['Так', 'Закрити ворота', 'Спалити', 'Усі сили']],
+    ['m02', ['Так', 'Пайки через міську варту', 'Конфіскувати три склади', 'Половину варти']],
     ['m03', ['Так', 'Закрити квартал', 'Публічний суд']],
     ['m04', ['Так', 'Переплавити дзвони', 'Примусова праця']],
     ['m05', ['Так', 'Зачиняти хворих', 'Дати йому амвон']],

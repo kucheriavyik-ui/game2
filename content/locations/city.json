@@ -3,6 +3,7 @@
   "id": "city",
   "name": "Корвен",
   "map": "city.map.txt",
+  "music": "port",
   "legend": {
     "H": {
       "name": "house_stone",
@@ -142,6 +143,10 @@
     "from_infirmary": {
       "x": 26,
       "y": 28
+    },
+    "from_guild": {
+      "x": 51,
+      "y": 28
     }
   },
   "entities": [
@@ -149,7 +154,7 @@
     { "id": "door_townhall", "type": "door", "x": 41, "y": 28, "target": "townhall", "spawn": "door_in", "label": "Ратуша" },
     { "id": "door_tavern", "type": "door", "x": 10, "y": 26, "target": "tavern", "spawn": "door_in", "label": "Таверна «Втоплений дзвін»" },
     { "id": "door_infirmary", "type": "door", "x": 26, "y": 26, "target": "infirmary", "spawn": "door_in", "label": "Лазарет" },
-    { "id": "door_guild", "type": "door", "x": 51, "y": 26, "label": "Дім Гільдії купців" },
+    { "id": "door_guild", "type": "door", "x": 51, "y": 26, "label": "Дім Гільдії купців", "target": "guild_office", "spawn": "door_in" },
     { "id": "door_cellar", "type": "door", "x": 17, "y": 26, "label": "Підвал Інквізиції" },
     { "id": "door_harbour", "type": "door", "x": 3, "y": 26, "sprite": "door_home", "label": "Контора начальника порту" },
     { "id": "door_shinok", "type": "door", "x": 33, "y": 26, "sprite": "door_home", "label": "Шинок" },

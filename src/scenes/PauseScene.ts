@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import { toMainMenu } from '../systems/MonthFlow';
-import { CONTROLS_TEXT, MenuList, type MenuItem } from '../ui/MenuList';
+import { Settings } from '../systems/Settings';
+import { CONTROLS_TEXT, MenuList, settingsItems, type MenuItem } from '../ui/MenuList';
 import { COLORS, textStyle } from '../ui/theme';
 
-type View = 'main' | 'controls' | 'confirmQuit';
+type View = 'main' | 'settings' | 'controls' | 'confirmQuit';
 
 /**
  * Esc menu over the world. The world is frozen (ui:lock) while it is open.
@@ -60,10 +61,12 @@ export class PauseScene extends Phaser.Scene {
           { label: 'Продовжити', onConfirm: () => this.close() },
           { label: 'Знання', onConfirm: () => this.openJournal('knowledge') },
           { label: 'Рада', onConfirm: () => this.openJournal('council') },
+          { label: 'Налаштування', onConfirm: () => this.show('settings') },
           { label: 'Керування', onConfirm: () => this.show('controls') },
           { label: 'Вийти в головне меню', onConfirm: () => this.show('confirmQuit') },
         ],
       },
+      settings: { text: '', items: settingsItems(this, Settings, () => this.show('main')) },
       controls: { text: CONTROLS_TEXT, items: [back] },
       // The game saves only at the start of a month.
       confirmQuit: {

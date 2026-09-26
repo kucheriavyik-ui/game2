@@ -30,6 +30,8 @@ export class StoryScene extends Phaser.Scene {
   create(data: StorySceneData): void {
     const { width, height } = this.scale;
     this.cameras.main.setBackgroundColor('#000000');
+    // The chant from the infirmary carries the prologue and the endings.
+    this.registry.set('music', 'infirmary');
     this.finished = false;
     this.gotoMonth = null;
     this.caption = data.caption ?? 'Кінець';

@@ -62,6 +62,8 @@ export interface LocationDef {
   legend: Record<string, LegendEntry>;
   spawns: Record<string, SpawnPoint>;
   entities: EntityDef[];
+  /** Music track name from manifest.json `music`; omitted = silence. */
+  music?: string;
   /** Optional smooth-ground config; see systems/Terrain.ts. */
   terrain?: import('./Terrain').TerrainConfig;
 }

@@ -29,6 +29,8 @@ export interface Manifest {
   kits?: Record<string, string>;
   /** Wang terrain tilesets: name -> { image: sheet PNG, meta: PixelLab metadata JSON }. */
   terrains?: Record<string, { image: string; meta: string }>;
+  /** Background music: track name -> audio file. Loaded lazily by MusicScene, not at boot. */
+  music?: Record<string, string>;
 }
 
 const KIT_PIECES = 80;
@@ -112,6 +114,12 @@ export function queueManifestImages(scene: Phaser.Scene): void {
       });
     }
   }
+}
+
+/** URL of a music track named in the manifest, if both exist. */
+export function musicUrl(key: string): string | undefined {
+  const rel = manifest.music?.[key];
+  return rel ? assetUrls[`/assets/${rel}`] : undefined;
 }
 
 /** Walk frame texture keys per direction, only for directions whose every frame loaded. */

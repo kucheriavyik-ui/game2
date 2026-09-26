@@ -2,6 +2,7 @@
   "id": "tavern",
   "name": "Таверна «Втоплений дзвін»",
   "map": "tavern.map.txt",
+  "music": "tavern",
   "legend": {
     "W": {
       "name": "house_stone",
@@ -53,6 +54,27 @@
       "y": 3,
       "ink": "{month}_tavern"
     },
-    { "id": "nomi", "type": "npc", "x": 13.9, "y": 9, "month": "m02", "ink": "m02_nomi" }
+    { "id": "nomi", "type": "npc", "x": 13.9, "y": 9, "month": "m02", "ink": "m02_nomi" },
+    {
+      "id": "myron",
+      "type": "npc",
+      "x": 8,
+      "y": 4.3,
+      "ink": "{month}_myron"
+    },
+    {
+      "id": "olena",
+      "type": "npc",
+      "x": 13,
+      "y": 5.8,
+      "ink": "{month}_olena"
+    },
+    {
+      "id": "orest",
+      "type": "npc",
+      "x": 4.5,
+      "y": 7.6,
+      "ink": "{month}_orest"
+    }
   ]
 }

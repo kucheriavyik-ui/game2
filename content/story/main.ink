@@ -12,6 +12,7 @@ INCLUDE months/m05.ink
 INCLUDE months/m06.ink
 INCLUDE betrayal.ink
 INCLUDE idle.ink
+INCLUDE people.ink
 
 // --- Resources, 0..100 (content/resources.json says how the HUD shows them) ---
 VAR bread = 60
@@ -56,10 +57,13 @@ VAR k_horn_harsh = false
 VAR k_smiths = false
 VAR k_spy_suspect = false
 VAR k_bread_math = false
+VAR k_ford = false
+VAR k_north_tower = false
 // Month 2
 VAR k_real_reserves = false
 VAR k_verena_black_market = false
 VAR k_hidden_warehouses = false
+VAR k_pay_arrears = false
 // Month 3
 VAR k_plague_spreading = false
 VAR k_dockers_riot_risk = false
@@ -92,6 +96,11 @@ VAR f_spy_marked = false
 VAR f_suburbs_burned = false
 VAR f_suburbs_left = false
 VAR f_suburbs_timber = false
+VAR f_mil_hold = false
+VAR f_mil_sally = false
+VAR f_sally_ford = false
+VAR f_knights_walls = false
+VAR f_north_tower = false
 // Month 2
 VAR f_rations_guard = false
 VAR f_rations_verena = false
@@ -102,6 +111,10 @@ VAR f_guild_confiscated = false
 VAR f_guild_untouched = false
 VAR f_isolde_debt = false
 VAR f_isolde_humiliated = false
+VAR f_guard_granaries = false
+VAR f_walls_first = false
+VAR f_knights_granaries = false
+VAR f_pay_arrears = false
 // Month 3
 VAR f_quarantine = false
 VAR f_port_fed = false

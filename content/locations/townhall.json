@@ -3,6 +3,7 @@
   "id": "townhall",
   "name": "Ратуша",
   "map": "townhall.map.txt",
+  "music": "infirmary",
   "legend": {
     "W": {
       "name": "townhall",
@@ -55,7 +56,7 @@
   "entities": [
     { "id": "door_out", "type": "door", "x": 10.5, "y": 12, "target": "city", "spawn": "from_townhall", "label": "На площу" },
     { "id": "door_kitchen", "type": "door", "x": 13, "y": 2, "label": "Кухня" },
-    { "id": "council_table", "type": "council_table", "x": 10.5, "y": 5.8 },
+    { "id": "council_table", "type": "council_table", "x": 10.5, "y": 5.6 },
     {
       "id": "isolde",
       "type": "npc",
@@ -147,6 +148,13 @@
     { "id": "dec_roster_1", "type": "decor", "x": 20.3, "y": 8.4, "sprite": "guard_roster" },
     { "id": "dec_table_1", "type": "decor", "x": 18, "y": 8.8, "sprite": "table" },
     { "id": "dec_armor_1", "type": "decor", "x": 20.3, "y": 10.8, "sprite": "armor_stand" },
-    { "id": "dec_crates_1", "type": "decor", "x": 16.3, "y": 11, "sprite": "crates" }
+    { "id": "dec_crates_1", "type": "decor", "x": 16.3, "y": 11, "sprite": "crates" },
+    {
+      "id": "sira_ruka",
+      "type": "npc",
+      "x": 9,
+      "y": 11.2,
+      "ink": "{month}_sira_ruka"
+    }
   ]
 }

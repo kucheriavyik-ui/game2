@@ -45,6 +45,8 @@ export class DialogueBox {
   private readonly portraitImage: Phaser.GameObjects.Image;
   private readonly portraitLabel: Phaser.GameObjects.Text;
   private readonly nameText: Phaser.GameObjects.Text;
+  /** The speaker's seat or trade, small and muted after the name: "(Маршал оборони)". */
+  private readonly roleText: Phaser.GameObjects.Text;
   private readonly bodyText: Phaser.GameObjects.Text;
   private readonly choiceTexts: Phaser.GameObjects.Text[] = [];
   private readonly hint: Phaser.GameObjects.Text;
@@ -84,6 +86,7 @@ export class DialogueBox {
     this.textX = textX;
     // The speaker's name at twice the font's native size, so it reads as a heading.
     this.nameText = scene.add.text(textX, PAD, '', textStyle(scene, { color: COLORS.accent, fontSize: '16px' }));
+    this.roleText = scene.add.text(textX, PAD + 7, '', textStyle(scene, { color: COLORS.muted }));
     this.bodyText = scene.add.text(textX, PAD + 24, '', textStyle(scene, { wordWrap: { width: textWidth } }));
     for (let i = 0; i < MAX_CHOICES; i++) {
       this.choiceTexts.push(
@@ -103,6 +106,7 @@ export class DialogueBox {
       this.portraitImage,
       this.portraitLabel,
       this.nameText,
+      this.roleText,
       this.bodyText,
       ...this.choiceTexts,
       this.hint,
@@ -141,6 +145,10 @@ export class DialogueBox {
     this.portraitFrame.setVisible(!narration);
     this.portraitFill.setVisible(!narration);
     this.nameText.setVisible(!narration);
+    this.roleText
+      .setText(character?.role ? `(${character.role})` : '')
+      .setPosition(this.nameText.x + this.nameText.width + 8, this.nameText.y + 7)
+      .setVisible(!narration);
     if (narration) {
       this.portraitImage.setVisible(false);
       this.portraitLabel.setVisible(false);

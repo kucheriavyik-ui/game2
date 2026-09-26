@@ -94,11 +94,14 @@ export interface ParsedLocation {
 }
 
 /**
- * Every file under content/ becomes a URL Vite can serve (dev) or bundle (build).
+ * Every file under content/ is bundled into the game script as a string.
  * Adding a new content file requires no code change: it just shows up here.
+ * Not loaded as separate files on purpose: a host that serves .json without
+ * "charset=utf-8" makes the browser read Cyrillic as Latin-1 (mojibake), while
+ * the script itself is always decoded as UTF-8.
  */
-const contentUrls = import.meta.glob('/content/**/*.{json,txt}', {
-  query: '?url',
+const contentTexts = import.meta.glob('/content/**/*.{json,txt}', {
+  query: '?raw',
   import: 'default',
   eager: true,
 }) as Record<string, string>;
@@ -169,27 +172,30 @@ export function loyaltyLevel(def: CouncilDef, value: number): { label: string; c
   return def.levels.find((l) => value >= l.min) ?? def.levels[def.levels.length - 1] ?? { label: '?', color: '#ffffff' };
 }
 
-/** Queue every location, character and the compiled story into the Phaser loader. */
+/** Put every location, character and the compiled story into the Phaser caches. */
 export function queueContentFiles(loader: Phaser.Loader.LoaderPlugin): void {
-  for (const [path, url] of Object.entries(contentUrls)) {
+  const json = (key: string, text: string): void => {
+    loader.cacheManager.json.add(key, JSON.parse(text.replace(/^﻿/, '')));
+  };
+  for (const [path, text] of Object.entries(contentTexts)) {
     const [, , folder, ...rest] = path.split('/'); // "", "content", folder, ...
     const file = rest.join('/');
 
     if (folder === 'locations') {
-      if (file.endsWith('.json')) loader.json(`loc:${stripExt(file, '.json')}`, url);
-      else if (file.endsWith('.map.txt')) loader.text(`map:${file}`, url);
+      if (file.endsWith('.json')) json(`loc:${stripExt(file, '.json')}`, text);
+      else if (file.endsWith('.map.txt')) loader.cacheManager.text.add(`map:${file}`, text);
     } else if (folder === 'characters') {
-      if (file.endsWith('.json')) loader.json(`char:${stripExt(file, '.json')}`, url);
+      if (file.endsWith('.json')) json(`char:${stripExt(file, '.json')}`, text);
     } else if (folder === 'story') {
-      if (file === 'main.ink.json') loader.json(STORY_KEY, url);
+      if (file === 'main.ink.json') json(STORY_KEY, text);
     } else if (folder === 'journal.json') {
-      loader.json(JOURNAL_KEY, url);
+      json(JOURNAL_KEY, text);
     } else if (folder === 'months') {
-      if (file.endsWith('.json')) loader.json(`month:${stripExt(file, '.json')}`, url);
+      if (file.endsWith('.json')) json(`month:${stripExt(file, '.json')}`, text);
     } else if (folder === 'council.json') {
-      loader.json(COUNCIL_KEY, url);
+      json(COUNCIL_KEY, text);
     } else if (folder === 'resources.json') {
-      loader.json(RESOURCES_KEY, url);
+      json(RESOURCES_KEY, text);
     }
   }
 }

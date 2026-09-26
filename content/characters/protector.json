@@ -1,6 +1,7 @@
 {
   "id": "protector",
   "name": "Протектор",
+  "role": "Протектор Корвена",
   "color": "#b08d57",
   "portraits": {}
 }

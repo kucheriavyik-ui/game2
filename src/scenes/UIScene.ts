@@ -2,9 +2,10 @@ import Phaser from 'phaser';
 import { DialogueSystem, type DialogueLine } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
 import { Journal, type JournalDefs } from '../systems/Journal';
-import { findCharacter, JOURNAL_KEY, PEOPLE_KEY, type PeopleDef } from '../systems/LocationLoader';
+import { findCharacter, JOURNAL_KEY, PEOPLE_KEY, RESOURCES_KEY, type PeopleDef } from '../systems/LocationLoader';
 import { DialogueBox } from '../ui/DialogueBox';
 import { JournalPanel, type JournalTab } from '../ui/JournalPanel';
+import { ResourceBar, type ResourceDef } from '../ui/ResourceBar';
 import { COLORS, textStyle } from '../ui/theme';
 
 /**
@@ -20,6 +21,7 @@ export class UIScene extends Phaser.Scene {
   private readonly dialogue = new DialogueSystem();
   private box!: DialogueBox;
   private journalPanel!: JournalPanel;
+  private resources!: ResourceBar;
   private toast!: Phaser.GameObjects.Text;
   private current: DialogueLine | null = null;
   private pendingGoto: { location: string; spawn: string } | null = null;
@@ -32,9 +34,11 @@ export class UIScene extends Phaser.Scene {
   create(): void {
     this.box = new DialogueBox(this);
     this.journalPanel = new JournalPanel(this);
+    this.resources = new ResourceBar(this, (this.cache.json.get(RESOURCES_KEY) ?? []) as ResourceDef[]);
+    this.refreshResources(false);
     this.toast = this.add
-      .text(this.scale.width - 4, 4, '', textStyle(this, { color: COLORS.accent }))
-      .setOrigin(1, 0)
+      .text(this.scale.width / 2, 4, '', textStyle(this, { color: COLORS.accent }))
+      .setOrigin(0.5, 0)
       .setDepth(250)
       .setAlpha(0);
 
@@ -58,10 +62,11 @@ export class UIScene extends Phaser.Scene {
     };
     keyboard.on('keydown-SPACE', once(() => this.advance()));
     keyboard.on('keydown-ENTER', once(() => this.advance()));
-    (['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX'] as const).forEach((name, i) => {
+    (['ONE', 'TWO', 'THREE', 'FOUR'] as const).forEach((name, i) => {
       keyboard.on(`keydown-${name}`, once(() => this.choose(i)));
     });
     keyboard.on('keydown-J', once(() => this.toggleJournal()));
+    keyboard.on('keydown-R', once(() => this.resources.toggle()));
     // Arrows/WASD page through the journal while it is open.
     keyboard.on('keydown', (event: KeyboardEvent) => {
       if (this.journalPanel.isOpen) this.journalPanel.handleKey(event.code);
@@ -104,6 +109,8 @@ export class UIScene extends Phaser.Scene {
   }
 
   private showLine(line: DialogueLine | null): void {
+    // Choices change resources in Ink; the bars catch up after every step.
+    this.refreshResources(true);
     this.current = line;
     if (!line) {
       this.box.hide();
@@ -137,6 +144,10 @@ export class UIScene extends Phaser.Scene {
         this.pendingEnding = rest[0];
       }
     }
+  }
+
+  private refreshResources(announce: boolean): void {
+    this.resources.refresh((name) => Number(GameState.get(name) ?? 0), announce);
   }
 
   private showToast(text: string): void {

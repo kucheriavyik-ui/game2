@@ -63,6 +63,13 @@ for (const id of people.order) {
 }
 console.log(`  ok   ${people.order.length} people checked`);
 
+// --- 2b'. The HUD shows real Ink variables ------------------------------------
+console.log('Resources:');
+for (const r of JSON.parse(readFileSync('content/resources.json', 'utf8'))) {
+  if (inkVars.has(r.var)) console.log(`  ok   ${r.var}`);
+  else fail(`resources.json: "${r.var}" has no VAR in main.ink`);
+}
+
 // --- 2c. Chapters point at real locations and knots ------------------------
 const chaptersList = JSON.parse(readFileSync('content/chapters.json', 'utf8'));
 console.log('Chapters:');

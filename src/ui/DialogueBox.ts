@@ -9,8 +9,8 @@ const BOX_HEIGHT = 96;
 const PAD = 8;
 const PORTRAIT_SIZE = 56;
 const HINT_SPACE = 12;
-/** Ordinary lines offer up to 3 answers; only the evidence hub of a confrontation uses more. */
-export const MAX_CHOICES = 6;
+/** Keys 1-4 pick an answer. */
+export const MAX_CHOICES = 4;
 
 /**
  * Bottom-of-screen dialogue panel. The portrait is a placeholder frame

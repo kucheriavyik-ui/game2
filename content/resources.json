@@ -1,0 +1,6 @@
+[
+  { "var": "bread", "label": "Хліб", "color": "#c9a24a" },
+  { "var": "gold", "label": "Золото", "color": "#e0c060" },
+  { "var": "walls", "label": "Стіни", "color": "#8f9aa3" },
+  { "var": "order", "label": "Порядок", "color": "#b0503c" }
+]

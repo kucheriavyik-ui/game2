@@ -68,6 +68,8 @@ export interface LocationDef {
 export interface CharacterDef {
   id: string;
   name: string;
+  /** Seat on the council ("Маршал оборони"); shown in the journal later. */
+  role?: string;
   color: string;
   sprite?: string;
   portraits: Record<string, string>;
@@ -99,6 +101,7 @@ export const STORY_KEY = 'story:main';
 export const JOURNAL_KEY = 'journal';
 export const CHAPTERS_KEY = 'chapters';
 export const PEOPLE_KEY = 'people';
+export const RESOURCES_KEY = 'resources';
 
 /** Shape of content/chapters.json entries. */
 export interface ChapterDef {
@@ -146,6 +149,8 @@ export function queueContentFiles(loader: Phaser.Loader.LoaderPlugin): void {
       loader.json(CHAPTERS_KEY, url);
     } else if (folder === 'people.json') {
       loader.json(PEOPLE_KEY, url);
+    } else if (folder === 'resources.json') {
+      loader.json(RESOURCES_KEY, url);
     }
   }
 }

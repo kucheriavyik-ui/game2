@@ -31,6 +31,9 @@
     }
   },
   "entities": [
+    { "id": "council_table", "type": "council_table", "x": 2.5, "y": 5 },
+    { "id": "horn", "type": "npc", "x": 26, "y": 7, "ink": "horn_talk" },
+    { "id": "tobias", "type": "npc", "x": 18.5, "y": 4, "ink": "tobias_talk" },
     { "id": "shtarn", "type": "npc", "x": 17, "y": 6, "ink": "shtarn_talk" },
     { "id": "dec_barrels_1", "type": "decor", "x": 6, "y": 5, "sprite": "barrels" },
     { "id": "dec_crates_1", "type": "decor", "x": 29, "y": 5, "sprite": "crates" },

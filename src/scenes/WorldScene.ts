@@ -4,13 +4,13 @@ import { kitAnchor, kitFloorKey, renderBuildings } from '../systems/Buildings';
 import { findNearest, type Interactable } from '../systems/Interaction';
 import {
   findCharacter,
+  findMonth,
   parseLocation,
   TILE_SIZE,
   type EntityDef,
   type LocationDef,
   type ParsedLocation,
 } from '../systems/LocationLoader';
-import { SaveSystem } from '../systems/SaveSystem';
 import { renderTerrain } from '../systems/Terrain';
 import { Prompt } from '../ui/Prompt';
 import type { UIScene } from './UIScene';
@@ -22,7 +22,7 @@ interface WorldSceneData {
   spawn?: string;
   x?: number;
   y?: number;
-  /** Ink knot to play on arrival (a chapter's opening monologue). */
+  /** Ink knot to play on arrival (the month's council opening). */
   intro?: string;
 }
 
@@ -33,7 +33,6 @@ const INTERACT_RANGE = 18;
 const WALK_FPS = 8;
 
 export class WorldScene extends Phaser.Scene {
-  private locationId = '';
   private player!: Phaser.Physics.Arcade.Sprite;
   private facing: Direction = 'south';
   /** Texture keys of the hero's walk frames per direction; empty when there is no walk art. */
@@ -57,13 +56,12 @@ export class WorldScene extends Phaser.Scene {
 
   create(data: WorldSceneData): void {
     const location = parseLocation(this, data.location);
-    this.locationId = location.def.id;
     const layer = this.buildTiles(location);
     this.terrainAnimate = location.def.terrain ? renderTerrain(this, location, location.def.terrain)?.animate : undefined;
 
-    // Entities can belong to one chapter only (people move between chapters).
-    const chapter = (this.registry.get('chapter') as string | undefined) ?? 'm01';
-    const entities = location.def.entities.filter((e) => !e.chapter || e.chapter === chapter);
+    // Entities can belong to one month only (the same walls in month 1 and month 9).
+    const month = this.registry.get('month') as string | undefined;
+    const entities = location.def.entities.filter((e) => !e.month || e.month === month);
 
     // Doors standing on building cells become doorways in the facade instead of separate props.
     const doorCells = new Set(
@@ -101,13 +99,10 @@ export class WorldScene extends Phaser.Scene {
     this.uiLocked = false;
     this.readyAt = this.time.now + 300;
     this.game.events.on('ui:lock', this.onUiLock, this);
-    this.game.events.on('world:goto', this.goTo, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.game.events.off('ui:lock', this.onUiLock, this);
-      this.game.events.off('world:goto', this.goTo, this);
     });
 
-    this.autosave();
     if (data.intro) this.runKnotWhenUiReady(data.intro);
   }
 
@@ -189,17 +184,6 @@ export class WorldScene extends Phaser.Scene {
   private onUiLock(locked: boolean): void {
     this.uiLocked = locked;
     if (locked) this.lockedSince = this.time.now;
-    if (!locked) this.autosave();
-  }
-
-  private autosave(): void {
-    const feet = this.feet();
-    SaveSystem.save((this.registry.get('chapter') as string | undefined) ?? 'm01', this.locationId, feet.x, feet.y);
-  }
-
-  /** Saves right now (the pause menu calls this before leaving to the main menu). */
-  saveNow(): void {
-    this.autosave();
   }
 
   private openPause(event: KeyboardEvent): void {
@@ -415,6 +399,24 @@ export class WorldScene extends Phaser.Scene {
         // Above the ground texture (depth 1), below shadows (2) and everything standing.
         else if (entity.floor) this.add.image(x, y, texture).setDepth(1.5).setFlipX(entity.flip ?? false);
         else this.addProp(x, y, texture, entity.solid ?? true, entity.flip);
+        break;
+      }
+      case 'council_table': {
+        // The table always opens the council of the month being played.
+        const month = findMonth(this, this.registry.get('month') as string | undefined);
+        if (!month) throw new Error('Council table used outside a month');
+        const tableKey = AssetKeys.object(entity.sprite ?? entity.id);
+        const key = this.textures.exists(tableKey) ? tableKey : placeholderTexture(this, 'ph:council', 40, 24, '#6b4a2c');
+        const table = this.addProp(x, y, key, true, entity.flip);
+        this.interactables.push({
+          id: entity.id,
+          x,
+          y,
+          area: footprint(table),
+          verb: 'скликати раду',
+          label: entity.label ?? 'Стіл ради',
+          action: { kind: 'ink', knot: month.ink_council },
+        });
         break;
       }
       case 'door': {

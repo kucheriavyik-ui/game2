@@ -1,6 +1,7 @@
 {
   "id": "horn",
   "name": "Ріс Горн",
+  "short": "Горн",
   "role": "Капітан гарнізону",
   "color": "#6e4a2c",
   "portraits": {}

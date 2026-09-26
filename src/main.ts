@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import { BootScene } from './scenes/BootScene';
-import { ChapterScene } from './scenes/ChapterScene';
-import { EndScene } from './scenes/EndScene';
 import { MenuScene } from './scenes/MenuScene';
+import { MonthCardScene } from './scenes/MonthCardScene';
 import { PauseScene } from './scenes/PauseScene';
+import { StoryScene } from './scenes/StoryScene';
+import { SummaryScene } from './scenes/SummaryScene';
 import { UIScene } from './scenes/UIScene';
 import { WorldScene } from './scenes/WorldScene';
 import { FONT_LOAD } from './ui/theme';
@@ -27,7 +28,7 @@ function createGame(): Phaser.Game {
     // Zoom is applied manually below; index.html centres the canvas with flexbox.
     scale: { mode: Phaser.Scale.NONE },
     // Order is also draw order: later scenes are drawn on top.
-    scene: [BootScene, MenuScene, ChapterScene, WorldScene, UIScene, PauseScene, EndScene],
+    scene: [BootScene, MenuScene, MonthCardScene, WorldScene, UIScene, PauseScene, SummaryScene, StoryScene],
   });
 
   /**

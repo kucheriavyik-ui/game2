@@ -1,13 +1,13 @@
 import Phaser from 'phaser';
-import { continueGame, startNewGame } from '../systems/GameFlow';
-import { chapters, findChapter } from '../systems/LocationLoader';
+import { findMonth } from '../systems/LocationLoader';
+import { continueGame, startNewGame } from '../systems/MonthFlow';
 import { SaveSystem } from '../systems/SaveSystem';
 import { CONTROLS_TEXT, MenuList, type MenuItem } from '../ui/MenuList';
 import { COLORS, textStyle } from '../ui/theme';
 
-type View = 'main' | 'controls' | 'confirmNew' | 'chapter' | 'badSave';
+type View = 'main' | 'controls' | 'confirmNew' | 'badSave';
 
-/** Title screen: continue, new game, settings, controls. */
+/** Title screen: continue, new game, controls. */
 export class MenuScene extends Phaser.Scene {
   private list!: MenuList;
   private info!: Phaser.GameObjects.Text;
@@ -23,12 +23,12 @@ export class MenuScene extends Phaser.Scene {
 
     // 24px is three times the font's native 8px grid: large and still sharp.
     this.add.text(width / 2, 44, 'ОБЛОГА КОРВЕНА', textStyle(this, { fontSize: '24px', color: COLORS.accent })).setOrigin(0.5);
-    // The subtitle names the chapter of the saved game, if there is one.
+    // The subtitle names the month of the saved game, if there is one.
     const save = SaveSystem.load();
-    const chapter = save ? findChapter(this, save.chapter) : undefined;
-    if (chapter) {
+    const month = save ? findMonth(this, save.month) : undefined;
+    if (month) {
       this.add
-        .text(width / 2, 74, `Місяць ${chapter.number}. ${chapter.title}`, textStyle(this, { color: COLORS.muted }))
+        .text(width / 2, 74, `Місяць ${month.number}. ${month.title}`, textStyle(this, { color: COLORS.muted }))
         .setOrigin(0.5);
     }
 
@@ -68,7 +68,7 @@ export class MenuScene extends Phaser.Scene {
               if (!continueGame(this)) this.show('badSave');
             },
           },
-          { label: 'Нова гра', onConfirm: () => this.show(hasSave ? 'confirmNew' : 'chapter') },
+          { label: 'Нова гра', onConfirm: () => (hasSave ? this.show('confirmNew') : startNewGame(this)) },
           { label: 'Керування', onConfirm: () => this.show('controls') },
         ],
       },
@@ -77,25 +77,14 @@ export class MenuScene extends Phaser.Scene {
         text: 'Почати заново?\nПоточне збереження буде втрачено.',
         items: [
           { label: 'Ні, назад', onConfirm: () => this.show('main') },
-          { label: 'Так, нова гра', onConfirm: () => this.show('chapter') },
+          { label: 'Так, нова гра', onConfirm: () => startNewGame(this) },
         ],
       },
       badSave: {
-        text: 'Збереження не підходить до цієї версії гри.\nПочніть розділ заново.',
+        text: 'Збереження не підходить до цієї версії гри.\nДоведеться почати заново.',
         items: [
-          { label: 'Обрати розділ', onConfirm: () => this.show('chapter') },
+          { label: 'Нова гра', onConfirm: () => startNewGame(this) },
           { label: 'Назад', onConfirm: () => this.scene.restart() },
-        ],
-      },
-      // Any chapter can be started on its own; a later one sets up the state it assumes.
-      chapter: {
-        text: 'З якого розділу почати?',
-        items: [
-          ...chapters(this).map((ch) => ({
-            label: `Розділ ${ch.number}. ${ch.title}`,
-            onConfirm: () => startNewGame(this, ch.id),
-          })),
-          back,
         ],
       },
     };

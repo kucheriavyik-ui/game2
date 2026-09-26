@@ -2,51 +2,65 @@ import Phaser from 'phaser';
 import { DialogueSystem, type DialogueLine } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
 import { Journal, type JournalDefs } from '../systems/Journal';
-import { findCharacter, JOURNAL_KEY, PEOPLE_KEY, RESOURCES_KEY, type PeopleDef } from '../systems/LocationLoader';
+import { council, findCharacter, JOURNAL_KEY, RESOURCES_KEY } from '../systems/LocationLoader';
+import { finishMonth, gameOver } from '../systems/MonthFlow';
 import { DialogueBox } from '../ui/DialogueBox';
 import { JournalPanel, type JournalTab } from '../ui/JournalPanel';
 import { ResourceBar, type ResourceDef } from '../ui/ResourceBar';
 import { COLORS, textStyle } from '../ui/theme';
 
 /**
- * Overlay scene that runs on top of the world. Owns the dialogue box and the
- * journal, drives conversations and reacts to Ink tags. Talks to the world
- * through game-wide events:
- *   'dialogue:start' (knot)              — world asks to run a knot
- *   'ui:lock' (locked: boolean)          — UI opened/closed; world freezes the player while locked
- *   'world:goto' (location, spawn)       — an Ink `# goto:` tag asked for a location change
- *   'ui:journal' (tab)                   — the pause menu asks to open the journal on a tab
+ * Overlay scene that runs on top of the world. Owns the dialogue box, the
+ * resource bars and the journal, drives conversations and reacts to Ink tags:
+ *   # journal:<id>     — journal entry (and, for Knowledge, sets the Ink VAR)
+ *   # council_open     — the conversation is now the council: dim the world, show the banner
+ *   # month_end        — when the conversation ends, the month ends
+ *   # game_over:<id>   — when the conversation ends, the city falls
+ * Talks to the world through game-wide events:
+ *   'dialogue:start' (knot)       — world asks to run a knot
+ *   'ui:lock' (locked: boolean)   — UI opened/closed; world freezes the player while locked
+ *   'ui:journal' (tab)            — the pause menu asks to open the journal on a tab
  */
 export class UIScene extends Phaser.Scene {
   private readonly dialogue = new DialogueSystem();
   private box!: DialogueBox;
   private journalPanel!: JournalPanel;
   private resources!: ResourceBar;
+  private councilLayer!: Phaser.GameObjects.Container;
   private toast!: Phaser.GameObjects.Text;
   private current: DialogueLine | null = null;
-  private pendingGoto: { location: string; spawn: string } | null = null;
-  private pendingEnding: string | null = null;
+  private monthEnds = false;
+  private defeat: string | null = null;
 
   constructor() {
     super('UI');
   }
 
   create(): void {
+    const { width, height } = this.scale;
+    this.councilLayer = this.add
+      .container(0, 0, [
+        this.add.rectangle(0, 0, width, height, 0x0b0a0a, 0.6).setOrigin(0),
+        // Left of the resource bars, which stay visible over the dimmed world.
+        this.add.text(12, 30, 'РАДА КОРВЕНА', textStyle(this, { fontSize: '16px', color: COLORS.accent })),
+      ])
+      .setDepth(100)
+      .setVisible(false);
     this.box = new DialogueBox(this);
     this.journalPanel = new JournalPanel(this);
     this.resources = new ResourceBar(this, (this.cache.json.get(RESOURCES_KEY) ?? []) as ResourceDef[]);
     this.refreshResources(false);
     this.toast = this.add
-      .text(this.scale.width / 2, 4, '', textStyle(this, { color: COLORS.accent }))
+      .text(width / 2, 4, '', textStyle(this, { color: COLORS.accent }))
       .setOrigin(0.5, 0)
       .setDepth(250)
       .setAlpha(0);
 
-    // Phaser reuses the scene object when the UI is launched again (after the
-    // main menu), so state from the previous game must be cleared here.
+    // Phaser reuses the scene object when the UI is launched again (next month,
+    // after the main menu), so state from before must be cleared here.
     this.current = null;
-    this.pendingGoto = null;
-    this.pendingEnding = null;
+    this.monthEnds = false;
+    this.defeat = null;
     this.game.events.on('dialogue:start', this.startDialogue, this);
     this.game.events.on('ui:journal', this.openJournal, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
@@ -93,8 +107,8 @@ export class UIScene extends Phaser.Scene {
   private startDialogue(knot: string): void {
     if (this.journalPanel.isOpen) return;
     this.game.events.emit('ui:lock', true);
-    this.pendingGoto = null;
-    this.pendingEnding = null;
+    this.monthEnds = false;
+    this.defeat = null;
     this.showLine(this.dialogue.start(knot));
   }
 
@@ -112,42 +126,44 @@ export class UIScene extends Phaser.Scene {
     // Choices change resources in Ink; the bars catch up after every step.
     this.refreshResources(true);
     this.current = line;
-    if (!line) {
-      this.box.hide();
-      if (this.pendingEnding) {
-        // The world is done; the epilogue takes over the whole screen.
-        this.scene.stop('World');
-        this.scene.start('End', { id: this.pendingEnding });
-        return;
-      }
-      this.game.events.emit('ui:lock', false);
-      if (this.pendingGoto) {
-        const { location, spawn } = this.pendingGoto;
-        this.pendingGoto = null;
-        this.game.events.emit('world:goto', location, spawn);
-      }
+    if (line) {
+      this.handleTags(line.tags);
+      this.box.show(line, findCharacter(this, line.speaker), (id) => findCharacter(this, id));
       return;
     }
-    this.handleTags(line.tags);
-    this.box.show(line, findCharacter(this, line.speaker));
+
+    this.handleTags(this.dialogue.leftoverTags);
+    this.box.hide();
+    this.councilLayer.setVisible(false);
+    if (this.defeat) {
+      gameOver(this, this.defeat);
+      return;
+    }
+    if (this.monthEnds) {
+      finishMonth(this);
+      return;
+    }
+    this.game.events.emit('ui:lock', false);
   }
 
-  /** Engine-facing Ink tags. `speaker` and `portrait` are handled by DialogueSystem. */
-  private handleTags(tags: string[]): void {
+  /** Engine-facing Ink tags. `speaker` and `portrait` are handled by DialogueSystem, `stance` by DialogueBox. */
+  private handleTags(tags: readonly string[]): void {
     for (const tag of tags) {
-      const [key, ...rest] = tag.split(':').map((s) => s.trim());
-      if (key === 'journal' && rest[0] === 'add' && rest[1]) {
-        if (Journal.add(rest[1])) this.showToast('Нова нитка · J');
-      } else if (key === 'goto' && rest[0]) {
-        this.pendingGoto = { location: rest[0], spawn: rest[1] ?? 'start' };
-      } else if (key === 'end_episode' && rest[0]) {
-        this.pendingEnding = rest[0];
+      const [key, value] = tag.split(':').map((s) => s.trim());
+      if (key === 'journal' && value) {
+        if (Journal.add(value)) this.showToast('Новий запис у журналі · J');
+      } else if (key === 'council_open') {
+        this.councilLayer.setVisible(true);
+      } else if (key === 'month_end') {
+        this.monthEnds = true;
+      } else if (key === 'game_over' && value) {
+        this.defeat = value;
       }
     }
   }
 
   private refreshResources(announce: boolean): void {
-    this.resources.refresh((name) => Number(GameState.get(name) ?? 0), announce);
+    this.resources.refresh((name) => GameState.num(name), announce);
   }
 
   private showToast(text: string): void {
@@ -167,10 +183,10 @@ export class UIScene extends Phaser.Scene {
   private openJournal(tab?: JournalTab): void {
     this.journalPanel.show(
       {
-        threadIds: Journal.ids,
-        threads: (this.cache.json.get(JOURNAL_KEY) ?? {}) as JournalDefs,
-        people: this.cache.json.get(PEOPLE_KEY) as PeopleDef | undefined,
-        isTrue: (name) => Boolean(GameState.get(name)),
+        entryIds: Journal.ids,
+        entries: (this.cache.json.get(JOURNAL_KEY) ?? {}) as JournalDefs,
+        council: council(this),
+        loyalty: (id) => GameState.num(`loy_${id}`),
         character: (id) => findCharacter(this, id),
       },
       tab,

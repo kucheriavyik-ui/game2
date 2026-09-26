@@ -1,0 +1,10 @@
+{
+  "id": "m02",
+  "number": 2,
+  "title": "Хліб і сіль",
+  "flavor": "Хліб подорожчав учетверо. Черги до комор починаються до світанку.",
+  "location": "gate",
+  "ink_open": "m02_open",
+  "ink_council": "m02_council",
+  "ink_end": "m02_end"
+}

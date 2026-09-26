@@ -6,7 +6,9 @@ export interface DialogueLine {
   portrait: string;
   text: string;
   choices: string[];
-  /** Raw tags of this line, for systems that react to e.g. `journal:add:...`. */
+  /** Tags of each choice, same order (`stance:shtarn:for`). */
+  choiceTags: string[][];
+  /** Raw tags of this line (and of tag-only lines just before it), e.g. `journal:k_timber`. */
   tags: string[];
 }
 
@@ -21,9 +23,20 @@ export class DialogueSystem {
   private speaker = DEFAULT_SPEAKER;
   private portrait = `${DEFAULT_SPEAKER}_neutral`;
   private active = false;
+  /** Tags from lines with no text, waiting for the next line that has some. */
+  private carried: string[] = [];
+  private leftover: string[] = [];
 
   get isActive(): boolean {
     return this.active;
+  }
+
+  /**
+   * Tags that came after the last line of text (`# month_end` on its own line
+   * at the end of a knot). Read them once `next()` has returned null.
+   */
+  get leftoverTags(): readonly string[] {
+    return this.leftover;
   }
 
   /** Jump to a knot and return its first line, or null if it has no content. */
@@ -31,6 +44,8 @@ export class DialogueSystem {
     this.speaker = DEFAULT_SPEAKER;
     this.portrait = `${DEFAULT_SPEAKER}_neutral`;
     this.active = true;
+    this.carried = [];
+    this.leftover = [];
     GameState.story.ChoosePathString(knot);
     return this.advance();
   }
@@ -53,27 +68,39 @@ export class DialogueSystem {
 
     while (story.canContinue) {
       const text = (story.Continue() ?? '').trim();
-      const tags = story.currentTags ?? [];
-      this.applyTags(tags);
-      if (text.length === 0) continue; // tag-only line, nothing to show
-
-      const choices = story.canContinue ? [] : story.currentChoices.map((c) => c.text);
-      return { speaker: this.speaker, portrait: this.portrait, text, choices, tags };
+      const tags = [...this.carried, ...(story.currentTags ?? [])];
+      this.applyTags(story.currentTags ?? []);
+      if (text.length === 0) {
+        this.carried = tags; // tag-only line: keep its tags for the next line
+        continue;
+      }
+      this.carried = [];
+      return this.line(text, story.canContinue, tags);
     }
 
     // No text left but choices are pending (e.g. a knot that opens with choices).
     if (story.currentChoices.length > 0) {
-      return {
-        speaker: this.speaker,
-        portrait: this.portrait,
-        text: '',
-        choices: story.currentChoices.map((c) => c.text),
-        tags: [],
-      };
+      const tags = this.carried;
+      this.carried = [];
+      return this.line('', false, tags);
     }
 
+    this.leftover = this.carried;
+    this.carried = [];
     this.active = false;
     return null;
+  }
+
+  private line(text: string, more: boolean, tags: string[]): DialogueLine {
+    const choices = more ? [] : GameState.story.currentChoices;
+    return {
+      speaker: this.speaker,
+      portrait: this.portrait,
+      text,
+      choices: choices.map((c) => c.text),
+      choiceTags: choices.map((c) => c.tags ?? []),
+      tags,
+    };
   }
 
   private applyTags(tags: string[]): void {

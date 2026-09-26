@@ -1,16 +1,20 @@
+import { GameState } from './GameState';
+
 /** Shape of content/journal.json: entry id -> { title, text }. */
 export type JournalDefs = Record<string, { title: string; text: string }>;
 
 /**
- * The "Threads" journal: an ordered list of entry ids that Ink tags
- * (`# journal:add:<id>`) have unlocked. Entry texts live in content/journal.json.
- * This is the one piece of state kept outside Ink; SaveSystem persists it.
+ * The journal: entry ids in the order the Ink tag `# journal:<id>` unlocked them.
+ * Entry texts live in content/journal.json. When Ink declares a VAR with the
+ * same name (Knowledge, `k_*`), the tag also sets it to true, so hidden council
+ * options can check it — writers tag the line and nothing else.
  */
 const ids: string[] = [];
 
 export const Journal = {
   /** Returns true if the entry was new. */
   add(id: string): boolean {
+    if (GameState.has(id)) GameState.set(id, true);
     if (ids.includes(id)) return false;
     ids.push(id);
     return true;

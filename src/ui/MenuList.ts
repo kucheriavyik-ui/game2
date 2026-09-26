@@ -119,7 +119,7 @@ export class MenuList {
 
 export const CONTROLS_TEXT = [
   'WASD / стрілки - рух',
-  'E - поговорити, оглянути, увійти',
+  'E - поговорити, оглянути',
   'Space / Enter - далі',
   '1-4 - вибрати відповідь',
   'J - журнал',

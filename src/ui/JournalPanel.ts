@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { AssetKeys } from '../systems/Assets';
 import type { JournalDefs } from '../systems/Journal';
-import type { CharacterDef, PeopleDef } from '../systems/LocationLoader';
+import { loyaltyLevel, type CharacterDef, type CouncilDef } from '../systems/LocationLoader';
 import { COLORS, textStyle } from './theme';
 
 const PAD = 12;
@@ -9,20 +9,21 @@ const TOP = 40;
 const PORTRAIT = 28;
 const SCROLL_STEP = 24;
 
-export type JournalTab = 'threads' | 'people';
+export type JournalTab = 'knowledge' | 'council';
 
 export interface JournalData {
-  threadIds: readonly string[];
-  threads: JournalDefs;
-  people: PeopleDef | undefined;
-  /** Truthiness of an Ink variable. */
-  isTrue(name: string): boolean;
+  /** Unlocked entries, oldest first. */
+  entryIds: readonly string[];
+  entries: JournalDefs;
+  council: CouncilDef;
+  /** An advisor's loyalty, 0..10 (shown only as a word). */
+  loyalty(id: string): number;
   character(id: string): CharacterDef | undefined;
 }
 
 /**
- * Full-screen journal with two tabs: «Нитки» (leads) and «Люди» (what the
- * hero has learned about each person). ←/→ switches tabs, ↑/↓ scrolls.
+ * Full-screen journal with two tabs: «Знання» (what the Protector has learned)
+ * and «Рада» (each advisor's seat and mood). ←/→ switches tabs, ↑/↓ scrolls.
  */
 export class JournalPanel {
   private readonly scene: Phaser.Scene;
@@ -31,7 +32,7 @@ export class JournalPanel {
   private readonly tabTexts: Record<JournalTab, Phaser.GameObjects.Text>;
   private readonly width: number;
   private readonly viewHeight: number;
-  private tab: JournalTab = 'threads';
+  private tab: JournalTab = 'knowledge';
   private data: JournalData | null = null;
   private scroll = 0;
   private contentHeight = 0;
@@ -44,8 +45,8 @@ export class JournalPanel {
 
     const bg = scene.add.rectangle(0, 0, this.width, height, 0x14100e, 0.97).setOrigin(0);
     this.tabTexts = {
-      threads: scene.add.text(PAD, PAD, 'Нитки', textStyle(scene, { fontSize: '16px' })),
-      people: scene.add.text(PAD + 110, PAD, 'Люди', textStyle(scene, { fontSize: '16px' })),
+      knowledge: scene.add.text(PAD, PAD, 'Знання', textStyle(scene, { fontSize: '16px' })),
+      council: scene.add.text(PAD + 120, PAD, 'Рада', textStyle(scene, { fontSize: '16px' })),
     };
     const hint = scene.add
       .text(this.width / 2, height - 10, 'A/D - вкладки · W/S - гортати · J/Esc - закрити', textStyle(scene, { color: COLORS.muted }))
@@ -57,7 +58,7 @@ export class JournalPanel {
     maskShape.fillStyle(0xffffff).fillRect(0, TOP - 2, this.width, this.viewHeight + 4);
     this.entries.setMask(maskShape.createGeometryMask());
 
-    this.container = scene.add.container(0, 0, [bg, this.tabTexts.threads, this.tabTexts.people, hint, this.entries]);
+    this.container = scene.add.container(0, 0, [bg, this.tabTexts.knowledge, this.tabTexts.council, hint, this.entries]);
     this.container.setDepth(300).setVisible(false);
   }
 
@@ -84,7 +85,7 @@ export class JournalPanel {
       case 'ArrowRight':
       case 'KeyD':
       case 'Tab':
-        this.setTab(this.tab === 'threads' ? 'people' : 'threads');
+        this.setTab(this.tab === 'knowledge' ? 'council' : 'knowledge');
         return true;
       case 'ArrowUp':
       case 'KeyW':
@@ -101,12 +102,12 @@ export class JournalPanel {
 
   private setTab(tab: JournalTab): void {
     this.tab = tab;
-    this.tabTexts.threads.setColor(tab === 'threads' ? COLORS.accent : '#4a4238');
-    this.tabTexts.people.setColor(tab === 'people' ? COLORS.accent : '#4a4238');
+    this.tabTexts.knowledge.setColor(tab === 'knowledge' ? COLORS.accent : '#4a4238');
+    this.tabTexts.council.setColor(tab === 'council' ? COLORS.accent : '#4a4238');
     this.entries.removeAll(true);
     this.scroll = 0;
     if (!this.data) return;
-    this.contentHeight = tab === 'threads' ? this.renderThreads(this.data) : this.renderPeople(this.data);
+    this.contentHeight = tab === 'knowledge' ? this.renderKnowledge(this.data) : this.renderCouncil(this.data);
     this.entries.setY(TOP);
   }
 
@@ -122,13 +123,13 @@ export class JournalPanel {
     return t.height;
   }
 
-  private renderThreads(data: JournalData): number {
-    if (data.threadIds.length === 0) return this.empty('Поки що нічого. Поговоріть із людьми і роздивіться речі.');
+  private renderKnowledge(data: JournalData): number {
+    if (data.entryIds.length === 0) return this.empty('Поки що нічого. Поговоріть із людьми і роздивіться речі.');
     const textWidth = this.width - PAD * 2;
     let y = 0;
-    // Newest first, so the latest lead is always on top.
-    for (const id of [...data.threadIds].reverse()) {
-      const def = data.threads[id];
+    // Newest first, so the latest entry is always on top.
+    for (const id of [...data.entryIds].reverse()) {
+      const def = data.entries[id];
       const title = this.scene.add.text(0, y, `* ${def?.title ?? id}`, textStyle(this.scene, { color: COLORS.accent }));
       y += title.height + 3;
       const body = this.scene.add.text(10, y, def?.text ?? '', textStyle(this.scene, { wordWrap: { width: textWidth - 10 } }));
@@ -138,37 +139,28 @@ export class JournalPanel {
     return y;
   }
 
-  private renderPeople(data: JournalData): number {
-    const people = data.people;
-    if (!people) return this.empty('Немає даних про людей.');
+  private renderCouncil(data: JournalData): number {
+    if (data.council.advisors.length === 0) return this.empty('Ради немає.');
     const textX = PORTRAIT + 10;
-    const textWidth = this.width - PAD * 2 - textX;
     let y = 0;
-    for (const id of people.order) {
-      const lines = (people.people[id] ?? []).filter((line) => whenTrue(line.when, data.isTrue));
-      if (lines.length === 0) continue;
+    for (const id of data.council.advisors) {
       const character = data.character(id);
-
       const portraitKey = AssetKeys.portrait(character?.portraits.neutral ?? `${id}_neutral`);
       if (this.scene.textures.exists(portraitKey)) {
         this.entries.add(this.scene.add.image(0, y, portraitKey).setOrigin(0).setDisplaySize(PORTRAIT, PORTRAIT));
+      } else {
+        const color = Phaser.Display.Color.HexStringToColor(character?.color ?? '#555555').color;
+        this.entries.add(this.scene.add.rectangle(0, y, PORTRAIT, PORTRAIT, color).setOrigin(0));
       }
-      const name = this.scene.add.text(textX, y, character?.name ?? id, textStyle(this.scene, { color: COLORS.accent }));
-      this.entries.add(name);
-      let ty = y + name.height + 4;
-      for (const line of lines) {
-        const t = this.scene.add.text(textX, ty, `- ${line.text}`, textStyle(this.scene, { wordWrap: { width: textWidth } }));
-        this.entries.add(t);
-        ty += t.height + 4;
-      }
-      y = Math.max(ty, y + PORTRAIT) + 10;
+      const name = this.scene.add.text(textX, y + 2, character?.name ?? id, textStyle(this.scene, { color: COLORS.accent }));
+      const role = this.scene.add.text(textX, y + 15, character?.role ?? '', textStyle(this.scene, { color: COLORS.muted }));
+      const level = loyaltyLevel(data.council, data.loyalty(id));
+      const mood = this.scene.add
+        .text(this.width - PAD * 2, y + 2, level.label, textStyle(this.scene, { color: level.color }))
+        .setOrigin(1, 0);
+      this.entries.add([name, role, mood]);
+      y += PORTRAIT + 6;
     }
-    return y === 0 ? this.empty('Ви ще ні з ким не говорили.') : y;
+    return y;
   }
-}
-
-/** `when` is an Ink variable name, optionally prefixed with ! for "is false". */
-function whenTrue(when: string, isTrue: (name: string) => boolean): boolean {
-  const w = when.trim();
-  return w.startsWith('!') ? !isTrue(w.slice(1).trim()) : isTrue(w);
 }

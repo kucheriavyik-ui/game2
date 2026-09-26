@@ -29,7 +29,7 @@ export interface SpawnPoint {
  */
 export interface EntityDef {
   id: string;
-  type: 'npc' | 'object' | 'door' | 'decor';
+  type: 'npc' | 'object' | 'door' | 'decor' | 'council_table';
   x: number;
   y: number;
   sprite?: string;
@@ -48,8 +48,8 @@ export interface EntityDef {
   label?: string;
   /** decor/object: mirror the sprite left-right (so slanted furniture all leans the same way). */
   flip?: boolean;
-  /** Only present in this chapter (id from chapters.json); omitted = every chapter. */
-  chapter?: string;
+  /** Only present in this month (id from content/months); omitted = every month. */
+  month?: string;
 }
 
 /** Shape of content/locations/<id>.json */
@@ -68,6 +68,8 @@ export interface LocationDef {
 export interface CharacterDef {
   id: string;
   name: string;
+  /** How others call them ("Штарн"); its first letter marks their stance in the council. */
+  short?: string;
   /** Seat on the council ("Маршал оборони"); shown in the journal later. */
   role?: string;
   color: string;
@@ -99,35 +101,53 @@ const contentUrls = import.meta.glob('/content/**/*.{json,txt}', {
 
 export const STORY_KEY = 'story:main';
 export const JOURNAL_KEY = 'journal';
-export const CHAPTERS_KEY = 'chapters';
-export const PEOPLE_KEY = 'people';
 export const RESOURCES_KEY = 'resources';
+export const COUNCIL_KEY = 'council';
 
-/** Shape of content/chapters.json entries. */
-export interface ChapterDef {
+/** Shape of content/months/<id>.json. */
+export interface MonthDef {
   id: string;
   number: number;
   title: string;
-  start: { location: string; spawn: string };
-  /** Ink knot played when the chapter begins. */
-  intro?: string;
-  /** Ink knot run silently before the chapter starts (sets the variables it assumes). */
-  setup?: string;
+  /** One sentence of atmosphere on the month's title card. */
+  flavor: string;
+  location: string;
+  /** Knot played on arrival: the council reports and names the crisis. */
+  ink_open: string;
+  /** Knot behind the council table: the decisions; ends with `# month_end`. */
+  ink_council: string;
+  /** Knot for the summary screen: upkeep, one line per consequence, then the defeat check. */
+  ink_end: string;
 }
 
-/** Shape of content/people.json. */
-export interface PeopleDef {
-  order: string[];
-  people: Record<string, { when: string; text: string }[]>;
+/** Shape of content/council.json: who sits on the council and how loyalty reads in words. */
+export interface CouncilDef {
+  /** Advisor ids in display order; each has a character file and an Ink VAR loy_<id>. */
+  advisors: string[];
+  /** Highest first: the first level whose `min` the loyalty reaches is shown. */
+  levels: { min: number; label: string; color: string }[];
 }
 
-export function chapters(scene: Phaser.Scene): ChapterDef[] {
-  return (scene.cache.json.get(CHAPTERS_KEY) as ChapterDef[] | undefined) ?? [];
+/** All months, in order. */
+export function months(scene: Phaser.Scene): MonthDef[] {
+  return scene.cache.json
+    .getKeys()
+    .filter((k: string) => k.startsWith('month:'))
+    .map((k: string) => scene.cache.json.get(k) as MonthDef)
+    .sort((a: MonthDef, b: MonthDef) => a.number - b.number);
 }
 
-export function findChapter(scene: Phaser.Scene, id: string | undefined): ChapterDef | undefined {
-  const list = chapters(scene);
-  return list.find((c) => c.id === id) ?? list[0];
+export function findMonth(scene: Phaser.Scene, id: string | undefined): MonthDef | undefined {
+  return months(scene).find((m) => m.id === id);
+}
+
+export function council(scene: Phaser.Scene): CouncilDef {
+  return (scene.cache.json.get(COUNCIL_KEY) as CouncilDef | undefined) ?? { advisors: [], levels: [] };
+}
+
+/** Loyalty in words ("спокійний"): the player never sees the number. */
+export function loyaltyLevel(def: CouncilDef, value: number): { label: string; color: string } {
+  return def.levels.find((l) => value >= l.min) ?? def.levels[def.levels.length - 1] ?? { label: '?', color: '#ffffff' };
 }
 
 /** Queue every location, character and the compiled story into the Phaser loader. */
@@ -145,10 +165,10 @@ export function queueContentFiles(loader: Phaser.Loader.LoaderPlugin): void {
       if (file === 'main.ink.json') loader.json(STORY_KEY, url);
     } else if (folder === 'journal.json') {
       loader.json(JOURNAL_KEY, url);
-    } else if (folder === 'chapters.json') {
-      loader.json(CHAPTERS_KEY, url);
-    } else if (folder === 'people.json') {
-      loader.json(PEOPLE_KEY, url);
+    } else if (folder === 'months') {
+      if (file.endsWith('.json')) loader.json(`month:${stripExt(file, '.json')}`, url);
+    } else if (folder === 'council.json') {
+      loader.json(COUNCIL_KEY, url);
     } else if (folder === 'resources.json') {
       loader.json(RESOURCES_KEY, url);
     }

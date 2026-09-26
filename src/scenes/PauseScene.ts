@@ -1,10 +1,9 @@
 import Phaser from 'phaser';
-import { toMainMenu } from '../systems/GameFlow';
+import { toMainMenu } from '../systems/MonthFlow';
 import { CONTROLS_TEXT, MenuList, type MenuItem } from '../ui/MenuList';
 import { COLORS, textStyle } from '../ui/theme';
-import type { WorldScene } from './WorldScene';
 
-type View = 'main' | 'controls';
+type View = 'main' | 'controls' | 'confirmQuit';
 
 /**
  * Esc menu over the world. The world is frozen (ui:lock) while it is open.
@@ -59,13 +58,21 @@ export class PauseScene extends Phaser.Scene {
         text: '',
         items: [
           { label: 'Продовжити', onConfirm: () => this.close() },
-          { label: 'Нитки', onConfirm: () => this.openJournal('threads') },
-          { label: 'Люди', onConfirm: () => this.openJournal('people') },
+          { label: 'Знання', onConfirm: () => this.openJournal('knowledge') },
+          { label: 'Рада', onConfirm: () => this.openJournal('council') },
           { label: 'Керування', onConfirm: () => this.show('controls') },
-          { label: 'Вийти в головне меню', onConfirm: () => this.quitToMenu() },
+          { label: 'Вийти в головне меню', onConfirm: () => this.show('confirmQuit') },
         ],
       },
       controls: { text: CONTROLS_TEXT, items: [back] },
+      // The game saves only at the start of a month.
+      confirmQuit: {
+        text: 'Гра зберігається на початку місяця.\nЦей місяць доведеться почати заново.',
+        items: [
+          { label: 'Ні, назад', onConfirm: () => this.show('main') },
+          { label: 'Так, вийти', onConfirm: () => toMainMenu(this) },
+        ],
+      },
     };
     const { text, items } = views[view];
     this.info.setText(text);
@@ -80,14 +87,10 @@ export class PauseScene extends Phaser.Scene {
     this.scene.stop();
   }
 
-  private openJournal(tab: 'threads' | 'people'): void {
+  private openJournal(tab: 'knowledge' | 'council'): void {
     this.scene.stop();
     // The journal keeps the world locked; closing it releases the lock.
     this.game.events.emit('ui:journal', tab);
   }
 
-  private quitToMenu(): void {
-    (this.scene.get('World') as WorldScene).saveNow();
-    toMainMenu(this);
-  }
 }

@@ -12,6 +12,26 @@ const HINT_SPACE = 12;
 /** Keys 1-4 pick an answer. */
 export const MAX_CHOICES = 4;
 
+const CHIP_SIZE = 11;
+const CHIP_STEP = 13;
+const STANCE_COLORS = { for: 0x3f7a4a, against: 0x8a3226, neutral: 0x4a4238 } as const;
+
+interface Stance {
+  id: string;
+  position: keyof typeof STANCE_COLORS;
+}
+
+/** `stance:<advisor>:for|against|neutral` tags of one choice. */
+function parseStances(tags: readonly string[]): Stance[] {
+  const result: Stance[] = [];
+  for (const tag of tags) {
+    const [key, id, position] = tag.split(':').map((s) => s.trim());
+    if (key !== 'stance' || !id || !position) continue;
+    if (position === 'for' || position === 'against' || position === 'neutral') result.push({ id, position });
+  }
+  return result;
+}
+
 /**
  * Bottom-of-screen dialogue panel. The portrait is a placeholder frame
  * showing the character's colour and name; swapping in real portraits
@@ -28,6 +48,9 @@ export class DialogueBox {
   private readonly bodyText: Phaser.GameObjects.Text;
   private readonly choiceTexts: Phaser.GameObjects.Text[] = [];
   private readonly hint: Phaser.GameObjects.Text;
+  private readonly textWidth: number;
+  /** Advisor stance chips next to the current choices; rebuilt for every line. */
+  private chips: Phaser.GameObjects.GameObject[] = [];
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
@@ -55,6 +78,7 @@ export class DialogueBox {
 
     const textX = PAD * 2 + PORTRAIT_SIZE;
     const textWidth = width - textX - PAD;
+    this.textWidth = textWidth;
     // The speaker's name at twice the font's native size, so it reads as a heading.
     this.nameText = scene.add.text(textX, PAD, '', textStyle(scene, { color: COLORS.accent, fontSize: '16px' }));
     this.bodyText = scene.add.text(textX, PAD + 24, '', textStyle(scene, { wordWrap: { width: textWidth } }));
@@ -82,7 +106,7 @@ export class DialogueBox {
     this.container.setDepth(200).setVisible(false);
   }
 
-  show(line: DialogueLine, character: CharacterDef | undefined): void {
+  show(line: DialogueLine, character: CharacterDef | undefined, lookup: (id: string) => CharacterDef | undefined): void {
     const name = character?.name ?? line.speaker;
     const color = Phaser.Display.Color.HexStringToColor(character?.color ?? '#555555').color;
 
@@ -104,22 +128,34 @@ export class DialogueBox {
       this.portraitLabel.setVisible(false);
     } else {
       this.portraitImage.setVisible(false);
-      this.portraitLabel.setText(expression).setVisible(true);
+      // Placeholder until portraits are drawn: who is speaking, and the mood the art will need.
+      const who = character?.short ?? name;
+      this.portraitLabel.setText(expression === 'neutral' ? who : `${who}\n${expression}`).setVisible(true);
     }
     this.nameText.setText(name);
     this.bodyText.setText(line.text);
 
+    for (const chip of this.chips) chip.destroy();
+    this.chips = [];
+    let anyStance = false;
     let y = this.bodyText.y + this.bodyText.height + 6;
     this.choiceTexts.forEach((t, i) => {
       const choice = line.choices[i];
       t.setVisible(choice !== undefined);
       if (choice === undefined) return;
+      const stances = parseStances(line.choiceTags[i] ?? []);
+      if (stances.length > 0) anyStance = true;
+      const chipsWidth = stances.length * CHIP_STEP;
+      t.setWordWrapWidth(this.textWidth - (chipsWidth > 0 ? chipsWidth + 6 : 0));
       t.setText(`${i + 1}. ${choice}`);
       t.setY(y);
-      y += t.height + 3;
+      this.addChips(stances, y, lookup);
+      y += Math.max(t.height, stances.length > 0 ? CHIP_SIZE : 0) + 3;
     });
 
-    const showHint = line.choices.length === 0;
+    // With choices on screen the hint line explains the stance chips instead of "> Space".
+    const showHint = line.choices.length === 0 || anyStance;
+    this.hint.setText(line.choices.length === 0 ? '> Space' : 'зелене - за, червоне - проти');
     this.hint.setVisible(showHint);
     this.fit(y, showHint);
     this.container.setVisible(true);
@@ -136,5 +172,20 @@ export class DialogueBox {
 
   hide(): void {
     this.container.setVisible(false);
+  }
+
+  /** Right-aligned row of chips at the height of a choice: the advisor's initial on the colour of their stance. */
+  private addChips(stances: Stance[], y: number, lookup: (id: string) => CharacterDef | undefined): void {
+    const right = this.scene.scale.width - PAD;
+    stances.forEach((stance, i) => {
+      const character = lookup(stance.id);
+      const x = right - (stances.length - i) * CHIP_STEP + (CHIP_STEP - CHIP_SIZE);
+      const box = this.scene.add.rectangle(x, y, CHIP_SIZE, CHIP_SIZE, STANCE_COLORS[stance.position]).setOrigin(0);
+      const letter = this.scene.add
+        .text(x + CHIP_SIZE / 2, y + CHIP_SIZE / 2 + 1, (character?.short ?? character?.name ?? stance.id).charAt(0), textStyle(this.scene))
+        .setOrigin(0.5);
+      this.container.add([box, letter]);
+      this.chips.push(box, letter);
+    });
   }
 }

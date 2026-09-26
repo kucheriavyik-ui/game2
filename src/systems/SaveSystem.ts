@@ -2,30 +2,25 @@ import { GameState } from './GameState';
 import { Journal } from './Journal';
 
 const STORAGE_KEY = 'siege.save';
-const VERSION = 1;
+// v2: saved only at the start of a month; no position in the world.
+const VERSION = 2;
 
 export interface SaveData {
   version: number;
-  chapter: string;
+  /** The month about to be played (content/months id). */
+  month: string;
   ink: string;
   journal: string[];
-  location: string;
-  /** Where the player's feet are, in pixels. */
-  x: number;
-  y: number;
 }
 
-/** One automatic save slot in localStorage. */
+/** One automatic slot in localStorage, written at the start of every month. */
 export const SaveSystem = {
-  save(chapter: string, location: string, x: number, y: number): void {
+  save(month: string): void {
     const data: SaveData = {
       version: VERSION,
-      chapter,
+      month,
       ink: GameState.story.state.ToJson(),
       journal: [...Journal.ids],
-      location,
-      x: Math.round(x),
-      y: Math.round(y),
     };
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -34,7 +29,7 @@ export const SaveSystem = {
     }
   },
 
-  /** Reads the slot; null when there is none or it is unusable. */
+  /** Reads the slot; null when there is none or it is from another version. */
   load(): SaveData | null {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);

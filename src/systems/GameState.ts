@@ -16,6 +16,16 @@ export const GameState = {
     return story;
   },
 
+  /** Whether main.ink declares this VAR. */
+  has(name: string): boolean {
+    return GameState.story.variablesState.GlobalVariableExistsWithName(name);
+  },
+
+  /** A numeric VAR, 0 when missing. */
+  num(name: string): number {
+    return Number(GameState.get(name) ?? 0);
+  },
+
   get(name: string): unknown {
     return GameState.story.variablesState.$(name);
   },

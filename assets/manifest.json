@@ -84,7 +84,7 @@
       "idle": "characters/martyn/south.png"
     },
     "nomi": {
-      "idle": "characters/nomi/south.png"
+      "idle": "characters/nomi/east.png"
     },
     "clerk": {
       "idle": "characters/clerk/south.png"

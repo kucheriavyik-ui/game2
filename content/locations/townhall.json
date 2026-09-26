@@ -155,6 +155,11 @@
       "x": 9,
       "y": 11.2,
       "ink": "{month}_sira_ruka"
-    }
+    },
+    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m01", "ink": "nomi_idle" },
+    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m02", "ink": "nomi_idle" },
+    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m03", "ink": "nomi_idle" },
+    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m04", "ink": "nomi_idle" },
+    { "id": "nomi", "type": "npc", "x": 12.4, "y": 7.4, "month": "m05", "ink": "nomi_idle" }
   ]
 }

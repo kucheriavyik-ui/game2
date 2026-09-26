@@ -298,6 +298,8 @@
     { "id": "dec_window_g1", "type": "decor", "x": 49, "y": 26, "sprite": "window_timber", "wall": true, "dy": -20 },
     { "id": "dec_window_g2", "type": "decor", "x": 53.5, "y": 26, "sprite": "window_timber", "wall": true, "dy": -20 },
     { "id": "nomi", "type": "npc", "x": 25.2, "y": 3.4, "month": "m01", "ink": "m01_nomi" },
-    { "id": "nomi", "type": "npc", "x": 24.4, "y": 34.3, "month": "m03", "ink": "m03_nomi" }
+    { "id": "nomi", "type": "npc", "x": 24.4, "y": 34.3, "month": "m03", "ink": "m03_nomi" },
+    { "id": "knight", "type": "npc", "x": 39.8, "y": 29.2, "ink": "knight_idle" },
+    { "id": "knight", "type": "npc", "x": 42.2, "y": 29.2, "ink": "knight_idle" }
   ]
 }

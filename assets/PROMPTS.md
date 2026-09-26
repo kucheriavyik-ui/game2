@@ -238,3 +238,13 @@ _Тут фіксуються реальні промпти, id завдань і
 |---|---|---|---|
 | Набір `citywall` | `create_building_kit` як етап A (square_topdown, 32, view 90, wall_angle 70, materials): стіни «massive fortified city wall of huge weathered grey cut stone blocks, dark mortar, a few narrow arrow slits, stains and cracks … plain solid wall with no windows and no doors», верх «top of a city wall: wide worn stone rampart walkway with crenellated battlements» | `7e659eb5` | ✅ `kits/citywall/`, у місті символ `#` |
 | `city_gate` 64×72 | pixen `no_background`, `view: side`: «massive arched city gate set in a grey stone city wall, closed heavy oak doors bound with black iron bands and rivets, iron portcullis half lowered in front, seen perfectly straight from the front, flat, symmetrical» | `669a7a41` | ✅ декор на стіні (`wall: true, dy: -20`) |
+
+## 13. Лор: Копарікус, Номі, Лицар Тіла (2026-09-26)
+
+| Асет | Інструмент / промпт | Id | Результат |
+|---|---|---|---|
+| `kopar_neutral` | pixen 64×64 `view: side`: «gloomy young nobleman about 30, short dark hair, clean-shaven pale stern face, heavy calm unhurried gaze, faint tiredness around the eyes, black fitted doublet with high collar, black cloak with a small silver clasp …» (під наявний спрайт Протектора) | `493f4fb4` | ✅ |
+| `kopar_grim`, `kopar_amused` | pixflux img2img від `493f4fb4`, 220 | `0f9df6f6`, `3faa0642` | ✅ |
+| `nomi` (спрайт) | `create_character` quadruped `cat`, size 32: «thin scruffy grey cat with a torn left ear, lean body, long tail, pale green eyes, plain solid grey fur without stripes» | `dd07d531` | ✅ полотно 48×48 |
+| `nomi_neutral` | pixen 64×64: перша спроба `6107d708` — смугастий таббі ❌; друга «solid uniform smoky grey fur, NO stripes, NO tabby markings, left ear clearly torn with a ragged notch» | `a05a40c9` | ⚠️ сіріший, ледь смугастий, щербина на вусі є |
+| `knight` (Лицар Тіла) | `create_character` standard 48: «royal bodyguard knight in dark blackened plate armor without any heraldry, closed great helm hiding the face, a small gold royal seal on the shoulder plate, long dark cloak, tall halberd held upright» | `fba6cef0` | ✅ двоє на варті біля ратуші |

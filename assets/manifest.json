@@ -146,6 +146,9 @@
           "characters/protector/walk/north/5.png"
         ]
       }
+    },
+    "knight": {
+      "idle": "characters/knight/south.png"
     }
   },
   "kits": {
@@ -306,7 +309,7 @@
     "horn_angry": "characters/horn/portrait_angry.png",
     "horn_broken": "characters/horn/portrait_broken.png",
     "servant_scared": "characters/martyn/portrait_scared.png",
-    "nomi_neutral": "characters/nomi/portrait.png",
+    "nomi_neutral": "characters/nomi/portrait_neutral.png",
     "clerk_neutral": "characters/clerk/portrait_neutral.png",
     "rat_grin": "characters/rat/portrait_grin.png",
     "verena_serious": "characters/verena/portrait_serious.png",
@@ -323,6 +326,9 @@
     "shtarn_grim": "characters/shtarn/portrait_grim.png",
     "horn_eager": "characters/horn/portrait_eager.png",
     "anselm_smirk": "characters/anselm/portrait_smirk.png",
-    "verena_smirk": "characters/verena/portrait_smirk.png"
+    "verena_smirk": "characters/verena/portrait_smirk.png",
+    "kopar_neutral": "characters/protector/portrait_neutral.png",
+    "kopar_grim": "characters/protector/portrait_grim.png",
+    "kopar_amused": "characters/protector/portrait_amused.png"
   }
 }

@@ -52,6 +52,7 @@
       "x": 3,
       "y": 3,
       "ink": "{month}_tavern"
-    }
+    },
+    { "id": "nomi", "type": "npc", "x": 13.9, "y": 9, "month": "m02", "ink": "m02_nomi" }
   ]
 }

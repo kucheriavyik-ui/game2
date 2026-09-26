@@ -1,8 +1,10 @@
 {
   "id": "protector",
-  "name": "Протектор",
-  "short": "Протектор",
+  "name": "Копарікус",
+  "short": "Копарікус",
   "role": "Протектор Корвена",
   "color": "#b08d57",
-  "portraits": {}
+  "portraits": {
+    "neutral": "kopar_neutral"
+  }
 }

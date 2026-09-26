@@ -124,9 +124,8 @@ export class DialogueBox {
       AssetKeys.portrait(neutral),
       AssetKeys.portrait(`${line.speaker}_neutral`),
     ].find((k) => this.scene.textures.exists(k));
-    const expression = line.portrait.startsWith(`${line.speaker}_`)
-      ? line.portrait.slice(line.speaker.length + 1)
-      : line.portrait;
+    // The mood is the last part of the portrait id ("kopar_neutral" -> "neutral"), whatever the speaker's id.
+    const expression = line.portrait.slice(line.portrait.lastIndexOf('_') + 1);
     if (portraitKey) {
       this.portraitImage.setTexture(portraitKey).setDisplaySize(PORTRAIT_SIZE - 2, PORTRAIT_SIZE - 2).setVisible(true);
       this.portraitLabel.setVisible(false);

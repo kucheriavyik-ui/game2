@@ -129,7 +129,7 @@ for (const file of readdirSync('content/locations').filter((f) => f.endsWith('.j
     return ch !== undefined && loc.legend[ch]?.solid === false && !blocked.has(`${x},${y}`);
   };
   const seen = new Set();
-  const queue = [[loc.spawns.start.x, loc.spawns.start.y]];
+  const queue = [[Math.round(loc.spawns.start.x), Math.round(loc.spawns.start.y)]];
   while (queue.length) {
     const [x, y] = queue.pop();
     const key = `${x},${y}`;
@@ -156,7 +156,7 @@ const MAX_CHOICES = 4; // keys 1-4
  * applies `# journal:<id>` to Knowledge VARs, returns every tag seen.
  * With no picks left it leaves through «Піти» (or stops, with stopAtChoice).
  */
-function play(story, knot, picks = [], { stopAtChoice = false } = {}) {
+function play(story, knot, picks = [], { stopAtChoice = false, firstIfNoPick = false } = {}) {
   const tags = [];
   story.ChoosePathString(knot);
   for (let guard = 0; guard < 200; guard++) {
@@ -171,6 +171,8 @@ function play(story, knot, picks = [], { stopAtChoice = false } = {}) {
     if (stopAtChoice && picks.length === 0) break;
     const want = picks.shift();
     let idx = want === undefined ? choices.findIndex((c) => c.text.startsWith('Піти')) : choices.findIndex((c) => c.text.startsWith(want));
+    // A betrayal scene can appear in any opening: without a scripted answer, take the first one.
+    if (idx === -1 && want === undefined && firstIfNoPick) idx = 0;
     if (idx === -1) {
       fail(`in "${knot}": no choice starting with "${want ?? 'Піти'}". Offered: ${choices.map((c) => `"${c.text}"`).join(', ')}`);
       return tags;
@@ -242,7 +244,7 @@ console.log('Knowledge opens options:');
   else fail('night runs decision missing after Gnat and Isolde');
 }
 
-console.log('Three months:');
+console.log('Six months:');
 {
   const s = new Story(compiled);
   if (play(s, 'prologue').includes(`goto:${months[0]?.id}`)) ok('prologue leads to the first month');
@@ -251,9 +253,12 @@ console.log('Three months:');
     ['m01', ['Так', 'Закрити ворота', 'Спалити']],
     ['m02', ['Так', 'Пайки через міську варту', 'Конфіскувати три склади']],
     ['m03', ['Так', 'Закрити квартал', 'Публічний суд']],
+    ['m04', ['Так', 'Переплавити дзвони', 'Примусова праця']],
+    ['m05', ['Так', 'Зачиняти хворих', 'Дати йому амвон']],
+    ['m06', ['Так', 'Штарн лишається']],
   ];
   for (const [id, picks] of runs) {
-    play(s, `${id}_open`);
+    play(s, `${id}_open`, [], { firstIfNoPick: true });
     if (!play(s, `${id}_council`, picks).includes('month_end')) fail(`${id}: council has no # month_end`);
     const end = play(s, `${id}_end`);
     if (end.some((t) => t.startsWith('game_over'))) fail(`${id}: ordinary choices end in defeat`);
@@ -265,6 +270,68 @@ console.log('Three months:');
   s.variablesState.$('bread', 5);
   if (play(s, 'm01_end').includes('game_over:famine')) ok('bread 5 at the end of a month -> famine');
   else fail('no famine with 5 bread at the month end');
+}
+
+console.log('Betrayals:');
+{
+  // Nobody low: no scene.
+  const s = new Story(compiled);
+  play(s, 'm04_open', [], { stopAtChoice: true });
+  if (s.currentChoices.length > 0) fail('a betrayal plays with everyone at loyalty 5');
+  else ok('no betrayal while everyone is loyal');
+}
+{
+  // The lowest betrays, only one per month, never twice.
+  const s = new Story(compiled);
+  s.variablesState.$('loy_tobias', 2);
+  s.variablesState.$('loy_horn', 1);
+  play(s, 'm04_open', ['Розжалувати']);
+  if (!v(s, 'b_horn') || v(s, 'b_tobias')) fail('more than one betrayal in a month, or the wrong one');
+  else ok('lowest loyalty betrays first, one per month');
+  play(s, 'm05_open', ['Вигнати']);
+  if (!v(s, 'out_tobias')) fail('expelling Tobias does not take him out of the council');
+  play(s, 'm06_open', [], { stopAtChoice: true });
+  if (s.currentChoices.length > 0) fail('someone betrays twice');
+  else ok('next months: Tobias, then nobody twice');
+}
+
+console.log('Month 6 variants:');
+{
+  // A: unwatched night runs -> the marshal is poisoned.
+  const s = new Story(compiled);
+  s.variablesState.$('f_night_runs', true);
+  play(s, 'm05_end');
+  if (!v(s, 'f_marshal_poisoned')) fail('unwatched night runs do not lead to the poisoning');
+  play(s, 'm06_open');
+  if (!v(s, 'f_shtarn_dead') || !v(s, 'out_shtarn')) fail('the marshal did not die in variant A');
+  play(s, 'm06_nomi');
+  const verdict = offered(s, 'm06_council', ['Так']);
+  if (has(verdict, 'Правда: Ізольда')) ok('A: poisoning, the ribbon opens the truth about Isolde');
+  else fail(`A: no truth option after the ribbon: ${verdict.join(' / ')}`);
+}
+{
+  // B with watched runs: the marshal lives, Isolde's smuggling comes up at the council.
+  const s = new Story(compiled);
+  s.variablesState.$('f_night_runs', true);
+  s.variablesState.$('f_night_runs_watched', true);
+  play(s, 'm05_end');
+  play(s, 'm06_open');
+  if (v(s, 'f_shtarn_dead')) fail('watched runs still kill the marshal');
+  const runs = offered(s, 'm06_council', ['Так', 'Штарн лишається']);
+  if (has(runs, 'Публічний суд')) ok('B + watched: marshal lives, Isolde judged at the council');
+  else fail(`B + watched: no decision about Isolde's ships: ${runs.join(' / ')}`);
+}
+{
+  // Ferrante's letters appear only after the folder is opened.
+  const s = new Story(compiled);
+  play(s, 'm06_open');
+  const tags = play(s, 'm06_council', ['Так', 'Штарн лишається']);
+  if (!tags.includes('month_end')) fail('B without letters does not end the month');
+  const t = new Story(compiled);
+  play(t, 'm06_open');
+  play(t, 'm06_ferrante', ['«Покажіть теку»']);
+  if (has(offered(t, 'm06_council', ['Так', 'Штарн лишається']), 'Лишити канал')) ok('the letters decision needs the folder');
+  else fail('no letters decision after opening the folder');
 }
 
 if (failures > 0) {

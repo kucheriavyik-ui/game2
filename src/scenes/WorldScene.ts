@@ -2,7 +2,9 @@ import Phaser from 'phaser';
 import { AssetKeys, placeholderTexture, walkFramesOf, type Direction } from '../systems/Assets';
 import { kitAnchor, kitFloorKey, renderBuildings } from '../systems/Buildings';
 import { findNearest, type Interactable } from '../systems/Interaction';
+import { GameState } from '../systems/GameState';
 import {
+  conditionHolds,
   findCharacter,
   findMonth,
   parseLocation,
@@ -61,7 +63,11 @@ export class WorldScene extends Phaser.Scene {
 
     // Entities can belong to one month only (the same walls in month 1 and month 9).
     const month = this.registry.get('month') as string | undefined;
-    const entities = location.def.entities.filter((e) => !e.month || e.month === month);
+    // …and to one state of the story (Myroslava only if the smiths were let in; the marshal alive or dead).
+    const isTrue = (name: string): boolean => Boolean(GameState.get(name));
+    const entities = location.def.entities.filter(
+      (e) => (!e.month || e.month === month) && conditionHolds(e.when, isTrue),
+    );
 
     // Doors standing on building cells become doorways in the facade instead of separate props.
     const doorCells = new Set(
@@ -417,7 +423,7 @@ export class WorldScene extends Phaser.Scene {
         break;
       }
       case 'door': {
-        const doorKey = AssetKeys.object(entity.id);
+        const doorKey = AssetKeys.object(entity.sprite ?? entity.id);
         if (this.textures.exists(doorKey)) this.addProp(x, y, doorKey, false);
         else if (!doorwayDrawn) this.add.rectangle(x, y, 24, 28, 0x1d1613).setStrokeStyle(1, 0x6b5a48);
         const half = TILE_SIZE / 2;

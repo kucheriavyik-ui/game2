@@ -7,6 +7,10 @@ INCLUDE defeat.ink
 INCLUDE months/m01.ink
 INCLUDE months/m02.ink
 INCLUDE months/m03.ink
+INCLUDE months/m04.ink
+INCLUDE months/m05.ink
+INCLUDE months/m06.ink
+INCLUDE betrayal.ink
 
 // --- Resources, 0..100 (content/resources.json says how the HUD shows them) ---
 VAR bread = 60
@@ -23,6 +27,26 @@ VAR loy_ferrante = 5
 VAR loy_isolde = 5
 VAR loy_tobias = 5
 VAR loy_verena = 5
+
+// --- Betrayal (from month 4): at or below this loyalty an advisor betrays once (betrayal.ink) ---
+VAR BETRAYAL_AT = 3
+VAR b_shtarn = false
+VAR b_horn = false
+VAR b_anselm = false
+VAR b_bozhena = false
+VAR b_ferrante = false
+VAR b_isolde = false
+VAR b_tobias = false
+VAR b_verena = false
+// Left the council for good (dead, executed, exiled, expelled): no betrayals, no stances, «поза радою» in the journal.
+VAR out_shtarn = false
+VAR out_horn = false
+VAR out_anselm = false
+VAR out_bozhena = false
+VAR out_ferrante = false
+VAR out_isolde = false
+VAR out_tobias = false
+VAR out_verena = false
 
 // --- Knowledge (k_*): set by the tag # journal:<id>, opens hidden council options ---
 // Month 1
@@ -41,6 +65,20 @@ VAR k_dockers_riot_risk = false
 VAR k_strait = false
 VAR k_isolde_offer = false
 VAR k_spy_is_scribe = false
+// Month 4
+VAR k_horn_sally = false
+VAR k_cech_iron = false
+VAR k_old_armory = false
+// Month 5
+VAR k_hedda_graves = false
+VAR k_rats = false
+VAR k_preacher_paid = false
+// Month 6
+VAR k_horn_poppy = false
+VAR k_figs_ribbon = false
+VAR k_marshal_report = false
+VAR k_maid_box = false
+VAR k_ferrante_letters = false
 
 // --- Flags: consequences of decisions (f_*); where they return is in docs/story ---
 // Month 1
@@ -74,6 +112,51 @@ VAR f_double_agent = false
 VAR f_night_runs = false
 VAR f_night_runs_watched = false
 VAR f_no_night_runs = false
+// Betrayals
+VAR f_shtarn_retired = false
+VAR f_horn_demoted = false
+VAR f_anselm_report = false
+VAR f_bozhena_silenced = false
+VAR f_ferrante_jailed = false
+VAR f_guild_stormed = false
+VAR f_tobias_expelled = false
+VAR f_verena_partner = false
+VAR f_drain_sealed = false
+// Month 4
+VAR f_arsenal_fire = false
+VAR f_bells_melted = false
+VAR f_iron_bought = false
+VAR f_iron_levy = false
+VAR f_old_armory = false
+VAR f_cech_paid = false
+VAR f_forced_forges = false
+VAR f_refugee_forges = false
+VAR f_cech_broken = false
+// Month 5
+VAR f_houses_sealed = false
+VAR f_procession = false
+VAR f_plague_city = false
+VAR f_plague_fires = false
+VAR f_rat_bounty = false
+VAR f_preacher_jailed = false
+VAR f_preacher_free = false
+VAR f_disputation = false
+VAR f_anselm_exposed = false
+VAR f_marshal_poisoned = false
+// Month 6
+VAR f_shtarn_dead = false
+VAR f_isolde_executed = false
+VAR f_isolde_owned = false
+VAR f_isolde_tried = false
+VAR f_isolde_exiled = false
+VAR f_horn_scapegoat = false
+VAR f_truth_buried = false
+VAR f_shtarn_stays = false
+VAR f_horn_command = false
+VAR f_horn_jailed = false
+VAR f_ferrante_hanged = false
+VAR f_letters_burned = false
+VAR f_enemy_channel = false
 
 -> END
 

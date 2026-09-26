@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { DialogueSystem, type DialogueLine } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
 import { Journal, type JournalDefs } from '../systems/Journal';
-import { council, findCharacter, JOURNAL_KEY, RESOURCES_KEY } from '../systems/LocationLoader';
+import { council, findCharacter, isOut, JOURNAL_KEY, RESOURCES_KEY } from '../systems/LocationLoader';
 import { finishMonth, gameOver } from '../systems/MonthFlow';
 import { DialogueBox } from '../ui/DialogueBox';
 import { JournalPanel, type JournalTab } from '../ui/JournalPanel';
@@ -128,7 +128,9 @@ export class UIScene extends Phaser.Scene {
     this.current = line;
     if (line) {
       this.handleTags(line.tags);
-      this.box.show(line, findCharacter(this, line.speaker), (id) => findCharacter(this, id));
+      // Advisors who have left the council take no side any more.
+      const inCouncil = (id: string) => (isOut(id, (name) => Boolean(GameState.get(name))) ? undefined : findCharacter(this, id));
+      this.box.show(line, findCharacter(this, line.speaker), inCouncil);
       return;
     }
 
@@ -187,6 +189,7 @@ export class UIScene extends Phaser.Scene {
         entries: (this.cache.json.get(JOURNAL_KEY) ?? {}) as JournalDefs,
         council: council(this),
         loyalty: (id) => GameState.num(`loy_${id}`),
+        out: (id) => isOut(id, (name) => Boolean(GameState.get(name))),
         character: (id) => findCharacter(this, id),
       },
       tab,

@@ -1,0 +1,10 @@
+{
+  "id": "m06",
+  "number": 6,
+  "title": "Залізний маршал",
+  "flavor": "Половина облоги. Рада збирається на вечерю, як у мирні часи.",
+  "location": "townhall",
+  "ink_open": "m06_open",
+  "ink_council": "m06_council",
+  "ink_end": "m06_end"
+}

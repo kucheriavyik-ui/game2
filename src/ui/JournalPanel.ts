@@ -18,6 +18,8 @@ export interface JournalData {
   council: CouncilDef;
   /** An advisor's loyalty, 0..10 (shown only as a word). */
   loyalty(id: string): number;
+  /** Whether the advisor has left the council for good. */
+  out(id: string): boolean;
   character(id: string): CharacterDef | undefined;
 }
 
@@ -154,7 +156,7 @@ export class JournalPanel {
       }
       const name = this.scene.add.text(textX, y + 2, character?.name ?? id, textStyle(this.scene, { color: COLORS.accent }));
       const role = this.scene.add.text(textX, y + 15, character?.role ?? '', textStyle(this.scene, { color: COLORS.muted }));
-      const level = loyaltyLevel(data.council, data.loyalty(id));
+      const level = data.out(id) ? { label: 'поза радою', color: COLORS.muted } : loyaltyLevel(data.council, data.loyalty(id));
       const mood = this.scene.add
         .text(this.width - PAD * 2, y + 2, level.label, textStyle(this.scene, { color: level.color }))
         .setOrigin(1, 0);

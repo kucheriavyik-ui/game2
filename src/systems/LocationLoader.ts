@@ -50,6 +50,8 @@ export interface EntityDef {
   flip?: boolean;
   /** Only present in this month (id from content/months); omitted = every month. */
   month?: string;
+  /** Only present while this Ink VAR is true (`!name` — while it is false), e.g. "f_smiths_in". */
+  when?: string;
 }
 
 /** Shape of content/locations/<id>.json */
@@ -143,6 +145,21 @@ export function findMonth(scene: Phaser.Scene, id: string | undefined): MonthDef
 
 export function council(scene: Phaser.Scene): CouncilDef {
   return (scene.cache.json.get(COUNCIL_KEY) as CouncilDef | undefined) ?? { advisors: [], levels: [] };
+}
+
+/**
+ * Whether an Ink condition holds: a VAR name, or `!name` for "is false".
+ * `isTrue` reads the variable (kept outside so this file does not depend on GameState).
+ */
+export function conditionHolds(when: string | undefined, isTrue: (name: string) => boolean): boolean {
+  if (!when) return true;
+  const w = when.trim();
+  return w.startsWith('!') ? !isTrue(w.slice(1).trim()) : isTrue(w);
+}
+
+/** Advisors who have left the council for good (Ink VAR `out_<id>`: executed, exiled, dead). */
+export function isOut(id: string, isTrue: (name: string) => boolean): boolean {
+  return isTrue(`out_${id}`);
 }
 
 /** Loyalty in words ("спокійний"): the player never sees the number. */

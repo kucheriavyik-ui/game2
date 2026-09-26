@@ -1,0 +1,57 @@
+{
+  "_comment": "Ратуша з «Тіней Корвена»: зала ради посередині, ліворуч угорі кабінет маршала, ліворуч унизу бічна кімната, праворуч угорі скарбниця, праворуч унизу вартівня. Двері в кухню — у верхній стіні зали (лише декорація).",
+  "id": "townhall",
+  "name": "Ратуша",
+  "map": "townhall.map.txt",
+  "legend": {
+    "W": { "name": "townhall", "solid": true, "color": "#3a3a42", "kit": "townhall" },
+    "#": { "name": "wall", "solid": true, "color": "#2b2b2e", "overlay": "rgba(10,6,4,0.55)" },
+    ".": { "name": "floorboards", "solid": false, "color": "#4a3a28", "overlay": "rgba(10,6,4,0.3)" },
+    ",": { "name": "flagstone_hall", "solid": false, "color": "#4b4e4a", "overlay": "rgba(14,12,14,0.35)" },
+    "c": { "name": "carpet", "solid": false, "color": "#5a2a26", "overlay": "rgba(14,12,14,0.2)" },
+    "C": { "name": "carpet", "solid": false, "color": "#5a2a26", "overlay": "rgba(14,12,14,0.2)", "flipX": true }
+  },
+  "spawns": {
+    "start": { "x": 10.5, "y": 10 }
+  },
+  "entities": [
+    { "id": "door_out", "type": "door", "x": 10.5, "y": 12, "label": "Ніч за дверима. Ніхто не виходить" },
+    { "id": "door_kitchen", "type": "door", "x": 13, "y": 2, "label": "Кухня" },
+    { "id": "council_table", "type": "council_table", "x": 10.5, "y": 5.8 },
+
+    { "id": "isolde", "type": "npc", "x": 13.3, "y": 7.9, "when": "!out_isolde", "ink": "m06_isolde" },
+    { "id": "anselm", "type": "npc", "x": 8, "y": 9.4, "ink": "m06_anselm" },
+    { "id": "bozhena", "type": "npc", "x": 12.8, "y": 11, "when": "!out_bozhena", "ink": "m06_bozhena" },
+    { "id": "verena", "type": "npc", "x": 14.3, "y": 3.8, "ink": "m06_verena" },
+    { "id": "martyn", "type": "npc", "x": 12, "y": 3.6, "ink": "m06_martyn" },
+    { "id": "m06_cup", "type": "object", "x": 8.3, "y": 7.4, "sprite": "hall_cup_marshal", "ink": "m06_obj_cup" },
+    { "id": "m06_plate", "type": "object", "x": 12.7, "y": 7.4, "sprite": "hall_plate", "ink": "m06_obj_plate" },
+    { "id": "dec_fireplace_1", "type": "decor", "x": 10.5, "y": 2, "sprite": "fireplace", "wall": true, "dy": -16 },
+    { "id": "dec_fireplace_2", "type": "decor", "x": 2.2, "y": 2, "sprite": "fireplace", "wall": true, "dy": -16 },
+    { "id": "dec_candles_1", "type": "decor", "x": 14.3, "y": 7.5, "sprite": "candles" },
+    { "id": "dec_window_1", "type": "decor", "x": 8.8, "y": 2, "sprite": "window_tall_stone", "wall": true, "dy": -24 },
+
+    { "id": "shtarn", "type": "npc", "x": 2.3, "y": 4.4, "when": "!f_marshal_poisoned", "ink": "m06_shtarn" },
+    { "id": "office_desk", "type": "object", "x": 3.8, "y": 3.6, "ink": "m06_obj_desk" },
+    { "id": "office_map", "type": "object", "x": 2.3, "y": 6.2, "ink": "m06_obj_map" },
+    { "id": "m06_figs", "type": "object", "x": 5.3, "y": 3.4, "sprite": "wh_figs", "when": "f_marshal_poisoned", "ink": "m06_obj_figs" },
+    { "id": "nomi", "type": "npc", "x": 4.8, "y": 6, "ink": "m06_nomi" },
+    { "id": "dec_window_2", "type": "decor", "x": 4.4, "y": 2, "sprite": "window_tall_stone", "wall": true, "dy": -24 },
+
+    { "id": "hall_body", "type": "object", "x": 3, "y": 8.8, "when": "f_marshal_poisoned", "ink": "m06_obj_body" },
+    { "id": "tobias", "type": "npc", "x": 4.2, "y": 10.4, "when": "!out_tobias", "ink": "m06_tobias" },
+    { "id": "dec_candles_2", "type": "decor", "x": 5.3, "y": 11, "sprite": "candles" },
+
+    { "id": "ferrante", "type": "npc", "x": 17.5, "y": 5.6, "when": "!out_ferrante", "ink": "m06_ferrante" },
+    { "id": "dec_coffer_1", "type": "decor", "x": 20.2, "y": 5.9, "sprite": "treasury_coffer" },
+    { "id": "dec_bookshelf_1", "type": "decor", "x": 16.4, "y": 3, "sprite": "bookshelf" },
+    { "id": "dec_chest_1", "type": "decor", "x": 20.2, "y": 3.5, "sprite": "chest" },
+    { "id": "dec_window_3", "type": "decor", "x": 18.8, "y": 2, "sprite": "window_tall_stone", "wall": true, "dy": -24 },
+
+    { "id": "horn", "type": "npc", "x": 17.6, "y": 10.5, "when": "!out_horn", "ink": "m06_horn" },
+    { "id": "dec_roster_1", "type": "decor", "x": 20.3, "y": 8.4, "sprite": "guard_roster" },
+    { "id": "dec_table_1", "type": "decor", "x": 18, "y": 8.8, "sprite": "table" },
+    { "id": "dec_armor_1", "type": "decor", "x": 20.3, "y": 10.8, "sprite": "armor_stand" },
+    { "id": "dec_crates_1", "type": "decor", "x": 16.3, "y": 11, "sprite": "crates" }
+  ]
+}

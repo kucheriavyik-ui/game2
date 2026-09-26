@@ -1,0 +1,47 @@
+{
+  "id": "temple",
+  "name": "Соборна площа",
+  "map": "temple.map.txt",
+  "legend": {
+    ",": { "name": "cobblestone", "solid": false, "color": "#5c5652", "overlay": "rgba(20,14,10,0.3)" },
+    "g": { "name": "grave_ground", "solid": false, "color": "#3b3a2c" },
+    "C": { "name": "chapel", "solid": true, "color": "#44464a", "kit": "chapel" },
+    "T": { "name": "house_timber", "solid": true, "color": "#4a3a2a", "kit": "timber" }
+  },
+  "spawns": {
+    "start": { "x": 16, "y": 13 }
+  },
+  "entities": [
+    { "id": "door_temple", "type": "door", "x": 16, "y": 6, "sprite": "door_infirmary", "label": "Храм" },
+    { "id": "temple_crossdoor", "type": "door", "x": 3, "y": 5, "sprite": "door_home", "label": "Двері з хрестом", "ink": "m05_obj_crossdoor" },
+    { "id": "council_table", "type": "council_table", "x": 20, "y": 8.8, "label": "Стіл ради (ризниця)" },
+
+    { "id": "tobias", "type": "npc", "x": 12, "y": 7.8, "when": "!out_tobias", "ink": "m05_tobias" },
+    { "id": "yeremiya", "type": "npc", "x": 16, "y": 7.7, "ink": "m05_yeremiya" },
+    { "id": "bozhena", "type": "npc", "x": 14, "y": 9.4, "when": "!out_bozhena", "ink": "m05_bozhena" },
+    { "id": "anselm", "type": "npc", "x": 22.5, "y": 7.4, "ink": "m05_anselm" },
+    { "id": "verena", "type": "npc", "x": 5.5, "y": 10, "ink": "m05_verena" },
+    { "id": "shtarn", "type": "npc", "x": 24, "y": 11.8, "ink": "m05_shtarn" },
+    { "id": "hedda", "type": "npc", "x": 28, "y": 6, "ink": "m05_hedda" },
+    { "id": "rat", "type": "npc", "x": 7.5, "y": 2.5, "ink": "m05_rat" },
+    { "id": "hanna", "type": "npc", "x": 11, "y": 10.5, "ink": "m05_hanna" },
+
+    { "id": "temple_bell", "type": "object", "x": 9.3, "y": 7.3, "sprite": "pier_bell", "ink": "m05_obj_bell" },
+    { "id": "temple_candles", "type": "object", "x": 4, "y": 8.6, "sprite": "stall_grain", "ink": "m05_obj_candles" },
+    { "id": "temple_well", "type": "object", "x": 13, "y": 13, "sprite": "well", "ink": "m05_obj_well" },
+
+    { "id": "dec_pit_1", "type": "decor", "x": 25.5, "y": 3, "sprite": "rubble" },
+    { "id": "dec_pit_2", "type": "decor", "x": 29.5, "y": 3.5, "sprite": "rubble" },
+    { "id": "dec_pit_3", "type": "decor", "x": 26, "y": 8.5, "sprite": "rubble" },
+    { "id": "dec_post_1", "type": "decor", "x": 24, "y": 1.5, "sprite": "post" },
+    { "id": "dec_post_2", "type": "decor", "x": 30.5, "y": 9.5, "sprite": "post" },
+    { "id": "dec_cot_1", "type": "decor", "x": 18.5, "y": 11.5, "sprite": "cot" },
+    { "id": "dec_candles_1", "type": "decor", "x": 13.8, "y": 7.2, "sprite": "candles" },
+    { "id": "dec_candles_2", "type": "decor", "x": 18.2, "y": 7.2, "sprite": "candles" },
+    { "id": "dec_sacks_1", "type": "decor", "x": 8.5, "y": 12.5, "sprite": "sacks" },
+    { "id": "dec_lantern_1", "type": "decor", "x": 22.6, "y": 11, "sprite": "lantern" },
+    { "id": "dec_window_1", "type": "decor", "x": 12.5, "y": 6, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    { "id": "dec_window_2", "type": "decor", "x": 19.5, "y": 6, "sprite": "window_chapel", "wall": true, "dy": -16 },
+    { "id": "dec_window_3", "type": "decor", "x": 1.5, "y": 5, "sprite": "window_timber", "wall": true, "dy": -20 }
+  ]
+}

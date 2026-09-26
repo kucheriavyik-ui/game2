@@ -1,0 +1,50 @@
+{
+  "id": "forge",
+  "name": "Кузні й арсенал",
+  "map": "forge.map.txt",
+  "legend": {
+    "#": { "name": "city_wall", "solid": true, "color": "#3a3430" },
+    ",": { "name": "cobblestone", "solid": false, "color": "#5c5652", "overlay": "rgba(20,14,10,0.35)" },
+    ".": { "name": "mud", "solid": false, "color": "#3a3632", "overlay": "rgba(10,8,8,0.45)" },
+    "H": { "name": "house_stone", "solid": true, "color": "#3a3330", "kit": "stone" },
+    "T": { "name": "house_timber", "solid": true, "color": "#4a3a2a", "kit": "timber" }
+  },
+  "spawns": {
+    "start": { "x": 16, "y": 12 }
+  },
+  "entities": [
+    { "id": "door_arsenal", "type": "door", "x": 4, "y": 6, "sprite": "door_townhall", "label": "Арсенал" },
+    { "id": "door_forge", "type": "door", "x": 15, "y": 6, "sprite": "door_home", "label": "Кузня" },
+    { "id": "door_cech", "type": "door", "x": 23, "y": 6, "sprite": "door_home", "label": "Кузня цеху" },
+    { "id": "door_guard", "type": "door", "x": 28, "y": 6, "sprite": "door_home", "label": "Караульня" },
+    { "id": "council_table", "type": "council_table", "x": 28.5, "y": 8.6 },
+
+    { "id": "horn", "type": "npc", "x": 6, "y": 8, "when": "!out_horn", "ink": "m04_horn" },
+    { "id": "shtarn", "type": "npc", "x": 18.5, "y": 3, "ink": "m04_shtarn" },
+    { "id": "ferrante", "type": "npc", "x": 10, "y": 9.5, "when": "!out_ferrante", "ink": "m04_ferrante" },
+    { "id": "tobias", "type": "npc", "x": 30, "y": 11.5, "when": "!out_tobias", "ink": "m04_tobias" },
+    { "id": "isolde", "type": "npc", "x": 13, "y": 11, "ink": "m04_isolde" },
+    { "id": "radko", "type": "npc", "x": 23, "y": 8, "ink": "m04_radko" },
+    { "id": "stas", "type": "npc", "x": 26, "y": 3.5, "ink": "m04_stas" },
+    { "id": "myroslava", "type": "npc", "x": 16, "y": 8, "when": "f_smiths_in", "ink": "m04_myroslava" },
+    { "id": "vido", "type": "npc", "x": 10.4, "y": 3, "ink": "m04_vido" },
+    { "id": "hedda", "type": "npc", "x": 3, "y": 12, "ink": "m04_hedda" },
+
+    { "id": "forge_racks", "type": "object", "x": 2, "y": 8.3, "sprite": "armor_stand", "ink": "m04_obj_racks" },
+    { "id": "forge_cold", "type": "object", "x": 21, "y": 8.3, "sprite": "home_stove", "ink": "m04_obj_cold" },
+    { "id": "forge_bricked", "type": "object", "x": 10, "y": 1.6, "sprite": "gate_breach", "ink": "m04_obj_bricked" },
+    { "id": "forge_scrap", "type": "object", "x": 27, "y": 12.5, "sprite": "rubble", "ink": "m04_obj_scrap" },
+
+    { "id": "dec_cart_1", "type": "decor", "x": 15, "y": 11, "sprite": "port_cart" },
+    { "id": "dec_rubble_1", "type": "decor", "x": 2, "y": 13.4, "sprite": "rubble" },
+    { "id": "dec_sacks_1", "type": "decor", "x": 12.5, "y": 8, "sprite": "sacks" },
+    { "id": "dec_crates_1", "type": "decor", "x": 20, "y": 13, "sprite": "crates" },
+    { "id": "dec_barrels_1", "type": "decor", "x": 8, "y": 13, "sprite": "barrels" },
+    { "id": "dec_lantern_1", "type": "decor", "x": 9, "y": 7.2, "sprite": "lantern" },
+    { "id": "dec_lantern_2", "type": "decor", "x": 29.8, "y": 7.2, "sprite": "lantern" },
+    { "id": "dec_window_1", "type": "decor", "x": 1.8, "y": 6, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_2", "type": "decor", "x": 6.3, "y": 6, "sprite": "window_stone", "wall": true, "dy": -20 },
+    { "id": "dec_window_3", "type": "decor", "x": 12.8, "y": 6, "sprite": "window_timber", "wall": true, "dy": -20 },
+    { "id": "dec_window_4", "type": "decor", "x": 20.8, "y": 6, "sprite": "window_timber", "wall": true, "dy": -20 }
+  ]
+}

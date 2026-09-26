@@ -1,0 +1,10 @@
+{
+  "id": "m04",
+  "number": 4,
+  "title": "Вогонь і залізо",
+  "flavor": "Стріл лишилось на два штурми. У кузнях холодні горна.",
+  "location": "forge",
+  "ink_open": "m04_open",
+  "ink_council": "m04_council",
+  "ink_end": "m04_end"
+}

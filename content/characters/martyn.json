@@ -1,0 +1,10 @@
+{
+  "id": "martyn",
+  "name": "Чашник Мартин",
+  "short": "Мартин",
+  "role": "Чашник у ратуші",
+  "color": "#7a6a5a",
+  "portraits": {
+    "neutral": "servant_scared"
+  }
+}

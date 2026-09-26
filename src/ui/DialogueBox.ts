@@ -194,9 +194,10 @@ export class DialogueBox {
   /** Right-aligned row of chips at the height of a choice: the advisor's initial on the colour of their stance. */
   private addChips(stances: Stance[], y: number, lookup: (id: string) => CharacterDef | undefined): void {
     const right = this.scene.scale.width - PAD;
-    stances.forEach((stance, i) => {
+    const present = stances.filter((s) => lookup(s.id) !== undefined);
+    present.forEach((stance, i) => {
       const character = lookup(stance.id);
-      const x = right - (stances.length - i) * CHIP_STEP + (CHIP_STEP - CHIP_SIZE);
+      const x = right - (present.length - i) * CHIP_STEP + (CHIP_STEP - CHIP_SIZE);
       const box = this.scene.add.rectangle(x, y, CHIP_SIZE, CHIP_SIZE, STANCE_COLORS[stance.position]).setOrigin(0);
       const letter = this.scene.add
         .text(x + CHIP_SIZE / 2, y + CHIP_SIZE / 2 + 1, (character?.short ?? character?.name ?? stance.id).charAt(0), textStyle(this.scene))

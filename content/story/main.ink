@@ -228,8 +228,8 @@ VAR f_ferrante_channel = false
 // What the city eats and pays every month. Called at the start of each month's ink_end.
 === function upkeep()
 ~ res(bread, -8)
-~ res(gold, -6)
-Утримання міста за місяць: Хліб −8, Золото −6.
+~ res(gold, -4)
+Утримання міста за місяць: Хліб −8, Золото −4.
 
 // Whether any resource has run out (the city falls at the end of the month).
 === function lost()

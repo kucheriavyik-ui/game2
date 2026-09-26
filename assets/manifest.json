@@ -13,7 +13,9 @@
     "carpet": "tiles/carpet.png",
     "city_wall": "tiles/city_wall.png",
     "gate": "tiles/gate.png",
-    "gate_bars": "tiles/gate_bars.png"
+    "gate_bars": "tiles/gate_bars.png",
+    "wall_top_stone": "tiles/wall_top_stone.png",
+    "wall_top_beam": "tiles/wall_top_beam.png"
   },
   "characters": {
     "anselm": {

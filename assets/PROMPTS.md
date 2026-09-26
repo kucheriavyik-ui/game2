@@ -263,3 +263,7 @@ _Тут фіксуються реальні промпти, id завдань і
 | `hrytsko` | wounded young soldier, bandaged head, arm in a sling, crutch | `4f04f2d1` / `e827fe9c` |
 | `yulian` | young novice monk, brown habit, tonsure, stained apron, bowl | `1784b946` / `bc8a9bd1` |
 | `olena` | townswoman seamstress ~35, patched grey dress, faded red headscarf, shawl | `75753992` / `4d166973` |
+
+## 15. Стіни інтер'єрів (2026-09-26)
+
+Старий тайл `wall` (мохуватий камінь з Game1, затемнений) у ратуші й інтер'єрах читався як щебінь. Згенеровано два варіанти «верху стіни» (pixen 32×32, `view: high top-down`): `wall_top_stone` — «top of a thick interior stone wall seen from directly above, neat rows of large dressed grey limestone blocks with thin dark mortar lines, clean, no moss» (`00646851`, ✅ обрано, з overlay `rgba(20,14,10,0.25)`), `wall_top_beam` — «dark oak beam cap over smooth pale grey plastered stone» (`d23de35a`, запасний). Символ `#` у ратуші, таверні, лазареті й Домі Гільдії.

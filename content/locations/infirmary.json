@@ -11,10 +11,10 @@
       "kit": "chapel"
     },
     "#": {
-      "name": "wall",
+      "name": "wall_top_stone",
       "solid": true,
-      "color": "#2b2b2e",
-      "overlay": "rgba(10,6,4,0.55)"
+      "color": "#4a4845",
+      "overlay": "rgba(20,14,10,0.25)"
     },
     ".": {
       "name": "flagstone",

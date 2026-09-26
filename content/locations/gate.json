@@ -3,23 +3,66 @@
   "name": "Головна брама",
   "map": "gate.map.txt",
   "legend": {
-    "#": { "name": "wall", "solid": true, "color": "#3a3430", "overlay": "rgba(10,6,4,0.35)" },
-    "G": { "name": "gate", "solid": true, "color": "#4a3320" },
-    "g": { "name": "gate_bars", "solid": true, "color": "#2a2522" },
-    "w": { "name": "flagstone", "solid": false, "color": "#5a5550", "overlay": "rgba(20,14,10,0.25)" },
-    "p": { "name": "cobblestone", "solid": false, "color": "#5c5652", "overlay": "rgba(20,14,10,0.45)" },
-    ",": { "name": "cobblestone", "solid": false, "color": "#6b645c" },
-    ".": { "name": "mud", "solid": false, "color": "#4f4032" },
-    "H": { "name": "house_stone", "solid": true, "color": "#3a3330", "kit": "stone" },
-    "T": { "name": "house_timber", "solid": true, "color": "#4a3a2a", "kit": "timber" }
+    "#": {
+      "name": "city_wall",
+      "solid": true,
+      "color": "#3a3430",
+      "overlay": "rgba(10,6,4,0.35)"
+    },
+    "G": {
+      "name": "gate",
+      "solid": true,
+      "color": "#4a3320"
+    },
+    "g": {
+      "name": "gate_bars",
+      "solid": true,
+      "color": "#2a2522"
+    },
+    "w": {
+      "name": "flagstone",
+      "solid": false,
+      "color": "#5a5550",
+      "overlay": "rgba(20,14,10,0.25)"
+    },
+    "p": {
+      "name": "cobblestone",
+      "solid": false,
+      "color": "#5c5652",
+      "overlay": "rgba(20,14,10,0.45)"
+    },
+    ",": {
+      "name": "cobblestone",
+      "solid": false,
+      "color": "#6b645c"
+    },
+    ".": {
+      "name": "mud",
+      "solid": false,
+      "color": "#4f4032"
+    },
+    "H": {
+      "name": "house_stone",
+      "solid": true,
+      "color": "#3a3330",
+      "kit": "stone"
+    },
+    "T": {
+      "name": "house_timber",
+      "solid": true,
+      "color": "#4a3a2a",
+      "kit": "timber"
+    }
   },
   "spawns": {
-    "start": { "x": 17, "y": 12 }
+    "start": {
+      "x": 17,
+      "y": 12
+    }
   },
   "entities": [
     { "id": "door_tower", "type": "door", "x": 3, "y": 8, "label": "Вежа ради" },
-    { "id": "council_table", "type": "council_table", "x": 3.5, "y": 10.5, "sprite": "hall_table" },
-
+    { "id": "council_table", "type": "council_table", "x": 3.5, "y": 10.5 },
     { "id": "shtarn", "type": "npc", "x": 13, "y": 3, "ink": "m01_shtarn" },
     { "id": "vido", "type": "npc", "x": 23, "y": 3, "ink": "m01_vido" },
     { "id": "horn", "type": "npc", "x": 31, "y": 3, "ink": "m01_horn" },
@@ -31,12 +74,10 @@
     { "id": "bozhena", "type": "npc", "x": 12, "y": 5.5, "ink": "m01_wicket" },
     { "id": "ferrante", "type": "npc", "x": 24, "y": 11, "ink": "m01_ferrante" },
     { "id": "hedda", "type": "npc", "x": 33, "y": 10, "ink": "m01_hedda" },
-
-    { "id": "gate_tar", "type": "object", "x": 9, "y": 2.5, "sprite": "barrel", "ink": "m01_obj_tar" },
-    { "id": "gate_breach", "type": "object", "x": 4, "y": 2.5, "sprite": "rubble", "ink": "m01_obj_breach" },
+    { "id": "gate_tar", "type": "object", "x": 9, "y": 2.5, "ink": "m01_obj_tar" },
+    { "id": "gate_breach", "type": "object", "x": 4, "y": 2.5, "ink": "m01_obj_breach" },
     { "id": "gate_map", "type": "object", "x": 7.5, "y": 9.5, "sprite": "office_map", "ink": "m01_obj_map" },
-    { "id": "gate_flag", "type": "object", "x": 22, "y": 2, "sprite": "wh_pennant", "ink": "m01_obj_flag" },
-
+    { "id": "gate_flag", "type": "object", "x": 22, "y": 2, "ink": "m01_obj_flag" },
     { "id": "dec_cart_1", "type": "decor", "x": 26.5, "y": 11, "sprite": "port_cart" },
     { "id": "dec_sacks_1", "type": "decor", "x": 22.5, "y": 12, "sprite": "sacks" },
     { "id": "dec_sacks_2", "type": "decor", "x": 2, "y": 13, "sprite": "sacks" },

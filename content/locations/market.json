@@ -120,7 +120,7 @@
   },
   "entities": [
     { "id": "door_townhall", "type": "door", "x": 11, "y": 8, "label": "Міські комори" },
-    { "id": "council_table", "type": "council_table", "x": 14.5, "y": 10, "sprite": "hall_table" },
+    { "id": "council_table", "type": "council_table", "x": 14.5, "y": 10 },
     { "id": "door_guild", "type": "door", "x": 21, "y": 6, "label": "Дім Гільдії купців" },
     { "id": "door_home", "type": "door", "x": 3, "y": 6, "label": "Шинок" },
     { "id": "ferrante", "type": "npc", "x": 9.5, "y": 9.5, "ink": "m02_ferrante" },

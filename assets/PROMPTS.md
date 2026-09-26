@@ -212,3 +212,22 @@ _Тут фіксуються реальні промпти, id завдань і
 | `fireplace` → камін у стіні: «stone fireplace built flush into a grey stone wall, seen perfectly straight from the front, flat, symmetrical, no side walls visible», pixen 64×64 `view: side`; ставиться як `wall: true, dy: -16` | `d5e648b0` | ✅ старий «окремий» камін `decor/fireplace.png` більше не використовується |
 | `office_chair` — лише шкіряне крісло, фронтально (старе було крісло+камін навскоси) | `ef53b30d` | ✅ |
 | `nomi_neutral` v1 за фото автора: «sandy golden-brown mackerel tabby, dark stripes on forehead, cream-white chin, pink nose, half-closed green eyes» | `5646605a` | ✅ |
+
+## 11. «Облога Корвена», M4 (2026-09-26, 30 генерацій)
+
+Параметри як у розділах 9–10: персонажі `create_character` standard, 4 напрямки, size 48, `low top-down`, опис = базовий стильовий промпт + зовнішність; портрети pixen 64×64 `view: side` з промптом «pixel art close-up head and shoulders portrait of … facing the viewer, face large and centered filling most of the frame, flat plain dark grey background with nothing else, no text»; вирази — `create_image_pixflux` img2img (`init_image_strength` 220). Для старих портретів `init_image_url` — raw-посилання на файл у публічному репозиторії `kucheriavyik-ui/game2` (base64 >5 КБ обрізається).
+
+| Асет | Опис / інструмент | Id | Результат |
+|---|---|---|---|
+| `shtarn` (пробний) | old grizzled city marshal ~60, bald, white stubble, scarred face, worn plate armor, dark grey cloak | `9f1cf8f4` | ✅ |
+| `protector` + ходьба `walk` (6 кадрів × 4) | young Protector ~30, short dark hair, clean-shaven, all in black: fitted doublet with high collar, trousers, boots, cloak with silver clasp, sword | `e5ef3680` | ✅ |
+| `vido` | young thin wall guard, dented kettle helmet, gambeson, spear | `7709c6b6` | ✅ |
+| `myroslava` | sturdy woman blacksmith ~40, sooty leather apron, burned hands, dark braid, bundle | `00e95331` | ✅ |
+| `lukash` | thin polite scribe ~30, tidy worn brown coat, ink-stained fingers, satchel | `61abd3d8` | ✅ |
+| `hanna` | stout baker woman ~50, floury apron, headscarf, bread peel | `d7ede004` | ✅ |
+| `gnat` | old fisherman ~70, white beard, knitted cap, patched oilskin coat | `9a8402f2` | ✅ |
+| `bartosh` | broad dockworker, shaved head, torn sleeveless shirt, iron crowbar | `b70689a8` | ✅ |
+| Портрети нейтральні | shtarn `7628265a`, vido `dfcaf468`, myroslava `487dc2b5`, lukash `498d2115`, hanna `a439b483`, gnat `108cb914`, bartosh `fec10e48` | | ✅ |
+| Вирази (pixflux) | shtarn_grim `6c60c652` (від нового нейтрального), horn_eager `a01c1103`, anselm_smirk `ca8af517`, verena_smirk `f7d4078c` | | ✅ зміни тонкі |
+| Тайли брами (pixen 32×32) | `city_wall` «thick old city wall of large grey cut stone blocks, moss» `0320e209`; `gate` «oak planks with iron bands» `392dc421`; `gate_bars` «iron portcullis grid» `cc90fe46` | | ✅ брама й ґрати вийшли арками в рамці — у ряд читаються як надбрамні арки |
+| Предмети (pixen, `no_background`) | door_wicket 32×48 `3362107f`, gate_tar (казан смоли) 32×40 `755639c3`, council_table 96×64 (стіл з картою й свічками, фронтально) `f5232e9f`, gate_breach 48×40 `3c4cca9f`, gate_flag (прапор Корвена) 32×48 `d99db52f`, pier_bell 32×48 `67a0425c` | | ✅ |

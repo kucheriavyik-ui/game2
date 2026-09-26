@@ -120,7 +120,7 @@
   },
   "entities": [
     { "id": "door_home", "type": "door", "x": 3, "y": 6, "label": "Контора начальника порту" },
-    { "id": "council_table", "type": "council_table", "x": 3.5, "y": 8.6, "sprite": "hall_table" },
+    { "id": "council_table", "type": "council_table", "x": 3.5, "y": 8.6 },
     { "id": "door_tavern", "type": "door", "x": 10, "y": 6, "label": "Таверна «Втоплений дзвін»" },
     { "id": "door_infirmary", "type": "door", "x": 26, "y": 6, "label": "Лазарет" },
     { "id": "door_cellar", "type": "door", "x": 17.5, "y": 6, "label": "Підвал Інквізиції" },
@@ -137,7 +137,7 @@
     { "id": "port_warehouses", "type": "object", "x": 1.5, "y": 9.5, "sprite": "port_crate", "ink": "m03_obj_warehouses" },
     { "id": "spy_letter", "type": "object", "x": 13, "y": 9.5, "sprite": "hall_folder", "ink": "m03_obj_letter" },
     { "id": "gnat_boat", "type": "object", "x": 23.5, "y": 14.7, "sprite": "boat", "solid": true, "ink": "m03_obj_boat" },
-    { "id": "pier_bell", "type": "object", "x": 12, "y": 14.4, "sprite": "post", "ink": "m03_obj_bell" },
+    { "id": "pier_bell", "type": "object", "x": 12, "y": 14.4, "ink": "m03_obj_bell" },
     { "id": "dec_lantern_1", "type": "decor", "x": 6, "y": 8, "sprite": "lantern" },
     { "id": "dec_lantern_2", "type": "decor", "x": 23, "y": 8, "sprite": "lantern" },
     { "id": "dec_sacks_1", "type": "decor", "x": 21, "y": 11, "sprite": "sacks" },

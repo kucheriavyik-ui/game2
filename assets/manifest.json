@@ -10,30 +10,143 @@
     "bar": "tiles/bar.png",
     "flagstone": "tiles/flagstone.png",
     "flagstone_hall": "tiles/flagstone_hall.png",
-    "carpet": "tiles/carpet.png"
+    "carpet": "tiles/carpet.png",
+    "city_wall": "tiles/city_wall.png",
+    "gate": "tiles/gate.png",
+    "gate_bars": "tiles/gate_bars.png"
   },
   "characters": {
     "anselm": {
       "idle": "characters/anselm/south.png",
       "walk": {
-        "south": ["characters/anselm/walk/south/0.png", "characters/anselm/walk/south/1.png", "characters/anselm/walk/south/2.png", "characters/anselm/walk/south/3.png", "characters/anselm/walk/south/4.png", "characters/anselm/walk/south/5.png"],
-        "west": ["characters/anselm/walk/west/0.png", "characters/anselm/walk/west/1.png", "characters/anselm/walk/west/2.png", "characters/anselm/walk/west/3.png", "characters/anselm/walk/west/4.png", "characters/anselm/walk/west/5.png"],
-        "east": ["characters/anselm/walk/east/0.png", "characters/anselm/walk/east/1.png", "characters/anselm/walk/east/2.png", "characters/anselm/walk/east/3.png", "characters/anselm/walk/east/4.png", "characters/anselm/walk/east/5.png"],
-        "north": ["characters/anselm/walk/north/0.png", "characters/anselm/walk/north/1.png", "characters/anselm/walk/north/2.png", "characters/anselm/walk/north/3.png", "characters/anselm/walk/north/4.png", "characters/anselm/walk/north/5.png"]
+        "south": [
+          "characters/anselm/walk/south/0.png",
+          "characters/anselm/walk/south/1.png",
+          "characters/anselm/walk/south/2.png",
+          "characters/anselm/walk/south/3.png",
+          "characters/anselm/walk/south/4.png",
+          "characters/anselm/walk/south/5.png"
+        ],
+        "west": [
+          "characters/anselm/walk/west/0.png",
+          "characters/anselm/walk/west/1.png",
+          "characters/anselm/walk/west/2.png",
+          "characters/anselm/walk/west/3.png",
+          "characters/anselm/walk/west/4.png",
+          "characters/anselm/walk/west/5.png"
+        ],
+        "east": [
+          "characters/anselm/walk/east/0.png",
+          "characters/anselm/walk/east/1.png",
+          "characters/anselm/walk/east/2.png",
+          "characters/anselm/walk/east/3.png",
+          "characters/anselm/walk/east/4.png",
+          "characters/anselm/walk/east/5.png"
+        ],
+        "north": [
+          "characters/anselm/walk/north/0.png",
+          "characters/anselm/walk/north/1.png",
+          "characters/anselm/walk/north/2.png",
+          "characters/anselm/walk/north/3.png",
+          "characters/anselm/walk/north/4.png",
+          "characters/anselm/walk/north/5.png"
+        ]
       }
     },
-    "rat": { "idle": "characters/rat/south.png" },
-    "orso": { "idle": "characters/orso/south.png" },
-    "verena": { "idle": "characters/verena/south.png" },
-    "hedda": { "idle": "characters/hedda/south.png" },
-    "tobias": { "idle": "characters/tobias/south.png" },
-    "bozhena": { "idle": "characters/bozhena/south.png" },
-    "isolde": { "idle": "characters/isolde/south.png" },
-    "ferrante": { "idle": "characters/ferrante/south.png" },
-    "horn": { "idle": "characters/horn/south.png" },
-    "martyn": { "idle": "characters/martyn/south.png" },
-    "nomi": { "idle": "characters/nomi/south.png" },
-    "clerk": { "idle": "characters/clerk/south.png" }
+    "rat": {
+      "idle": "characters/rat/south.png"
+    },
+    "orso": {
+      "idle": "characters/orso/south.png"
+    },
+    "verena": {
+      "idle": "characters/verena/south.png"
+    },
+    "hedda": {
+      "idle": "characters/hedda/south.png"
+    },
+    "tobias": {
+      "idle": "characters/tobias/south.png"
+    },
+    "bozhena": {
+      "idle": "characters/bozhena/south.png"
+    },
+    "isolde": {
+      "idle": "characters/isolde/south.png"
+    },
+    "ferrante": {
+      "idle": "characters/ferrante/south.png"
+    },
+    "horn": {
+      "idle": "characters/horn/south.png"
+    },
+    "martyn": {
+      "idle": "characters/martyn/south.png"
+    },
+    "nomi": {
+      "idle": "characters/nomi/south.png"
+    },
+    "clerk": {
+      "idle": "characters/clerk/south.png"
+    },
+    "shtarn": {
+      "idle": "characters/shtarn/south.png"
+    },
+    "vido": {
+      "idle": "characters/vido/south.png"
+    },
+    "lukash": {
+      "idle": "characters/lukash/south.png"
+    },
+    "myroslava": {
+      "idle": "characters/myroslava/south.png"
+    },
+    "hanna": {
+      "idle": "characters/hanna/south.png"
+    },
+    "gnat": {
+      "idle": "characters/gnat/south.png"
+    },
+    "bartosh": {
+      "idle": "characters/bartosh/south.png"
+    },
+    "protector": {
+      "idle": "characters/protector/south.png",
+      "walk": {
+        "south": [
+          "characters/protector/walk/south/0.png",
+          "characters/protector/walk/south/1.png",
+          "characters/protector/walk/south/2.png",
+          "characters/protector/walk/south/3.png",
+          "characters/protector/walk/south/4.png",
+          "characters/protector/walk/south/5.png"
+        ],
+        "west": [
+          "characters/protector/walk/west/0.png",
+          "characters/protector/walk/west/1.png",
+          "characters/protector/walk/west/2.png",
+          "characters/protector/walk/west/3.png",
+          "characters/protector/walk/west/4.png",
+          "characters/protector/walk/west/5.png"
+        ],
+        "east": [
+          "characters/protector/walk/east/0.png",
+          "characters/protector/walk/east/1.png",
+          "characters/protector/walk/east/2.png",
+          "characters/protector/walk/east/3.png",
+          "characters/protector/walk/east/4.png",
+          "characters/protector/walk/east/5.png"
+        ],
+        "north": [
+          "characters/protector/walk/north/0.png",
+          "characters/protector/walk/north/1.png",
+          "characters/protector/walk/north/2.png",
+          "characters/protector/walk/north/3.png",
+          "characters/protector/walk/north/4.png",
+          "characters/protector/walk/north/5.png"
+        ]
+      }
+    }
   },
   "kits": {
     "stone": "kits/stone",
@@ -44,11 +157,26 @@
     "guild": "kits/guild"
   },
   "terrains": {
-    "shore": { "image": "terrain/shore.png", "meta": "terrain/shore.json" },
-    "street": { "image": "terrain/street.png", "meta": "terrain/street.json" },
-    "pier_water": { "image": "terrain/pier_water.png", "meta": "terrain/pier_water.json" },
-    "pier_mud": { "image": "terrain/pier_mud.png", "meta": "terrain/pier_mud.json" },
-    "rubble": { "image": "terrain/rubble.png", "meta": "terrain/rubble.json" }
+    "shore": {
+      "image": "terrain/shore.png",
+      "meta": "terrain/shore.json"
+    },
+    "street": {
+      "image": "terrain/street.png",
+      "meta": "terrain/street.json"
+    },
+    "pier_water": {
+      "image": "terrain/pier_water.png",
+      "meta": "terrain/pier_water.json"
+    },
+    "pier_mud": {
+      "image": "terrain/pier_mud.png",
+      "meta": "terrain/pier_mud.json"
+    },
+    "rubble": {
+      "image": "terrain/rubble.png",
+      "meta": "terrain/rubble.json"
+    }
   },
   "music": {
     "port": "music/port.mp3",
@@ -143,7 +271,13 @@
     "wh_sacks": "objects/wh_sacks.png",
     "rooms_portrait": "objects/rooms_portrait.png",
     "rooms_vase": "objects/rooms_vase.png",
-    "rooms_window": "objects/rooms_window.png"
+    "rooms_window": "objects/rooms_window.png",
+    "door_wicket": "objects/door_wicket.png",
+    "gate_tar": "objects/gate_tar.png",
+    "council_table": "objects/council_table.png",
+    "gate_breach": "objects/gate_breach.png",
+    "gate_flag": "objects/gate_flag.png",
+    "pier_bell": "objects/pier_bell.png"
   },
   "portraits": {
     "anselm_neutral": "characters/anselm/portrait_neutral.png",
@@ -176,6 +310,17 @@
     "verena_serious": "characters/verena/portrait_serious.png",
     "hedda_eerie": "characters/hedda/portrait_eerie.png",
     "tobias_urgent": "characters/tobias/portrait_urgent.png",
-    "anselm_tired": "characters/anselm/portrait_tired.png"
+    "anselm_tired": "characters/anselm/portrait_tired.png",
+    "shtarn_neutral": "characters/shtarn/portrait_neutral.png",
+    "vido_neutral": "characters/vido/portrait_neutral.png",
+    "myroslava_neutral": "characters/myroslava/portrait_neutral.png",
+    "lukash_neutral": "characters/lukash/portrait_neutral.png",
+    "hanna_neutral": "characters/hanna/portrait_neutral.png",
+    "gnat_neutral": "characters/gnat/portrait_neutral.png",
+    "bartosh_neutral": "characters/bartosh/portrait_neutral.png",
+    "shtarn_grim": "characters/shtarn/portrait_grim.png",
+    "horn_eager": "characters/horn/portrait_eager.png",
+    "anselm_smirk": "characters/anselm/portrait_smirk.png",
+    "verena_smirk": "characters/verena/portrait_smirk.png"
   }
 }

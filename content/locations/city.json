@@ -426,10 +426,11 @@
     {
       "id": "lukash",
       "type": "npc",
-      "x": 17.5,
-      "y": 25,
+      "x": 18.3,
+      "y": 24.4,
       "month": "m03",
-      "ink": "m03_spy"
+      "ink": "m03_spy",
+      "label": "Шпигун у кайданах"
     },
     {
       "id": "port_warehouses",

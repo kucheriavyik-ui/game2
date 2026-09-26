@@ -261,6 +261,11 @@ console.log('Knowledge opens options:');
   play(s, 'm03_spy');
   if (has(offered(s, 'm03_council', ['Так', 'Закрити квартал']), 'Перевербувати')) ok('Lukash chain -> double-agent option');
   else fail('double-agent option missing after the Lukash chain');
+  // Meeting him at the wicket is enough for him to talk in the cellar; Anselm need not have been told.
+  const met = new Story(compiled);
+  play(met, 'm01_lukash');
+  play(met, 'm03_spy');
+  if (!v(met, 'k_spy_is_scribe')) fail('the spy stays silent for someone who met him at the wicket');
   const fresh = new Story(compiled);
   play(fresh, 'm03_spy');
   if (has(offered(fresh, 'm03_council', ['Так', 'Закрити квартал']), 'Перевербувати')) fail('double agent offered without f_spy_marked');

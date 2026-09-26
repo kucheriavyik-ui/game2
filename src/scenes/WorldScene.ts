@@ -379,7 +379,8 @@ export class WorldScene extends Phaser.Scene {
           y,
           area: footprint(npc),
           verb: 'поговорити',
-          label: character.name,
+          // A location may hide who this is ("Шпигун у кайданах" for Lorenz in the cellar).
+          label: entity.label ?? character.name,
           action: { kind: 'ink', knot },
         });
         break;

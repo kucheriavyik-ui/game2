@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { DialogueSystem } from '../systems/DialogueSystem';
+import { playThrough } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
 import { activeAdvisors, council, findCharacter, findMonth, loyaltyLevel, RESOURCES_KEY } from '../systems/LocationLoader';
 import { gameOver, nextMonth, snapshot, type Snapshot } from '../systems/MonthFlow';
@@ -65,16 +65,8 @@ export class SummaryScene extends Phaser.Scene {
 
   /** Plays the knot to the end and returns its text; notes a defeat tag. */
   private runEnd(knot: string): string[] {
-    const dialogue = new DialogueSystem();
-    const lines: string[] = [];
-    let line = dialogue.start(knot);
-    while (line) {
-      this.readTags(line.tags);
-      if (line.text) lines.push(line.text);
-      // The summary has no one to answer: a knot that asks takes its first option.
-      line = line.choices.length > 0 ? dialogue.choose(0) : dialogue.next();
-    }
-    this.readTags(dialogue.leftoverTags);
+    const { lines, tags } = playThrough(knot);
+    this.readTags(tags);
     return lines;
   }
 

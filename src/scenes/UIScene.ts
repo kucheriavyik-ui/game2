@@ -5,6 +5,7 @@ import { Journal, type JournalDefs } from '../systems/Journal';
 import { council, findCharacter, isOut, JOURNAL_KEY, RESOURCES_KEY, seatedAdvisors } from '../systems/LocationLoader';
 import { councilLookup, finishMonth, gameOver } from '../systems/MonthFlow';
 import { DialogueBox } from '../ui/DialogueBox';
+import { bindDialogueKeys } from '../ui/dialogueKeys';
 import { JournalPanel, type JournalTab } from '../ui/JournalPanel';
 import { ResourceBar, type ResourceDef } from '../ui/ResourceBar';
 import { COLORS, textStyle } from '../ui/theme';
@@ -74,11 +75,7 @@ export class UIScene extends Phaser.Scene {
     const once = (fn: () => void) => (event: KeyboardEvent) => {
       if (!event.repeat) fn();
     };
-    keyboard.on('keydown-SPACE', once(() => this.advance()));
-    keyboard.on('keydown-ENTER', once(() => this.advance()));
-    (['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX'] as const).forEach((name, i) => {
-      keyboard.on(`keydown-${name}`, once(() => this.choose(i)));
-    });
+    bindDialogueKeys(this, { advance: () => this.advance(), choose: (i) => this.choose(i) });
     keyboard.on('keydown-J', once(() => this.toggleJournal()));
     keyboard.on('keydown-R', once(() => this.resources.toggle()));
     // Arrows/WASD page through the journal while it is open.

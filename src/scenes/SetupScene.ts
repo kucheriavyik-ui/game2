@@ -1,10 +1,11 @@
 import Phaser from 'phaser';
-import { DialogueSystem, type DialogueLine } from '../systems/DialogueSystem';
+import { DialogueSystem, playThrough, type DialogueLine } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
 import { Journal } from '../systems/Journal';
 import { findCharacter, findMonth, RESOURCES_KEY, type MonthDef } from '../systems/LocationLoader';
 import { councilLookup, startMonth, toMainMenu } from '../systems/MonthFlow';
-import { DialogueBox, MAX_CHOICES } from '../ui/DialogueBox';
+import { DialogueBox } from '../ui/DialogueBox';
+import { bindDialogueKeys } from '../ui/dialogueKeys';
 import { ResourceBar, type ResourceDef } from '../ui/ResourceBar';
 import { COLORS, textStyle } from '../ui/theme';
 
@@ -54,17 +55,8 @@ export class SetupScene extends Phaser.Scene {
     this.resources = new ResourceBar(this, (this.cache.json.get(RESOURCES_KEY) ?? []) as ResourceDef[]);
     this.resources.refresh((name) => GameState.num(name), false);
 
-    const keyboard = this.input.keyboard;
-    if (!keyboard) throw new Error('Keyboard input is not available');
-    const once = (fn: () => void) => (event: KeyboardEvent) => {
-      if (!event.repeat) fn();
-    };
-    keyboard.on('keydown-SPACE', once(() => this.advance()));
-    keyboard.on('keydown-ENTER', once(() => this.advance()));
-    (['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX'] as const).slice(0, MAX_CHOICES).forEach((name, i) => {
-      keyboard.on(`keydown-${name}`, once(() => this.choose(i)));
-    });
-    keyboard.on('keydown-ESC', once(() => toMainMenu(this)));
+    bindDialogueKeys(this, { advance: () => this.advance(), choose: (i) => this.choose(i) });
+    this.input.keyboard?.on('keydown-ESC', (event: KeyboardEvent) => !event.repeat && toMainMenu(this));
 
     this.nextCouncil();
   }
@@ -105,7 +97,8 @@ export class SetupScene extends Phaser.Scene {
     }
     this.handleTags(this.dialogue.leftoverTags);
     this.box.hide();
-    if (this.month) this.runSilently(this.month.ink_end);
+    // The month's end knot: its upkeep and the flags it sets, without the summary screen.
+    if (this.month) playThrough(this.month.ink_end);
     this.nextCouncil();
   }
 
@@ -117,10 +110,4 @@ export class SetupScene extends Phaser.Scene {
     }
   }
 
-  /** Plays a knot to the end without showing it (the month's upkeep and consequence flags). */
-  private runSilently(knot: string): void {
-    const dialogue = new DialogueSystem();
-    let line = dialogue.start(knot);
-    while (line) line = line.choices.length > 0 ? dialogue.choose(0) : dialogue.next();
-  }
 }

@@ -132,7 +132,7 @@ VAR f_spy_hanged = false
 VAR f_double_agent = false
 VAR f_night_runs = false
 VAR f_night_runs_watched = false
-VAR f_no_night_runs = false
+
 VAR f_fleet_burned = false
 VAR f_engineers_burned = false
 VAR f_no_sortie = false

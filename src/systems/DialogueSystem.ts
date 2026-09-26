@@ -15,6 +15,24 @@ export interface DialogueLine {
 const DEFAULT_SPEAKER = 'protector';
 
 /**
+ * Plays a knot to the end with nobody watching: the month's summary knot, or a
+ * skipped month's end when starting later. A knot that asks takes its first option.
+ */
+export function playThrough(knot: string): { lines: string[]; tags: string[] } {
+  const dialogue = new DialogueSystem();
+  const lines: string[] = [];
+  const tags: string[] = [];
+  let line = dialogue.start(knot);
+  while (line) {
+    tags.push(...line.tags);
+    if (line.text) lines.push(line.text);
+    line = line.choices.length > 0 ? dialogue.choose(0) : dialogue.next();
+  }
+  tags.push(...dialogue.leftoverTags);
+  return { lines, tags };
+}
+
+/**
  * Runs Ink knots as conversations. Speaker and portrait tags are "sticky":
  * once set they apply to following lines until changed, so writers only tag
  * lines where the speaker or expression changes.

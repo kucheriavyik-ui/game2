@@ -29,7 +29,7 @@ interface WorldSceneData {
 }
 
 const PLAYER_ID = 'protector';
-const PLAYER_SPEED = 110;
+const PLAYER_SPEED = 130;
 /** How far the hero's feet may be from the edge of a thing's footprint to use it. */
 const INTERACT_RANGE = 18;
 const WALK_FPS = 8;

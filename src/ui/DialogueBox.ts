@@ -12,13 +12,14 @@ const HINT_SPACE = 12;
 /** Keys 1-4 pick an answer. */
 export const MAX_CHOICES = 4;
 
-const CHIP_SIZE = 11;
-const CHIP_STEP = 13;
-const STANCE_COLORS = { for: 0x3f7a4a, against: 0x8a3226, neutral: 0x4a4238 } as const;
+/** Who backs and who opposes a choice, written out under it in these colours. */
+const STANCE_FOR_COLOR = '#8fcf8a';
+const STANCE_AGAINST_COLOR = '#e0826e';
+const STANCE_INDENT = 16;
 
 interface Stance {
   id: string;
-  position: keyof typeof STANCE_COLORS;
+  position: 'for' | 'against' | 'neutral';
 }
 
 /** `stance:<advisor>:for|against|neutral` tags of one choice. */
@@ -53,8 +54,8 @@ export class DialogueBox {
   private readonly textWidth: number;
   private readonly textX: number;
   private readonly portraitFrame: Phaser.GameObjects.Rectangle;
-  /** Advisor stance chips next to the current choices; rebuilt for every line. */
-  private chips: Phaser.GameObjects.GameObject[] = [];
+  /** "за: …  проти: …" lines under the current choices; rebuilt for every line. */
+  private stanceTexts: Phaser.GameObjects.Text[] = [];
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
@@ -159,27 +160,23 @@ export class DialogueBox {
     this.bodyText.setText(line.text);
     for (const t of this.choiceTexts) t.setX(textX);
 
-    for (const chip of this.chips) chip.destroy();
-    this.chips = [];
-    let anyStance = false;
+    for (const t of this.stanceTexts) t.destroy();
+    this.stanceTexts = [];
     let y = this.bodyText.y + this.bodyText.height + 6;
     this.choiceTexts.forEach((t, i) => {
       const choice = line.choices[i];
       t.setVisible(choice !== undefined);
       if (choice === undefined) return;
-      const stances = parseStances(line.choiceTags[i] ?? []);
-      if (stances.length > 0) anyStance = true;
-      const chipsWidth = stances.length * CHIP_STEP;
-      t.setWordWrapWidth(textWidth - (chipsWidth > 0 ? chipsWidth + 6 : 0));
+      t.setWordWrapWidth(textWidth);
       t.setText(`${i + 1}. ${choice}`);
       t.setY(y);
-      this.addChips(stances, y, lookup);
-      y += Math.max(t.height, stances.length > 0 ? CHIP_SIZE : 0) + 3;
+      y += t.height + 2;
+      y = this.addStances(parseStances(line.choiceTags[i] ?? []), textX + STANCE_INDENT, y, textWidth - STANCE_INDENT, lookup);
+      y += 3;
     });
 
-    // With choices on screen the hint line explains the stance chips instead of "> Space".
-    const showHint = line.choices.length === 0 || anyStance;
-    this.hint.setText(line.choices.length === 0 ? '> Space' : 'зелене - за, червоне - проти');
+    const showHint = line.choices.length === 0;
+    this.hint.setText('> Space');
     this.hint.setVisible(showHint);
     this.fit(y, showHint);
     this.container.setVisible(true);
@@ -198,19 +195,45 @@ export class DialogueBox {
     this.container.setVisible(false);
   }
 
-  /** Right-aligned row of chips at the height of a choice: the advisor's initial on the colour of their stance. */
-  private addChips(stances: Stance[], y: number, lookup: (id: string) => CharacterDef | undefined): void {
-    const right = this.scene.scale.width - PAD;
-    const present = stances.filter((s) => lookup(s.id) !== undefined);
-    present.forEach((stance, i) => {
-      const character = lookup(stance.id);
-      const x = right - (present.length - i) * CHIP_STEP + (CHIP_STEP - CHIP_SIZE);
-      const box = this.scene.add.rectangle(x, y, CHIP_SIZE, CHIP_SIZE, STANCE_COLORS[stance.position]).setOrigin(0);
-      const letter = this.scene.add
-        .text(x + CHIP_SIZE / 2, y + CHIP_SIZE / 2 + 1, (character?.short ?? character?.name ?? stance.id).charAt(0), textStyle(this.scene))
-        .setOrigin(0.5);
-      this.container.add([box, letter]);
-      this.chips.push(box, letter);
-    });
+  /**
+   * "за: Штарн, Ферранте   проти: Тобіас" under a choice, by the advisors' short names.
+   * "проти" moves to its own line when both do not fit. Returns the y below them.
+   */
+  private addStances(
+    stances: Stance[],
+    x: number,
+    y: number,
+    width: number,
+    lookup: (id: string) => CharacterDef | undefined,
+  ): number {
+    const names = (position: Stance['position']): string =>
+      stances
+        .filter((s) => s.position === position)
+        .map((s) => lookup(s.id))
+        .filter((c): c is CharacterDef => c !== undefined)
+        .map((c) => c.short ?? c.name)
+        .join(', ');
+    const parts = [
+      { label: names('for'), prefix: 'за: ', color: STANCE_FOR_COLOR },
+      { label: names('against'), prefix: 'проти: ', color: STANCE_AGAINST_COLOR },
+    ].filter((p) => p.label !== '');
+    if (parts.length === 0) return y;
+
+    let cx = x;
+    let rowHeight = 0;
+    for (const part of parts) {
+      const t = this.scene.add.text(0, 0, part.prefix + part.label, textStyle(this.scene, { color: part.color, wordWrap: { width } }));
+      if (cx > x && cx + t.width > x + width) {
+        y += rowHeight + 1;
+        cx = x;
+        rowHeight = 0;
+      }
+      t.setPosition(cx, y);
+      this.container.add(t);
+      this.stanceTexts.push(t);
+      cx += t.width + 24;
+      rowHeight = Math.max(rowHeight, t.height);
+    }
+    return y + rowHeight;
   }
 }

@@ -226,7 +226,7 @@
     ~ f_forced_forges = true
     # speaker:radko
     Молот у руці раба б'є тихіше. Побачите.
-* {f_smiths_in} [Поставити до горна людей Мирослави #stance:tobias:for #stance:shtarn:for #stance:verena:against]
+* {f_smiths_in} [Поставити до горна людей Гільди #stance:tobias:for #stance:shtarn:for #stance:verena:against]
     ~ res(walls, 10)
     ~ res(order, -5)
     ~ loy(loy_tobias, 1)
@@ -248,7 +248,7 @@
     # speaker:stas
     (пошепки) Він знає, що це я.
     # speaker:narrator
-    Наступного ранку Стася не знаходять у кузні.
+    Наступного ранку Тіля не знаходять у кузні.
 - # speaker:shtarn
 Рада розходиться.
 # month_end

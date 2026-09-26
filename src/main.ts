@@ -12,6 +12,8 @@ import { FONT_LOAD } from './ui/theme';
 
 export const GAME_WIDTH = 480;
 export const GAME_HEIGHT = 270;
+/** Integer zoom is kept only while it fills at least this share of the window. */
+const INTEGER_ZOOM_MIN_FILL = 0.85;
 
 function createGame(): Phaser.Game {
   const game = new Phaser.Game({
@@ -33,23 +35,23 @@ function createGame(): Phaser.Game {
   });
 
   /**
-   * Integer zoom in *physical* pixels, so every game pixel maps to a whole
-   * block of screen pixels. With Windows display scaling (devicePixelRatio
-   * 1.25, 1.5 …) a plain CSS zoom of 2 would become 2.5 real pixels and blur,
-   * so the CSS zoom is divided by the ratio and the canvas is placed on a
-   * whole physical pixel as well.
+   * Zoom in *physical* pixels. An integer zoom maps every game pixel to a whole
+   * block of screen pixels, so it is preferred; but when it would leave much of
+   * the window empty (a 755px-high browser page fits zoom 2 = 540px) the game is
+   * stretched to fit instead and pixels become slightly uneven. With Windows
+   * display scaling (devicePixelRatio 1.25, 1.5 …) the CSS zoom is divided by
+   * the ratio and the canvas is placed on a whole physical pixel as well.
    */
   const fitToWindow = (): void => {
     const dpr = window.devicePixelRatio || 1;
-    const physical = Math.max(
-      1,
-      Math.floor(Math.min((window.innerWidth * dpr) / GAME_WIDTH, (window.innerHeight * dpr) / GAME_HEIGHT)),
-    );
+    const fit = Math.min((window.innerWidth * dpr) / GAME_WIDTH, (window.innerHeight * dpr) / GAME_HEIGHT);
+    const whole = Math.max(1, Math.floor(fit));
+    const physical = whole >= fit * INTEGER_ZOOM_MIN_FILL ? whole : fit;
     game.scale.setZoom(physical / dpr);
 
     const canvas = game.canvas;
-    const left = Math.floor((window.innerWidth * dpr - GAME_WIDTH * physical) / 2) / dpr;
-    const top = Math.floor((window.innerHeight * dpr - GAME_HEIGHT * physical) / 2) / dpr;
+    const left = Math.max(0, Math.floor((window.innerWidth * dpr - GAME_WIDTH * physical) / 2)) / dpr;
+    const top = Math.max(0, Math.floor((window.innerHeight * dpr - GAME_HEIGHT * physical) / 2)) / dpr;
     canvas.style.position = 'absolute';
     canvas.style.left = `${left}px`;
     canvas.style.top = `${top}px`;

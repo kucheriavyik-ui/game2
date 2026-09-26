@@ -29,7 +29,7 @@ export function textStyle(scene: Phaser.Scene, overrides: TextStyle = {}): TextS
     color: COLORS.text,
     lineSpacing: LINE_SPACING,
     // Physical pixels per game pixel (zoom already has the display scaling divided out).
-    resolution: Math.max(1, Math.round(scene.scale.zoom * (window.devicePixelRatio || 1))),
+    resolution: Math.max(1, Math.ceil(scene.scale.zoom * (window.devicePixelRatio || 1) - 0.01)),
     ...overrides,
   };
 }

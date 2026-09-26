@@ -267,3 +267,12 @@ _Тут фіксуються реальні промпти, id завдань і
 ## 15. Стіни інтер'єрів (2026-09-26)
 
 Старий тайл `wall` (мохуватий камінь з Game1, затемнений) у ратуші й інтер'єрах читався як щебінь. Згенеровано два варіанти «верху стіни» (pixen 32×32, `view: high top-down`): `wall_top_stone` — «top of a thick interior stone wall seen from directly above, neat rows of large dressed grey limestone blocks with thin dark mortar lines, clean, no moss» (`00646851`, ✅ обрано, з overlay `rgba(20,14,10,0.25)`), `wall_top_beam` — «dark oak beam cap over smooth pale grey plastered stone» (`d23de35a`, запасний). Символ `#` у ратуші, таверні, лазареті й Домі Гільдії.
+
+## 16. Десятник Конрад (колишній Мирон), повтор (2026-09-26)
+
+Перша версія (`cc3f1839` / `7c9810e1`) мала круглий шолом і синю форму — автор: «як космонавт». Новий промпт прямо забороняє шолом.
+
+| Асет | Опис | Id |
+|---|---|---|
+| `myron` спрайт | `create_character` standard 48, 4 dir, low top-down: «weathered medieval garrison sergeant about 45, bareheaded with close-cropped grey hair and short grizzled beard, scar across the cheek, padded brown quilted gambeson with leather belt, short sword at the hip, worn leather boots, no helmet, no metal armor on the head» + стиль | `18bef3d7` |
+| `myron_neutral` | pixen 64×64 `view: side`: «close-up head and shoulders … bareheaded, close-cropped grey hair, short grizzled beard, old scar across the cheek, tired shrewd eyes, padded brown quilted gambeson …, no helmet, flat plain dark grey background» | `cf3d54af` |

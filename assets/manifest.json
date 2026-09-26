@@ -154,7 +154,8 @@
     "chapel": "kits/chapel",
     "ruin": "kits/ruin",
     "townhall": "kits/townhall",
-    "guild": "kits/guild"
+    "guild": "kits/guild",
+    "citywall": "kits/citywall"
   },
   "terrains": {
     "shore": {
@@ -217,7 +218,8 @@
     "chair": "decor/chair.png",
     "well": "decor/well.png",
     "stall_veg": "decor/stall_veg.png",
-    "stall_grain": "decor/stall_grain.png"
+    "stall_grain": "decor/stall_grain.png",
+    "city_gate": "decor/city_gate.png"
   },
   "objects": {
     "door_tavern": "objects/door_tavern.png",

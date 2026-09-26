@@ -70,8 +70,8 @@
     "#": {
       "name": "citywall",
       "solid": true,
-      "color": "#3a3a42",
-      "kit": "townhall"
+      "color": "#4a4a4a",
+      "kit": "citywall"
     },
     "q": {
       "name": "grave_ground",
@@ -145,6 +145,7 @@
     }
   },
   "entities": [
+    { "id": "dec_city_gate", "type": "decor", "x": 27.5, "y": 2, "sprite": "city_gate", "wall": true, "dy": -20 },
     { "id": "door_townhall", "type": "door", "x": 41, "y": 28, "target": "townhall", "spawn": "door_in", "label": "Ратуша" },
     { "id": "door_tavern", "type": "door", "x": 10, "y": 26, "target": "tavern", "spawn": "door_in", "label": "Таверна «Втоплений дзвін»" },
     { "id": "door_infirmary", "type": "door", "x": 26, "y": 26, "target": "infirmary", "spawn": "door_in", "label": "Лазарет" },
@@ -152,8 +153,6 @@
     { "id": "door_cellar", "type": "door", "x": 17, "y": 26, "label": "Підвал Інквізиції" },
     { "id": "door_harbour", "type": "door", "x": 3, "y": 26, "sprite": "door_home", "label": "Контора начальника порту" },
     { "id": "door_shinok", "type": "door", "x": 33, "y": 26, "sprite": "door_home", "label": "Шинок" },
-    { "id": "door_gate_1", "type": "door", "x": 27, "y": 2, "label": "Головна брама" },
-    { "id": "door_gate_2", "type": "door", "x": 28, "y": 2, "label": "Головна брама" },
     { "id": "door_wicket", "type": "door", "x": 21, "y": 2, "label": "Хвіртка" },
     { "id": "door_arsenal", "type": "door", "x": 5, "y": 7, "sprite": "door_townhall", "label": "Арсенал" },
     { "id": "door_forge", "type": "door", "x": 13, "y": 7, "sprite": "door_home", "label": "Кузня" },

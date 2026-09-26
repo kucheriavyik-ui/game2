@@ -231,3 +231,10 @@ _Тут фіксуються реальні промпти, id завдань і
 | Вирази (pixflux) | shtarn_grim `6c60c652` (від нового нейтрального), horn_eager `a01c1103`, anselm_smirk `ca8af517`, verena_smirk `f7d4078c` | | ✅ зміни тонкі |
 | Тайли брами (pixen 32×32) | `city_wall` «thick old city wall of large grey cut stone blocks, moss» `0320e209`; `gate` «oak planks with iron bands» `392dc421`; `gate_bars` «iron portcullis grid» `cc90fe46` | | ✅ брама й ґрати вийшли арками в рамці — у ряд читаються як надбрамні арки |
 | Предмети (pixen, `no_background`) | door_wicket 32×48 `3362107f`, gate_tar (казан смоли) 32×40 `755639c3`, council_table 96×64 (стіл з картою й свічками, фронтально) `f5232e9f`, gate_breach 48×40 `3c4cca9f`, gate_flag (прапор Корвена) 32×48 `d99db52f`, pier_bell 32×48 `67a0425c` | | ✅ |
+
+## 12. Місто: міська стіна і брама (2026-09-26)
+
+| Асет | Інструмент / промпт | Id | Результат |
+|---|---|---|---|
+| Набір `citywall` | `create_building_kit` як етап A (square_topdown, 32, view 90, wall_angle 70, materials): стіни «massive fortified city wall of huge weathered grey cut stone blocks, dark mortar, a few narrow arrow slits, stains and cracks … plain solid wall with no windows and no doors», верх «top of a city wall: wide worn stone rampart walkway with crenellated battlements» | `7e659eb5` | ✅ `kits/citywall/`, у місті символ `#` |
+| `city_gate` 64×72 | pixen `no_background`, `view: side`: «massive arched city gate set in a grey stone city wall, closed heavy oak doors bound with black iron bands and rivets, iron portcullis half lowered in front, seen perfectly straight from the front, flat, symmetrical» | `669a7a41` | ✅ декор на стіні (`wall: true, dy: -20`) |

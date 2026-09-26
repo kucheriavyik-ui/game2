@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "ink": "node scripts/compile-ink.mjs",
-    "story:check": "npm run ink && node scripts/story-check.mjs"
+    "story:check": "npm run ink && node scripts/story-check.mjs",
+    "artifact": "npm run build && node scripts/prepare-artifact.mjs"
   },
   "dependencies": {
     "inkjs": "^2.4.0",

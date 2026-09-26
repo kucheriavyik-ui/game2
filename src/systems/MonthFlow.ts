@@ -62,6 +62,24 @@ export function startMonth(scene: Phaser.Scene, id: string): void {
   scene.scene.start('MonthCard', { month: id });
 }
 
+/**
+ * Development shortcut (`?month=` in the URL): a fresh story placed straight into
+ * a month, with the given Ink VARs switched on. Unlike startMonth it never saves.
+ */
+export function previewMonth(scene: Phaser.Scene, id: string, location?: string, flags: string[] = []): void {
+  const month = findMonth(scene, id);
+  if (!month) throw new Error(`?month=${id}: no such month in content/months`);
+  resetStory(scene);
+  for (const flag of flags) {
+    if (GameState.has(flag)) GameState.set(flag, true);
+    else console.warn(`?set=: main.ink has no VAR ${flag}`);
+  }
+  scene.registry.set('month', id);
+  scene.registry.set('monthStart', snapshot(scene));
+  if (location) enterWorld(scene, { location, spawn: 'start' });
+  else scene.scene.start('MonthCard', { month: id });
+}
+
 /** Restores the save: the month starts again from its card. Returns false if there is no usable save. */
 export function continueGame(scene: Phaser.Scene): boolean {
   const save = SaveSystem.load();

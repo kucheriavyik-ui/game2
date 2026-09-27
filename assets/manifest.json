@@ -184,6 +184,15 @@
     },
     "magda": {
       "idle": "characters/magda/south.png"
+    },
+    "kagan": {
+      "idle": "characters/kagan/south.png"
+    },
+    "matey": {
+      "idle": "characters/matey/south.png"
+    },
+    "stas": {
+      "idle": "characters/stas/south.png"
     }
   },
   "kits": {

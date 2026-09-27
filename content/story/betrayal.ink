@@ -14,6 +14,7 @@
 - who == "isolde": -> betray_isolde ->
 - who == "tobias": -> betray_tobias ->
 - who == "verena": -> betray_verena ->
+- who == "erik": -> betray_erik ->
 }
 ->->
 
@@ -47,6 +48,10 @@
 {not b_tobias and not out_tobias and loy_tobias < low:
     ~ who = "tobias"
     ~ low = loy_tobias
+}
+{out_isolde and not b_erik and not out_erik and loy_erik < low:
+    ~ who = "erik"
+    ~ low = loy_erik
 }
 {not b_verena and not out_verena and loy_verena < low:
     ~ who = "verena"
@@ -205,3 +210,19 @@
     ~ f_drain_sealed = true
     (дивиться, як муляри кладуть цеглу) Люди все одно тікатимуть. Тепер — через стіну. І падатимуть.
 - ->->
+
+=== betray_erik ===
+~ b_erik = true
+# speaker:narrator
+Ерік не приходить на раду. Його знаходять у підвалі Гільдії над відкритою скринею із золотом купців — він переписує його «на схов».
+# speaker:erik
+Вони сказали, що інакше заберуть самі. Я… я хотів, щоб хоч книги лишились чесними.
+* [Пробачити: золото повертається в книги]
+    ~ loy(loy_erik, 2)
+* [Забрати золото в скарбницю міста]
+    ~ res(gold, 10)
+    ~ loy(loy_erik, -3)
+    # speaker:erik
+    (тихо) Тепер купці скажуть, що я їх продав. І матимуть рацію.
+-
+->->

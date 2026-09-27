@@ -1,0 +1,20 @@
+{
+  "id": "m09",
+  "number": 9,
+  "title": "Останній штурм",
+  "flavor": "Перший сніг. Під землею хтось копає.",
+  "location": "townhall",
+  "knowledge": [
+    "k_mine_sound",
+    "k_mine_location",
+    "k_flood_channel",
+    "k_countermine",
+    "k_horde_exhausted",
+    "k_kagan_respects",
+    "k_betrayal_warning",
+    "k_kagan_offer"
+  ],
+  "ink_open": "m09_open",
+  "ink_council": "m09_council",
+  "ink_end": "m09_end"
+}

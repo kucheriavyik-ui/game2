@@ -30,10 +30,37 @@
     }
   },
   "entities": [
-    { "id": "door_out", "type": "door", "x": 7, "y": 9, "target": "city", "spawn": "from_guild", "label": "На площу" },
-    { "id": "door_warehouse", "type": "door", "x": 3, "y": 2, "label": "Склад (зачинено)" },
-    { "id": "door_rooms", "type": "door", "x": 12, "y": 2, "label": "Покої Ізольди (зачинено)" },
-    { "id": "dec_rug_1", "type": "decor", "x": 7.5, "y": 6.6, "sprite": "rug", "floor": true },
+    {
+      "id": "door_out",
+      "type": "door",
+      "x": 7,
+      "y": 9,
+      "target": "city",
+      "spawn": "from_guild",
+      "label": "На площу"
+    },
+    {
+      "id": "door_warehouse",
+      "type": "door",
+      "x": 3,
+      "y": 2,
+      "label": "Склад (зачинено)"
+    },
+    {
+      "id": "door_rooms",
+      "type": "door",
+      "x": 12,
+      "y": 2,
+      "label": "Покої Ізольди (зачинено)"
+    },
+    {
+      "id": "dec_rug_1",
+      "type": "decor",
+      "x": 7.5,
+      "y": 6.6,
+      "sprite": "rug",
+      "floor": true
+    },
     {
       "id": "guild_ledger",
       "type": "object",
@@ -41,22 +68,94 @@
       "y": 4,
       "ink": "{month}_guild_ledger"
     },
-    { "id": "dec_chair_1", "type": "decor", "x": 7.5, "y": 5.2, "sprite": "chair" },
-    { "id": "dec_bookshelf_1", "type": "decor", "x": 5.2, "y": 3, "sprite": "bookshelf" },
-    { "id": "dec_bookshelf_2", "type": "decor", "x": 9.8, "y": 3, "sprite": "bookshelf" },
-    { "id": "dec_chest_1", "type": "decor", "x": 1.3, "y": 5, "sprite": "chest" },
-    { "id": "dec_chest_2", "type": "decor", "x": 14.5, "y": 6.3, "sprite": "chest" },
-    { "id": "dec_crates_1", "type": "decor", "x": 1, "y": 8, "sprite": "crates" },
-    { "id": "dec_sacks_1", "type": "decor", "x": 14, "y": 8, "sprite": "sacks" },
-    { "id": "dec_candles_1", "type": "decor", "x": 1.2, "y": 3, "sprite": "candles" },
-    { "id": "dec_tapestry_1", "type": "decor", "x": 14.5, "y": 2, "sprite": "tapestry", "wall": true, "dy": -24 },
-    { "id": "dec_window_1", "type": "decor", "x": 7.5, "y": 2, "sprite": "window_tall_timber", "wall": true, "dy": -24 },
+    {
+      "id": "dec_chair_1",
+      "type": "decor",
+      "x": 7.5,
+      "y": 5.2,
+      "sprite": "chair"
+    },
+    {
+      "id": "dec_bookshelf_1",
+      "type": "decor",
+      "x": 5.2,
+      "y": 3,
+      "sprite": "bookshelf"
+    },
+    {
+      "id": "dec_bookshelf_2",
+      "type": "decor",
+      "x": 9.8,
+      "y": 3,
+      "sprite": "bookshelf"
+    },
+    {
+      "id": "dec_chest_1",
+      "type": "decor",
+      "x": 1.3,
+      "y": 5,
+      "sprite": "chest"
+    },
+    {
+      "id": "dec_chest_2",
+      "type": "decor",
+      "x": 14.5,
+      "y": 6.3,
+      "sprite": "chest"
+    },
+    {
+      "id": "dec_crates_1",
+      "type": "decor",
+      "x": 1,
+      "y": 8,
+      "sprite": "crates"
+    },
+    {
+      "id": "dec_sacks_1",
+      "type": "decor",
+      "x": 14,
+      "y": 8,
+      "sprite": "sacks"
+    },
+    {
+      "id": "dec_candles_1",
+      "type": "decor",
+      "x": 1.2,
+      "y": 3,
+      "sprite": "candles"
+    },
+    {
+      "id": "dec_tapestry_1",
+      "type": "decor",
+      "x": 14.5,
+      "y": 2,
+      "sprite": "tapestry",
+      "wall": true,
+      "dy": -24
+    },
+    {
+      "id": "dec_window_1",
+      "type": "decor",
+      "x": 7.5,
+      "y": 2,
+      "sprite": "window_tall_timber",
+      "wall": true,
+      "dy": -24
+    },
     {
       "id": "yadviga",
       "type": "npc",
       "x": 10.5,
       "y": 6,
       "ink": "{month}_yadviga"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 3,
+      "y": 3.6,
+      "month": "m09",
+      "ink": "m09_nomi"
     }
   ]
 }

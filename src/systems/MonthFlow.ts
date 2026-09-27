@@ -155,13 +155,18 @@ export function finishMonth(scene: Phaser.Scene): void {
 export function nextMonth(scene: Phaser.Scene): void {
   const list = months(scene);
   const index = list.findIndex((m) => m.id === scene.registry.get('month'));
+  const current = list[index];
   const next = list[index + 1];
-  if (next) {
+  // Only the month that directly follows: a gap (month 8 not written yet) ends the run here.
+  if (next && current && next.number === current.number + 1) {
     startMonth(scene, next.id);
     return;
   }
   SaveSystem.clear();
-  scene.scene.start('Story', { knot: null, caption: 'Далі буде' });
+  scene.scene.start('Story', {
+    knot: null,
+    caption: next ? `Далі буде\n(місяць ${(current?.number ?? 0) + 1} ще не написаний; місяць ${next.number} можна почати з меню)` : 'Далі буде',
+  });
 }
 
 /** A resource hit zero: the defeat scene from Ink (`game_over_<id>`), then the main menu. */

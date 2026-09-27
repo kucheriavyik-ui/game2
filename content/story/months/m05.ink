@@ -359,11 +359,13 @@
     ~ loy(loy_bozhena, 1)
     ~ loy(loy_tobias, -1)
     ~ f_preacher_banned = true
+    ~ f_preacher_gone = true
 * [Заарештувати #stance:anselm:for #stance:horn:for #stance:tobias:against]
     ~ res(order, -10)
     ~ loy(loy_anselm, 1)
     ~ loy(loy_tobias, -2)
     ~ f_preacher_arrested = true
+    ~ f_preacher_gone = true
 * [Дати йому говорити #stance:tobias:for #stance:anselm:against]
     ~ res(order, 5)
     ~ loy(loy_tobias, 1)

@@ -106,7 +106,7 @@
       "type": "npc",
       "x": 12.8,
       "y": 11,
-      "when": "!out_bozhena",
+      "when": "!f_hostage_bozhena",
       "ink": "{month}_bozhena"
     },
     {

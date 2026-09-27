@@ -1,0 +1,20 @@
+{
+  "id": "m07",
+  "number": 7,
+  "title": "Перший штурм",
+  "flavor": "Облогові вежі стоять під стінами. Орда більше не чекає.",
+  "location": "townhall",
+  "knowledge": [
+    "k_envoy_hint",
+    "k_three_blows",
+    "k_second_line",
+    "k_salt_gate_ram",
+    "k_fire_arrows",
+    "k_horde_signal",
+    "k_lower_city_crowd",
+    "k_nomi_breach"
+  ],
+  "ink_open": "m07_open",
+  "ink_council": "m07_council",
+  "ink_end": "m07_end"
+}

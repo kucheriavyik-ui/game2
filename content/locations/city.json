@@ -969,7 +969,7 @@
     {
       "id": "envoy_sacks",
       "type": "object",
-      "x": 23,
+      "x": 24.6,
       "y": 5.2,
       "month": "m04",
       "sprite": "sacks",
@@ -978,7 +978,7 @@
     {
       "id": "nomi",
       "type": "npc",
-      "x": 24.3,
+      "x": 25.6,
       "y": 6.2,
       "month": "m04",
       "ink": "m04_nomi"
@@ -1103,6 +1103,136 @@
       "y": 27.8,
       "month": "m05",
       "ink": "m05_nomi"
+    },
+    {
+      "id": "vido",
+      "type": "npc",
+      "x": 24,
+      "y": 3.6,
+      "month": "m07",
+      "ink": "m07_vido"
+    },
+    {
+      "id": "myroslava",
+      "type": "npc",
+      "x": 13,
+      "y": 8.8,
+      "month": "m07",
+      "when": "f_smiths_in",
+      "ink": "m07_myroslava"
+    },
+    {
+      "id": "radko",
+      "type": "npc",
+      "x": 21,
+      "y": 8.8,
+      "month": "m07",
+      "when": "!f_smiths_in",
+      "ink": "m07_radko"
+    },
+    {
+      "id": "lukash",
+      "type": "npc",
+      "x": 18.3,
+      "y": 24.4,
+      "month": "m07",
+      "when": "f_double_agent",
+      "label": "Лоренц",
+      "ink": "m07_lukash"
+    },
+    {
+      "id": "yeremiya",
+      "type": "npc",
+      "x": 40,
+      "y": 9.6,
+      "month": "m07",
+      "when": "!f_preacher_gone",
+      "ink": "m07_yeremiya"
+    },
+    {
+      "id": "hedda",
+      "type": "npc",
+      "x": 14.5,
+      "y": 3.4,
+      "month": "m07",
+      "ink": "m07_hedda"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 17.5,
+      "y": 3.4,
+      "month": "m07",
+      "ink": "m07_nomi"
+    },
+    {
+      "id": "gate_breach",
+      "type": "object",
+      "x": 16,
+      "y": 2.4,
+      "month": "m07",
+      "ink": "m07_obj_breach"
+    },
+    {
+      "id": "matey",
+      "type": "npc",
+      "x": 14,
+      "y": 24.6,
+      "month": "m09",
+      "ink": "m09_matey"
+    },
+    {
+      "id": "myroslava",
+      "type": "npc",
+      "x": 13,
+      "y": 8.8,
+      "month": "m09",
+      "when": "f_smiths_in",
+      "ink": "m09_myroslava"
+    },
+    {
+      "id": "lukash",
+      "type": "npc",
+      "x": 18.3,
+      "y": 24.4,
+      "month": "m09",
+      "when": "f_double_agent",
+      "label": "Лоренц",
+      "ink": "m09_lukash"
+    },
+    {
+      "id": "erden",
+      "type": "npc",
+      "x": 31.5,
+      "y": 5.2,
+      "month": "m09",
+      "ink": "m09_erden"
+    },
+    {
+      "id": "kagan",
+      "type": "npc",
+      "x": 27.5,
+      "y": 5.6,
+      "month": "m09",
+      "label": "Каган Ошир Тихий",
+      "ink": "m09_kagan"
+    },
+    {
+      "id": "hedda",
+      "type": "npc",
+      "x": 26,
+      "y": 3.4,
+      "month": "m09",
+      "ink": "m09_hedda"
+    },
+    {
+      "id": "stas",
+      "type": "npc",
+      "x": 13,
+      "y": 8.8,
+      "month": "m09",
+      "when": "f_gilda_dead",
+      "ink": "m09_stas"
     }
   ]
 }

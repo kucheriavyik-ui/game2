@@ -10,6 +10,8 @@ INCLUDE months/m03.ink
 INCLUDE months/m04.ink
 INCLUDE months/m05.ink
 INCLUDE months/m06.ink
+INCLUDE months/m07.ink
+INCLUDE months/m09.ink
 INCLUDE betrayal.ink
 INCLUDE idle.ink
 INCLUDE people.ink
@@ -42,6 +44,7 @@ VAR b_ferrante = false
 VAR b_isolde = false
 VAR b_tobias = false
 VAR b_verena = false
+VAR b_erik = false
 // Left the council for good (dead, executed, exiled, expelled): no betrayals, no stances, «поза радою» in the journal.
 VAR out_shtarn = false
 VAR out_horn = false
@@ -51,6 +54,7 @@ VAR out_ferrante = false
 VAR out_isolde = false
 VAR out_tobias = false
 VAR out_verena = false
+VAR out_erik = false
 
 // --- Knowledge (k_*): set by the tag # journal:<id>, opens hidden council options ---
 // Month 1
@@ -96,6 +100,24 @@ VAR k_knights_view = false
 VAR k_ferrante_contact = false
 VAR k_poison_sweet = false
 VAR k_poison_otto = false
+// Month 7
+VAR k_envoy_hint = false
+VAR k_three_blows = false
+VAR k_second_line = false
+VAR k_salt_gate_ram = false
+VAR k_fire_arrows = false
+VAR k_horde_signal = false
+VAR k_lower_city_crowd = false
+VAR k_nomi_breach = false
+// Month 9
+VAR k_mine_sound = false
+VAR k_mine_location = false
+VAR k_flood_channel = false
+VAR k_countermine = false
+VAR k_horde_exhausted = false
+VAR k_kagan_respects = false
+VAR k_betrayal_warning = false
+VAR k_kagan_offer = false
 
 // --- Flags: consequences of decisions (f_*); where they return is in docs/story ---
 // Month 1
@@ -214,6 +236,71 @@ VAR f_letter_anselm = false
 VAR f_ferrante_prison = false
 VAR f_ferrante_watched = false
 VAR f_ferrante_channel = false
+VAR f_preacher_gone = false
+// Month 7: the first storm. defense counts the battle; it is reset at the start of each storm.
+VAR defense = 0
+VAR f_main_north = false
+VAR f_main_gate = false
+VAR f_main_even = false
+VAR f_militia_walls = false
+VAR f_militia_fire = false
+VAR f_militia_reserve = false
+VAR f_knights_reserve = false
+VAR f_knights_front = false
+VAR f_knights_guard = false
+VAR f_lower_evacuated = false
+VAR f_lower_left = false
+VAR f_lower_verena = false
+VAR f_w1_fire = false
+VAR f_second_line_known = false
+VAR f_assault1_triumph = false
+VAR f_assault1_costly = false
+VAR f_assault1_barely = false
+VAR f_protector_wounded = false
+VAR f_vido_dead = false
+VAR f_gilda_dead = false
+VAR f_horn_hero_death = false
+VAR f_betray_horn = false
+VAR f_betray_verena = false
+VAR f_betray_ferrante = false
+VAR f_betray_anselm = false
+VAR f_betray_tobias = false
+VAR f_betray_erik = false
+VAR f_betray_isolde = false
+// Month 9: the last storm. warned — whom Bozhena named (advisor id or "").
+VAR warned = ""
+VAR f_kagan_truce = false
+VAR f_kagan_ultimatum = false
+VAR f_mine_flooded = false
+VAR f_mine_collapsed = false
+VAR f_mine_searched = false
+VAR f_mine_ignored = false
+VAR f_winter_truce = false
+VAR f_final_assault = false
+VAR f_hostage_erik = false
+VAR f_hostage_anselm = false
+VAR f_hostage_ferrante = false
+VAR f_hostage_tobias = false
+VAR f_hostage_bozhena = false
+VAR f_hostage_nomi = false
+VAR f_last_gate = false
+VAR f_last_reserve = false
+VAR f_last_protector = false
+VAR f_traitor_talked = false
+VAR f_traitor_arrested = false
+VAR f_traitor_watched = false
+VAR f_knights_charged = false
+VAR f_gate_lost = false
+VAR f_final_victory = false
+VAR f_final_held = false
+VAR f_final_brink = false
+VAR f_greyhand_dead = false
+VAR f_greyhand_alive = false
+VAR f_coup_anselm = false
+VAR f_riot_verena = false
+VAR f_betray_ferrante9 = false
+VAR f_horn_mutiny = false
+VAR f_betray_tobias9 = false
 
 -> END
 
@@ -230,6 +317,20 @@ VAR f_ferrante_channel = false
 ~ res(bread, -8)
 ~ res(gold, -4)
 Утримання міста за місяць: Хліб −8, Золото −4.
+
+// An advisor's short name for lines that name whoever Bozhena warned about.
+=== function advisor_name(id)
+{
+- id == "horn": ~ return "Горн"
+- id == "verena": ~ return "Верена"
+- id == "ferrante": ~ return "Ферранте"
+- id == "anselm": ~ return "Ансельм"
+- id == "tobias": ~ return "Тобіас"
+- id == "erik": ~ return "Ерік"
+- id == "isolde": ~ return "Ізольда"
+- id == "shtarn": ~ return "Штарн"
+- else: ~ return id
+}
 
 // Whether any resource has run out (the city falls at the end of the month).
 === function lost()

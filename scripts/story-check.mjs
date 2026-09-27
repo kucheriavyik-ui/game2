@@ -198,8 +198,8 @@ function play(story, knot, picks = [], { stopAtChoice = false, firstIfNoPick = f
     if (stopAtChoice && picks.length === 0) break;
     const want = picks.shift();
     let idx = want === undefined ? choices.findIndex((c) => c.text.startsWith('Піти')) : choices.findIndex((c) => c.text.startsWith(want));
-    // A betrayal scene can appear in any opening: without a scripted answer, take the first one.
-    if (idx === -1 && want === undefined && firstIfNoPick) idx = 0;
+    // No «Піти» and no scripted answer (a betrayal scene, the questions to the Khagan): take the first one.
+    if (idx === -1 && want === undefined) idx = 0;
     if (idx === -1) {
       fail(`in "${knot}": no choice starting with "${want ?? 'Піти'}". Offered: ${choices.map((c) => `"${c.text}"`).join(', ')}`);
       return tags;
@@ -359,7 +359,7 @@ console.log('Knowledge opens options:');
   else fail('the ford Knowledge does not change the sally');
 }
 
-console.log('Six months:');
+console.log('Every written month in a row:');
 {
   const s = new Story(compiled);
   if (play(s, 'prologue').includes(`goto:${months[0]?.id}`)) ok('prologue leads to the first month');
@@ -371,9 +371,11 @@ console.log('Six months:');
     ['m04', ['Так', 'Служба в Храмі', 'Лише під присягою', 'Божена', 'Прогнати з честю']],
     ['m05', ['Так', 'Спалювати лише тіла', 'Дати йому говорити', 'Заборонити']],
     ['m06', ['Так', 'Капітан Горн', 'Не шукати винних', 'Спалити не читаючи']],
+    ['m07', ['Так', '«Відповідь та сама', 'На північну вежу', 'Гасити пожежі', 'Резерв для контратаки', 'Залишити як є', 'Смола і каміння', 'Тримати браму', 'Кинути Лицарів Тіла']],
+    ['m09', ['Так', 'Послати Лицарів у ходи', 'Відмовити', 'Лицарі Тіла на Соляній брамі', 'Тримати всі стіни', 'Лицарі тримаються']],
   ];
   for (const [id, picks] of runs) {
-    play(s, `${id}_open`, [], { firstIfNoPick: true });
+    play(s, `${id}_open`, id === 'm07' ? [picks.splice(1, 1)[0]] : [], { firstIfNoPick: true });
     if (!play(s, `${id}_council`, picks).includes('month_end')) fail(`${id}: council has no # month_end`);
     const end = play(s, `${id}_end`);
     if (end.some((t) => t.startsWith('game_over'))) fail(`${id}: ordinary choices end in defeat`);
@@ -471,6 +473,77 @@ console.log('The death of the marshal (month 5 -> 6):');
     if (text.includes('loy(loy_bozhena, -')) fail(`${file}: the regard of Bozhena is lowered`);
   }
   ok('Bozhena keeps her counsel and her regard');
+}
+
+console.log('The storms (months 7 and 9):');
+{
+  // Fire arrows need the forge; the second line needs Sira Ruka; the first storm ends the month.
+  const s = new Story(compiled);
+  play(s, 'm07_open', ['«Відповідь та сама']);
+  const saved = s.state.ToJson();
+  if (has(offered(s, 'm07_council', ['Так', 'На північну вежу', 'Городян не чіпати', 'Резерв для контратаки', 'Залишити як є']), 'Вогняні стріли')) fail('fire arrows offered without k_fire_arrows');
+  s.state.LoadJson(saved);
+  play(s, 'm07_myroslava');
+  play(s, 'm07_sira_ruka');
+  if (!has(offered(s, 'm07_council', ['Так', 'На північну вежу', 'Городян не чіпати', 'Резерв для контратаки', 'Залишити як є']), 'Вогняні стріли')) fail('fire arrows missing after the forge');
+  s.state.LoadJson(saved);
+  play(s, 'm07_myroslava');
+  play(s, 'm07_sira_ruka');
+  const tags = play(s, 'm07_council', ['Так', 'На північну вежу', 'Городян не чіпати', 'Резерв для контратаки', 'Залишити як є', 'Вогняні стріли', 'Тримати браму', 'Відійти на другу лінію']);
+  if (!tags.includes('month_end')) fail('the first storm does not end the month');
+  if (!(v(s, 'f_assault1_triumph') || v(s, 'f_assault1_costly') || v(s, 'f_assault1_barely'))) fail('the first storm has no outcome flag');
+  else ok(`first storm: defense ${v(s, 'defense')}, walls ${v(s, 'walls')}, order ${v(s, 'order')}`);
+  if (has(play(new Story(compiled), 'm07_open', ['Відчинити ворота']), 'game_over:surrender')) ok('opening the gates to the envoy is the surrender');
+  else fail('no surrender when the gates are opened to the envoy');
+}
+{
+  // A bitter Horn betrays during the second wave and never again.
+  const s = new Story(compiled);
+  s.variablesState.$('loy_horn', 2);
+  play(s, 'm07_open', ['«Відповідь та сама']);
+  play(s, 'm07_council', ['Так', 'На північну вежу', 'Городян не чіпати', 'Резерв для контратаки', 'Залишити як є', 'Смола і каміння', 'Хай іде', 'Тримати браму', 'Кинути Лицарів Тіла']);
+  if (v(s, 'f_betray_horn') && v(s, 'b_horn')) ok('Horn betrays in the second wave, once');
+  else fail('Horn at loyalty 2 did not betray during the storm');
+}
+{
+  // Month 9: the mine needs Nomi and Matey; the truce needs the Khagan's respect; a hostage follows the truce.
+  const s = new Story(compiled);
+  s.variablesState.$('f_well_closed', true);
+  s.variablesState.$('f_horde_knows_we_know', true);
+  s.variablesState.$('out_isolde', true);
+  play(s, 'm09_open');
+  const saved = s.state.ToJson();
+  if (has(offered(s, 'm09_council', ['Так']), 'Затопити підкоп')) fail('flooding the mine offered without the Knowledge');
+  s.state.LoadJson(saved);
+  play(s, 'm09_nomi');
+  play(s, 'm09_matey', ['«А колодязь']);
+  if (!has(offered(s, 'm09_council', ['Так']), 'Затопити підкоп')) fail('flooding the mine missing after Nomi and Matey');
+  s.state.LoadJson(saved);
+  if (has(offered(s, 'm09_council', ['Так', 'Послати Лицарів у ходи']), 'Прийняти тишу')) fail('the truce offered before meeting the Khagan');
+  s.state.LoadJson(saved);
+  play(s, 'm09_erden');
+  play(s, 'm09_kagan', ['«Говоріть', 'Мовчати']);
+  if (!v(s, 'f_kagan_truce')) fail('the Khagan did not offer the truce to a respected Protector');
+  const t = play(s, 'm09_council', ['Так', 'Послати Лицарів у ходи', 'Прийняти тишу', 'Ерік Штольц']);
+  if (t.includes('month_end') && v(s, 'f_winter_truce') && v(s, 'f_hostage_erik') && v(s, 'out_erik')) ok('truce: Erik goes as the hostage, the month ends');
+  else fail('the truce path does not end with Erik as the hostage');
+}
+{
+  // Bozhena names the traitor; a talk stops the climax.
+  const s = new Story(compiled);
+  s.variablesState.$('loy_ferrante', 1);
+  play(s, 'm09_open');
+  play(s, 'm09_bozhena');
+  if (v(s, 'warned') !== 'ferrante' || !v(s, 'k_betrayal_warning')) fail(`Bozhena warned about "${v(s, 'warned')}", expected ferrante`);
+  play(s, 'm09_council', ['Так', 'Послати Лицарів у ходи', 'Відмовити', 'Лицарі Тіла на Соляній брамі', 'Поговорити з ним', 'Тримати всі стіни', 'Лицарі тримаються']);
+  if (v(s, 'b_ferrante') || v(s, 'f_betray_ferrante9')) fail('Ferrante betrayed after the talk');
+  else ok('the warning and the talk prevent the last betrayal');
+  const u = new Story(compiled);
+  u.variablesState.$('loy_ferrante', 1);
+  play(u, 'm09_open');
+  play(u, 'm09_council', ['Так', 'Послати Лицарів у ходи', 'Відмовити', 'Лицарі Тіла на Соляній брамі', 'Тримати всі стіни', 'Лицарі тримаються']);
+  if (v(u, 'b_ferrante')) ok('without the talk Ferrante makes his move');
+  else fail('Ferrante at loyalty 1 did not betray in month 9');
 }
 
 if (failures > 0) {

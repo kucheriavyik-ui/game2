@@ -296,3 +296,13 @@ _Тут фіксуються реальні промпти, id завдань і
 | `yeremiya` (Проповідник Ієронім) | gaunt barefoot medieval preacher ~45, long unkempt dark hair and beard, ragged patched burlap sackcloth robe tied with rope, bare feet, burning intense eyes | `ca2dffb3` / `c1ee0563` |
 | `dytko` (розвідник) | young wiry army scout ~20, hood, mud-smeared dark green cloak, leather jerkin, short bow | `f3231567` / `965b9474` |
 | `magda` (кухарка ратуші) | stout cook ~50, grey hair under white linen kerchief, flour-dusted brown dress, stained apron, wooden ladle | `bcb18ac7` / `2d720d5d` |
+
+## 19. Місяці 7 і 9: Каган, Матей, хлопець Гільди (2026-09-27)
+
+Ті самі параметри (standard 48, 4 dir; портрети pixen 64×64). Запущено, але сервер PixelLab повертав помилки під час забирання результатів — перевірити в галереї і докачати `characters/<id>/{south,east,north,west,portrait_neutral}.png`, вписати в manifest (`characters.<id>.idle`, `portraits.<id>_neutral`).
+
+| Асет | Опис | Id (спрайт / портрет) |
+|---|---|---|
+| `kagan` | old steppe nomad khan ~60, grey hair in a thin braid, weathered calm face, long grey moustache, plain quilted grey-brown felt robe, no crown, hands folded in sleeves | `68f22997` / `1c25fb76` |
+| `matey` (колодязник) | lean man ~50, bald with grey stubble, mud-caked brown leather apron, rope over the shoulder, lantern on the belt, stooped | `b4c7486f` / `c1e0d7a9` |
+| `stas` (хлопець Гільди) | skinny teenage apprentice ~15, soot-smeared face, short fair hair, oversized leather apron, small hammer; size 44, proportions head 1.2, legs 0.85, shoulders 0.8 | `4cfc27c0` / `3bac790f` |

@@ -299,7 +299,7 @@ _Тут фіксуються реальні промпти, id завдань і
 
 ## 19. Місяці 7 і 9: Каган, Матей, хлопець Гільди (2026-09-27)
 
-Ті самі параметри (standard 48, 4 dir; портрети pixen 64×64). Запущено, але сервер PixelLab повертав помилки під час забирання результатів — перевірити в галереї і докачати `characters/<id>/{south,east,north,west,portrait_neutral}.png`, вписати в manifest (`characters.<id>.idle`, `portraits.<id>_neutral`).
+Ті самі параметри (standard 48, 4 dir; портрети pixen 64×64). Спрайти й портрети докачано після того, як сервер PixelLab ожив; усе в manifest. Промпти: `characters/<id>/{south,east,north,west,portrait_neutral}.png`, вписати в manifest (`characters.<id>.idle`, `portraits.<id>_neutral`).
 
 | Асет | Опис | Id (спрайт / портрет) |
 |---|---|---|

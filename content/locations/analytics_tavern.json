@@ -132,7 +132,7 @@
       "id": "dec_rug_1",
       "type": "decor",
       "x": 5.5,
-      "y": 5.4,
+      "y": 5.2,
       "sprite": "rug",
       "floor": true
     },
@@ -154,7 +154,7 @@
       "id": "dec_bench_1",
       "type": "decor",
       "x": 5.5,
-      "y": 6.2,
+      "y": 5.7,
       "sprite": "bench"
     },
     {

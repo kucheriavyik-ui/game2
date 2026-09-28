@@ -205,6 +205,9 @@
     },
     "adelina": {
       "idle": "characters/adelina/south.png"
+    },
+    "nomi_tavern": {
+      "idle": "characters/nomi_tavern/south.png"
     }
   },
   "kits": {
@@ -406,6 +409,7 @@
     "gregor_neutral": "characters/gregor/portrait_neutral.png",
     "benno_neutral": "characters/benno/portrait_neutral.png",
     "oskar_neutral": "characters/oskar/portrait_neutral.png",
-    "adelina_neutral": "characters/adelina/portrait_neutral.png"
+    "adelina_neutral": "characters/adelina/portrait_neutral.png",
+    "nomi_tavern_neutral": "characters/nomi_tavern/portrait_neutral.png"
   }
 }

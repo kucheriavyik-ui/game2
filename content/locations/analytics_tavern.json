@@ -30,11 +30,11 @@
   "spawns": {
     "start": {
       "x": 8,
-      "y": 7
+      "y": 6.5
     },
     "door_in": {
       "x": 8,
-      "y": 7
+      "y": 6.5
     }
   },
   "entities": [
@@ -83,7 +83,7 @@
       "id": "dec_keg_1",
       "type": "decor",
       "x": 7.2,
-      "y": 9.4,
+      "y": 8.5,
       "sprite": "keg"
     },
     {
@@ -111,21 +111,21 @@
       "id": "dec_bar",
       "type": "decor",
       "x": 4.2,
-      "y": 9.4,
+      "y": 8.4,
       "sprite": "bar_counter"
     },
     {
       "id": "gregor",
       "type": "npc",
       "x": 4.2,
-      "y": 8.6,
+      "y": 7.6,
       "ink": "at_gregor"
     },
     {
       "id": "benno",
       "type": "npc",
       "x": 8.8,
-      "y": 9.4,
+      "y": 8.7,
       "ink": "at_benno"
     },
     {
@@ -195,7 +195,7 @@
     {
       "id": "dec_table_3",
       "type": "decor",
-      "x": 11,
+      "x": 9.8,
       "y": 3.6,
       "sprite": "table_round"
     },
@@ -217,11 +217,11 @@
       "ink": "at_shelf"
     },
     {
-      "id": "nomi",
+      "id": "nomi_tavern",
       "type": "npc",
-      "x": 13.6,
-      "y": 4.3,
-      "scale": 1.5,
+      "x": 11.5,
+      "y": 4.5,
+      "scale": 1.3,
       "ink": "at_nomi"
     }
   ]

@@ -278,7 +278,9 @@
     "well": "decor/well.png",
     "stall_veg": "decor/stall_veg.png",
     "stall_grain": "decor/stall_grain.png",
-    "city_gate": "decor/city_gate.png"
+    "city_gate": "decor/city_gate.png",
+    "bar_counter": "decor/bar_counter.png",
+    "table_round": "decor/table_round.png"
   },
   "objects": {
     "door_tavern": "objects/door_tavern.png",

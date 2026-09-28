@@ -29,57 +29,15 @@
   },
   "spawns": {
     "start": {
-      "x": 7,
+      "x": 8,
       "y": 9
     },
     "door_in": {
-      "x": 7,
+      "x": 8,
       "y": 9
     }
   },
   "entities": [
-    {
-      "id": "dec_shelf_1",
-      "type": "decor",
-      "x": 8,
-      "y": 3,
-      "sprite": "shelf"
-    },
-    {
-      "id": "dec_keg_1",
-      "type": "decor",
-      "x": 1.5,
-      "y": 6,
-      "sprite": "keg"
-    },
-    {
-      "id": "dec_candles_1",
-      "type": "decor",
-      "x": 14,
-      "y": 7,
-      "sprite": "candles"
-    },
-    {
-      "id": "dec_crates_1",
-      "type": "decor",
-      "x": 13,
-      "y": 10,
-      "sprite": "crates"
-    },
-    {
-      "id": "dec_barrel_1",
-      "type": "decor",
-      "x": 1,
-      "y": 10,
-      "sprite": "barrel"
-    },
-    {
-      "id": "dec_barrels_1",
-      "type": "decor",
-      "x": 14,
-      "y": 4,
-      "sprite": "barrels"
-    },
     {
       "id": "dec_window_1",
       "type": "decor",
@@ -99,56 +57,6 @@
       "dy": -24
     },
     {
-      "id": "dec_rug_1",
-      "type": "decor",
-      "x": 5.5,
-      "y": 6.2,
-      "sprite": "rug",
-      "floor": true
-    },
-    {
-      "id": "dec_table_1",
-      "type": "decor",
-      "x": 5.5,
-      "y": 5.5,
-      "sprite": "table"
-    },
-    {
-      "id": "dec_bench_1",
-      "type": "decor",
-      "x": 5.5,
-      "y": 6.9,
-      "sprite": "bench"
-    },
-    {
-      "id": "dec_chair_1",
-      "type": "decor",
-      "x": 3.2,
-      "y": 5.4,
-      "sprite": "chair"
-    },
-    {
-      "id": "dec_table_2",
-      "type": "decor",
-      "x": 11,
-      "y": 5.5,
-      "sprite": "table"
-    },
-    {
-      "id": "dec_bench_2",
-      "type": "decor",
-      "x": 11,
-      "y": 6.9,
-      "sprite": "bench"
-    },
-    {
-      "id": "dec_chair_2",
-      "type": "decor",
-      "x": 13.3,
-      "y": 5.4,
-      "sprite": "chair"
-    },
-    {
       "id": "dec_tapestry_1",
       "type": "decor",
       "x": 3.2,
@@ -158,45 +66,143 @@
       "dy": -20
     },
     {
+      "id": "dec_shelf_1",
+      "type": "decor",
+      "x": 8,
+      "y": 3,
+      "sprite": "shelf"
+    },
+    {
+      "id": "dec_barrels_1",
+      "type": "decor",
+      "x": 14,
+      "y": 4,
+      "sprite": "barrels"
+    },
+    {
+      "id": "dec_keg_1",
+      "type": "decor",
+      "x": 1.5,
+      "y": 5.4,
+      "sprite": "keg"
+    },
+    {
+      "id": "dec_barrel_1",
+      "type": "decor",
+      "x": 1,
+      "y": 7.6,
+      "sprite": "barrel"
+    },
+    {
+      "id": "dec_crates_1",
+      "type": "decor",
+      "x": 14,
+      "y": 10,
+      "sprite": "crates"
+    },
+    {
+      "id": "dec_candles_1",
+      "type": "decor",
+      "x": 8.5,
+      "y": 8.6,
+      "sprite": "candles"
+    },
+    {
+      "id": "dec_bar",
+      "type": "decor",
+      "x": 3,
+      "y": 9.4,
+      "sprite": "bar_counter"
+    },
+    {
       "id": "gregor",
       "type": "npc",
-      "x": 3.5,
-      "y": 8.2,
+      "x": 3,
+      "y": 8.6,
       "ink": "at_gregor"
     },
     {
       "id": "benno",
       "type": "npc",
-      "x": 6.8,
-      "y": 8.4,
+      "x": 6.2,
+      "y": 10.2,
       "ink": "at_benno"
+    },
+    {
+      "id": "dec_rug_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 5.4,
+      "sprite": "rug",
+      "floor": true
     },
     {
       "id": "adelina",
       "type": "npc",
-      "x": 4.4,
-      "y": 7.7,
+      "x": 5.2,
+      "y": 4.2,
       "ink": "at_adelina"
+    },
+    {
+      "id": "dec_table_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 4.8,
+      "sprite": "table"
+    },
+    {
+      "id": "dec_bench_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 6.2,
+      "sprite": "bench"
+    },
+    {
+      "id": "dec_chair_1",
+      "type": "decor",
+      "x": 3.3,
+      "y": 4.7,
+      "sprite": "chair"
     },
     {
       "id": "oskar",
       "type": "npc",
       "x": 11.6,
-      "y": 7.7,
+      "y": 6.4,
       "ink": "at_oskar"
     },
     {
-      "id": "at_board",
-      "type": "object",
-      "x": 2.5,
-      "y": 3,
-      "sprite": "tavern_chalkboard",
-      "ink": "at_board"
+      "id": "dec_table_2",
+      "type": "decor",
+      "x": 11.5,
+      "y": 7,
+      "sprite": "tavern_dice"
+    },
+    {
+      "id": "dec_chair_2",
+      "type": "decor",
+      "x": 13.6,
+      "y": 6.9,
+      "sprite": "chair"
+    },
+    {
+      "id": "dec_chair_3",
+      "type": "decor",
+      "x": 9.4,
+      "y": 6.9,
+      "sprite": "chair"
+    },
+    {
+      "id": "dec_table_3",
+      "type": "decor",
+      "x": 11,
+      "y": 3.6,
+      "sprite": "table_round"
     },
     {
       "id": "at_hearth",
       "type": "object",
-      "x": 8,
+      "x": 5.5,
       "y": 3,
       "sprite": "tavern_hearth",
       "ink": "at_hearth"

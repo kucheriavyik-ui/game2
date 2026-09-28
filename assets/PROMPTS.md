@@ -314,7 +314,7 @@ _Тут фіксуються реальні промпти, id завдань і
 | Асет | Роль | Промпт (опис) | Id (спрайт / портрет) |
 |---|---|---|---|
 | `gregor` | шинкар: контекст і гіпотеза | stout medieval tavern keeper ~50, bald head, thick dark moustache, rolled-up sleeves, leather apron over a brown tunic, rag over one shoulder, holding a tankard, shrewd friendly face | `a469b4cc` / `0e579186` |
-| `benno` | оптиміст: плюси тесту | cheerful young medieval merchant ~30, curly red hair, short beard, bright green doublet with gold buttons, coin purse, wide open gesturing arms, big optimistic grin | `624d9fc3` / `053675c2` |
+| `benno` | оптиміст: плюси тесту | cheerful young medieval merchant ~30, curly red hair, short beard, bright green doublet with gold buttons, coin purse, big optimistic grin; спрайт v2 — «holding a big pewter beer tankard raised in one hand as a toast, other hand on hip» | `ac5635c3` (v1 `624d9fc3`) / `053675c2` |
 | `oskar` | песиміст: мінуси тесту | gloomy old medieval fisherman ~65, long grey beard, dark blue knitted cap, heavy grey oilskin coat, hunched over a mug, arms crossed, sour skeptical expression | `1c0cde4a` / `5239e686` |
 | `adelina` | зважений погляд | calm medieval scribe woman ~35, dark hair in a tight bun, round spectacles, plain grey dress with a white collar, ink-stained fingers, ledger under one arm | `2e95a408` / `dfc4bcd4` |
 

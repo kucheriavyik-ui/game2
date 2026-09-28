@@ -372,7 +372,7 @@ export class WorldScene extends Phaser.Scene {
         const key = this.textures.exists(idleKey)
           ? idleKey
           : placeholderTexture(this, `ph:npc:${entity.id}`, 20, 24, character.color, character.name.charAt(0));
-        const npc = this.addProp(x, y, key, true);
+        const npc = this.addProp(x, y, key, true, false, entity.scale ?? 1);
         this.interactables.push({
           id: entity.id,
           x,
@@ -478,10 +478,10 @@ export class WorldScene extends Phaser.Scene {
   }
 
   /** A static thing on the map, standing on tile (x, y); solid ones block the hero at their base. */
-  private addProp(x: number, y: number, key: string, solid: boolean, flip = false): Phaser.Physics.Arcade.Image {
-    const image = this.physics.add.staticImage(x, y, key).setFlipX(flip);
+  private addProp(x: number, y: number, key: string, solid: boolean, flip = false, scale = 1): Phaser.Physics.Arcade.Image {
+    const image = this.physics.add.staticImage(x, y, key).setFlipX(flip).setScale(scale);
     // Tall art stands on the tile rather than being centred in it.
-    if (image.height > TILE_SIZE) image.setY(y + TILE_SIZE / 2 - image.height / 2 + 4);
+    if (image.displayHeight > TILE_SIZE) image.setY(y + TILE_SIZE / 2 - image.displayHeight / 2 + 4);
     const body = image.body as Phaser.Physics.Arcade.StaticBody;
     // The footprint follows what is actually drawn, not the canvas: a character's
     // 68px canvas holds a 20px figure, a bed's 96px canvas an 80px bed.
@@ -491,7 +491,7 @@ export class WorldScene extends Phaser.Scene {
     const wide = art.width > TILE_SIZE;
     const footW = wide ? art.width - 8 : Math.min(art.width, 24);
     const footH = Math.min(art.height, wide ? 20 : 16);
-    body.setSize(footW, footH).setOffset(art.left + (art.width - footW) / 2, art.bottom - footH);
+    body.setSize(footW * scale, footH * scale).setOffset((art.left + (art.width - footW) / 2) * scale, (art.bottom - footH) * scale);
     image.setDepth(body.bottom);
     if (solid) {
       this.physics.add.collider(this.player, image);

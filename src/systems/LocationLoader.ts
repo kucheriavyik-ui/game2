@@ -52,6 +52,8 @@ export interface EntityDef {
   month?: string;
   /** Only present while this Ink VAR is true (`!name` — while it is false), e.g. "f_smiths_in". */
   when?: string;
+  /** npc/object/decor: draw the sprite this many times larger (a cat on a shelf, 1.5). */
+  scale?: number;
 }
 
 /** Shape of content/locations/<id>.json */
@@ -108,6 +110,7 @@ const contentTexts = import.meta.glob('/content/**/*.{json,txt}', {
 
 export const STORY_KEY = 'story:main';
 export const JOURNAL_KEY = 'journal';
+export const TABLES_KEY = 'tables';
 export const RESOURCES_KEY = 'resources';
 export const COUNCIL_KEY = 'council';
 
@@ -227,6 +230,8 @@ export function queueContentFiles(loader: Phaser.Loader.LoaderPlugin): void {
       if (file === 'main.ink.json') json(STORY_KEY, text);
     } else if (folder === 'journal.json') {
       json(JOURNAL_KEY, text);
+    } else if (folder === 'tables.json') {
+      json(TABLES_KEY, text);
     } else if (folder === 'months') {
       if (file.endsWith('.json')) json(`month:${stripExt(file, '.json')}`, text);
     } else if (folder === 'council.json') {

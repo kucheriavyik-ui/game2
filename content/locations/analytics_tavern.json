@@ -30,11 +30,11 @@
   "spawns": {
     "start": {
       "x": 8,
-      "y": 9
+      "y": 7
     },
     "door_in": {
       "x": 8,
-      "y": 9
+      "y": 7
     }
   },
   "entities": [
@@ -82,15 +82,15 @@
     {
       "id": "dec_keg_1",
       "type": "decor",
-      "x": 1.5,
-      "y": 5.4,
+      "x": 7.2,
+      "y": 9.4,
       "sprite": "keg"
     },
     {
       "id": "dec_barrel_1",
       "type": "decor",
-      "x": 1,
-      "y": 7.6,
+      "x": 1.2,
+      "y": 6.2,
       "sprite": "barrel"
     },
     {
@@ -103,29 +103,29 @@
     {
       "id": "dec_candles_1",
       "type": "decor",
-      "x": 8.5,
-      "y": 8.6,
+      "x": 9.5,
+      "y": 7.2,
       "sprite": "candles"
     },
     {
       "id": "dec_bar",
       "type": "decor",
-      "x": 3,
+      "x": 4.2,
       "y": 9.4,
       "sprite": "bar_counter"
     },
     {
       "id": "gregor",
       "type": "npc",
-      "x": 3,
+      "x": 4.2,
       "y": 8.6,
       "ink": "at_gregor"
     },
     {
       "id": "benno",
       "type": "npc",
-      "x": 6.2,
-      "y": 10.2,
+      "x": 8.8,
+      "y": 9.4,
       "ink": "at_benno"
     },
     {
@@ -215,6 +215,14 @@
       "sprite": "bookshelf",
       "label": "Шафа з табличками",
       "ink": "at_shelf"
+    },
+    {
+      "id": "nomi",
+      "type": "npc",
+      "x": 13.6,
+      "y": 4.3,
+      "scale": 1.5,
+      "ink": "at_nomi"
     }
   ]
 }

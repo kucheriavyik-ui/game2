@@ -2,11 +2,12 @@ import Phaser from 'phaser';
 import { DialogueSystem, type DialogueLine } from '../systems/DialogueSystem';
 import { GameState } from '../systems/GameState';
 import { Journal, type JournalDefs } from '../systems/Journal';
-import { council, findCharacter, isOut, JOURNAL_KEY, RESOURCES_KEY, seatedAdvisors } from '../systems/LocationLoader';
+import { council, findCharacter, isOut, JOURNAL_KEY, RESOURCES_KEY, seatedAdvisors, TABLES_KEY } from '../systems/LocationLoader';
 import { councilLookup, finishMonth, gameOver } from '../systems/MonthFlow';
 import { DialogueBox } from '../ui/DialogueBox';
 import { bindDialogueKeys } from '../ui/dialogueKeys';
 import { JournalPanel, type JournalTab } from '../ui/JournalPanel';
+import { TablePanel, type TableDefs } from '../ui/TablePanel';
 import { ResourceBar, type ResourceDef } from '../ui/ResourceBar';
 import { COLORS, textStyle } from '../ui/theme';
 
@@ -26,6 +27,7 @@ export class UIScene extends Phaser.Scene {
   private readonly dialogue = new DialogueSystem();
   private box!: DialogueBox;
   private journalPanel!: JournalPanel;
+  private tablePanel!: TablePanel;
   private resources!: ResourceBar;
   private councilLayer!: Phaser.GameObjects.Container;
   private toast!: Phaser.GameObjects.Text;
@@ -49,6 +51,7 @@ export class UIScene extends Phaser.Scene {
       .setVisible(false);
     this.box = new DialogueBox(this);
     this.journalPanel = new JournalPanel(this);
+    this.tablePanel = new TablePanel(this);
     this.resources = new ResourceBar(this, (this.cache.json.get(RESOURCES_KEY) ?? []) as ResourceDef[]);
     this.refreshResources(false);
     // The analytics tavern has no city to keep: the bars stay hidden there.
@@ -98,7 +101,7 @@ export class UIScene extends Phaser.Scene {
 
   /** Whether a dialogue or the journal is on screen; the world checks this to never stay frozen by mistake. */
   get isBusy(): boolean {
-    return this.current !== null || this.journalPanel.isOpen;
+    return this.current !== null || this.journalPanel.isOpen || this.tablePanel.isOpen;
   }
 
   // --- Dialogue ---
@@ -112,11 +115,17 @@ export class UIScene extends Phaser.Scene {
   }
 
   private advance(): void {
+    // A table over the line closes first; the next press goes on with the talk.
+    if (this.tablePanel.isOpen) {
+      this.tablePanel.hide();
+      return;
+    }
     if (!this.current || this.current.choices.length > 0) return;
     this.showLine(this.dialogue.next());
   }
 
   private choose(index: number): void {
+    if (this.tablePanel.isOpen) return;
     if (!this.current || index >= this.current.choices.length) return;
     this.showLine(this.dialogue.choose(index));
   }
@@ -151,6 +160,10 @@ export class UIScene extends Phaser.Scene {
       const [key, value] = tag.split(':').map((s) => s.trim());
       if (key === 'journal' && value) {
         if (Journal.add(value)) this.showToast('Новий запис у журналі · J');
+      } else if (key === 'table' && value) {
+        const def = ((this.cache.json.get(TABLES_KEY) ?? {}) as TableDefs)[value];
+        if (def) this.tablePanel.show(def);
+        else console.warn(`# table:${value}: no such table in content/tables.json`);
       } else if (key === 'council_open') {
         this.councilLayer.setVisible(true);
       } else if (key === 'month_end') {

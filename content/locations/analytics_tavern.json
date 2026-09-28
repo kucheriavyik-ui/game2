@@ -39,27 +39,6 @@
   },
   "entities": [
     {
-      "id": "dec_table_1",
-      "type": "decor",
-      "x": 5.5,
-      "y": 5.5,
-      "sprite": "table"
-    },
-    {
-      "id": "dec_bench_1",
-      "type": "decor",
-      "x": 5.5,
-      "y": 6.9,
-      "sprite": "bench"
-    },
-    {
-      "id": "dec_bench_2",
-      "type": "decor",
-      "x": 10.5,
-      "y": 6.9,
-      "sprite": "bench"
-    },
-    {
       "id": "dec_shelf_1",
       "type": "decor",
       "x": 8,
@@ -120,6 +99,65 @@
       "dy": -24
     },
     {
+      "id": "dec_rug_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 6.2,
+      "sprite": "rug",
+      "floor": true
+    },
+    {
+      "id": "dec_table_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 5.5,
+      "sprite": "table"
+    },
+    {
+      "id": "dec_bench_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 6.9,
+      "sprite": "bench"
+    },
+    {
+      "id": "dec_chair_1",
+      "type": "decor",
+      "x": 3.2,
+      "y": 5.4,
+      "sprite": "chair"
+    },
+    {
+      "id": "dec_table_2",
+      "type": "decor",
+      "x": 11,
+      "y": 5.5,
+      "sprite": "table"
+    },
+    {
+      "id": "dec_bench_2",
+      "type": "decor",
+      "x": 11,
+      "y": 6.9,
+      "sprite": "bench"
+    },
+    {
+      "id": "dec_chair_2",
+      "type": "decor",
+      "x": 13.3,
+      "y": 5.4,
+      "sprite": "chair"
+    },
+    {
+      "id": "dec_tapestry_1",
+      "type": "decor",
+      "x": 3.2,
+      "y": 2,
+      "sprite": "tapestry",
+      "wall": true,
+      "dy": -20
+    },
+    {
       "id": "gregor",
       "type": "npc",
       "x": 3.5,
@@ -129,23 +167,23 @@
     {
       "id": "benno",
       "type": "npc",
-      "x": 8,
-      "y": 4.3,
+      "x": 6.8,
+      "y": 8.4,
       "ink": "at_benno"
-    },
-    {
-      "id": "oskar",
-      "type": "npc",
-      "x": 13,
-      "y": 5.8,
-      "ink": "at_oskar"
     },
     {
       "id": "adelina",
       "type": "npc",
-      "x": 4.5,
-      "y": 5.4,
+      "x": 4.4,
+      "y": 7.7,
       "ink": "at_adelina"
+    },
+    {
+      "id": "oskar",
+      "type": "npc",
+      "x": 11.6,
+      "y": 7.7,
+      "ink": "at_oskar"
     },
     {
       "id": "at_board",
@@ -162,6 +200,15 @@
       "y": 3,
       "sprite": "tavern_hearth",
       "ink": "at_hearth"
+    },
+    {
+      "id": "at_shelf",
+      "type": "object",
+      "x": 12.5,
+      "y": 3,
+      "sprite": "bookshelf",
+      "label": "Шафа з табличками",
+      "ink": "at_shelf"
     }
   ]
 }

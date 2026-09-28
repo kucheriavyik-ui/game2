@@ -193,6 +193,18 @@
     },
     "stas": {
       "idle": "characters/stas/south.png"
+    },
+    "gregor": {
+      "idle": "characters/gregor/south.png"
+    },
+    "benno": {
+      "idle": "characters/benno/south.png"
+    },
+    "oskar": {
+      "idle": "characters/oskar/south.png"
+    },
+    "adelina": {
+      "idle": "characters/adelina/south.png"
     }
   },
   "kits": {
@@ -388,6 +400,10 @@
     "magda_neutral": "characters/magda/portrait_neutral.png",
     "kagan_neutral": "characters/kagan/portrait_neutral.png",
     "matey_neutral": "characters/matey/portrait_neutral.png",
-    "stas_neutral": "characters/stas/portrait_neutral.png"
+    "stas_neutral": "characters/stas/portrait_neutral.png",
+    "gregor_neutral": "characters/gregor/portrait_neutral.png",
+    "benno_neutral": "characters/benno/portrait_neutral.png",
+    "oskar_neutral": "characters/oskar/portrait_neutral.png",
+    "adelina_neutral": "characters/adelina/portrait_neutral.png"
   }
 }

@@ -1,0 +1,167 @@
+{
+  "id": "analytics_tavern",
+  "name": "Таверна «Дві групи»",
+  "map": "analytics_tavern.map.txt",
+  "music": "tavern",
+  "legend": {
+    "W": {
+      "name": "house_stone",
+      "solid": true,
+      "color": "#2e2420",
+      "kit": "stone"
+    },
+    "#": {
+      "name": "wall_top_stone",
+      "solid": true,
+      "color": "#4a4845",
+      "overlay": "rgba(20,14,10,0.25)"
+    },
+    ".": {
+      "name": "floorboards",
+      "solid": false,
+      "color": "#5a4630"
+    },
+    "B": {
+      "name": "bar",
+      "solid": true,
+      "color": "#4a3320"
+    }
+  },
+  "spawns": {
+    "start": {
+      "x": 7,
+      "y": 9
+    },
+    "door_in": {
+      "x": 7,
+      "y": 9
+    }
+  },
+  "entities": [
+    {
+      "id": "dec_table_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 5.5,
+      "sprite": "table"
+    },
+    {
+      "id": "dec_bench_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 6.9,
+      "sprite": "bench"
+    },
+    {
+      "id": "dec_bench_2",
+      "type": "decor",
+      "x": 10.5,
+      "y": 6.9,
+      "sprite": "bench"
+    },
+    {
+      "id": "dec_shelf_1",
+      "type": "decor",
+      "x": 8,
+      "y": 3,
+      "sprite": "shelf"
+    },
+    {
+      "id": "dec_keg_1",
+      "type": "decor",
+      "x": 1.5,
+      "y": 6,
+      "sprite": "keg"
+    },
+    {
+      "id": "dec_candles_1",
+      "type": "decor",
+      "x": 14,
+      "y": 7,
+      "sprite": "candles"
+    },
+    {
+      "id": "dec_crates_1",
+      "type": "decor",
+      "x": 13,
+      "y": 10,
+      "sprite": "crates"
+    },
+    {
+      "id": "dec_barrel_1",
+      "type": "decor",
+      "x": 1,
+      "y": 10,
+      "sprite": "barrel"
+    },
+    {
+      "id": "dec_barrels_1",
+      "type": "decor",
+      "x": 14,
+      "y": 4,
+      "sprite": "barrels"
+    },
+    {
+      "id": "dec_window_1",
+      "type": "decor",
+      "x": 5.5,
+      "y": 2,
+      "sprite": "window_tall_timber",
+      "wall": true,
+      "dy": -24
+    },
+    {
+      "id": "dec_window_2",
+      "type": "decor",
+      "x": 10,
+      "y": 2,
+      "sprite": "window_tall_timber",
+      "wall": true,
+      "dy": -24
+    },
+    {
+      "id": "gregor",
+      "type": "npc",
+      "x": 3.5,
+      "y": 8.2,
+      "ink": "at_gregor"
+    },
+    {
+      "id": "benno",
+      "type": "npc",
+      "x": 8,
+      "y": 4.3,
+      "ink": "at_benno"
+    },
+    {
+      "id": "oskar",
+      "type": "npc",
+      "x": 13,
+      "y": 5.8,
+      "ink": "at_oskar"
+    },
+    {
+      "id": "adelina",
+      "type": "npc",
+      "x": 4.5,
+      "y": 5.4,
+      "ink": "at_adelina"
+    },
+    {
+      "id": "at_board",
+      "type": "object",
+      "x": 2.5,
+      "y": 3,
+      "sprite": "tavern_chalkboard",
+      "ink": "at_board"
+    },
+    {
+      "id": "at_hearth",
+      "type": "object",
+      "x": 8,
+      "y": 3,
+      "sprite": "tavern_hearth",
+      "ink": "at_hearth"
+    }
+  ]
+}

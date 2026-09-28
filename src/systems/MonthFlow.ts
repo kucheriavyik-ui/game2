@@ -93,6 +93,19 @@ export function startFromMonth(scene: Phaser.Scene, id: string): void {
   scene.scene.start('Setup', { months: earlier.map((m) => m.id), target: id });
 }
 
+/**
+ * «Таверна аналітика»: a separate prototype mode in the same engine. A fresh
+ * story, no month, no save — one location whose people walk the player through
+ * an A/B test (content/story/analytics.ink). Esc → pause → main menu leaves it.
+ */
+export function startAnalyticsTavern(scene: Phaser.Scene): void {
+  resetStory(scene);
+  scene.registry.set('month', 'analytics');
+  scene.registry.set('monthStart', snapshot(scene));
+  stopPlay(scene);
+  enterWorld(scene, { location: 'analytics_tavern', spawn: 'start', intro: 'at_intro' });
+}
+
 /** Saves, remembers the starting numbers and shows the month's title card. */
 export function startMonth(scene: Phaser.Scene, id: string): void {
   if (!findMonth(scene, id)) throw new Error(`Unknown month "${id}"`);

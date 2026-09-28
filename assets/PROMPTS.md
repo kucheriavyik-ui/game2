@@ -306,3 +306,14 @@ _Тут фіксуються реальні промпти, id завдань і
 | `kagan` | old steppe nomad khan ~60, grey hair in a thin braid, weathered calm face, long grey moustache, plain quilted grey-brown felt robe, no crown, hands folded in sleeves | `68f22997` / `1c25fb76` |
 | `matey` (колодязник) | lean man ~50, bald with grey stubble, mud-caked brown leather apron, rope over the shoulder, lantern on the belt, stooped | `b4c7486f` / `c1e0d7a9` |
 | `stas` (хлопець Гільди) | skinny teenage apprentice ~15, soot-smeared face, short fair hair, oversized leather apron, small hammer; size 44, proportions head 1.2, legs 0.85, shoulders 0.8 | `4cfc27c0` / `3bac790f` |
+
+## 20. «Таверна аналітика» — окремі персонажі прототипу (2026-09-28)
+
+Ті самі параметри (standard 48, 4 dir, low top-down, single color black outline, basic shading; портрети pixen 64×64 `view: side`, «close-up head and shoulders … flat plain dark grey background»). Файли: `characters/<id>/{south,east,north,west,portrait_neutral}.png`.
+
+| Асет | Роль | Промпт (опис) | Id (спрайт / портрет) |
+|---|---|---|---|
+| `gregor` | шинкар: контекст і гіпотеза | stout medieval tavern keeper ~50, bald head, thick dark moustache, rolled-up sleeves, leather apron over a brown tunic, rag over one shoulder, holding a tankard, shrewd friendly face | `a469b4cc` / `0e579186` |
+| `benno` | оптиміст: плюси тесту | cheerful young medieval merchant ~30, curly red hair, short beard, bright green doublet with gold buttons, coin purse, wide open gesturing arms, big optimistic grin | `624d9fc3` / `053675c2` |
+| `oskar` | песиміст: мінуси тесту | gloomy old medieval fisherman ~65, long grey beard, dark blue knitted cap, heavy grey oilskin coat, hunched over a mug, arms crossed, sour skeptical expression | `1c0cde4a` / `5239e686` |
+| `adelina` | зважений погляд | calm medieval scribe woman ~35, dark hair in a tight bun, round spectacles, plain grey dress with a white collar, ink-stained fingers, ledger under one arm | `2e95a408` / `dfc4bcd4` |

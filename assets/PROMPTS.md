@@ -307,16 +307,6 @@ _Тут фіксуються реальні промпти, id завдань і
 | `matey` (колодязник) | lean man ~50, bald with grey stubble, mud-caked brown leather apron, rope over the shoulder, lantern on the belt, stooped | `b4c7486f` / `c1e0d7a9` |
 | `stas` (хлопець Гільди) | skinny teenage apprentice ~15, soot-smeared face, short fair hair, oversized leather apron, small hammer; size 44, proportions head 1.2, legs 0.85, shoulders 0.8 | `4cfc27c0` / `3bac790f` |
 
-## 20. «Таверна аналітика» — окремі персонажі прототипу (2026-09-28)
+## 20. «Таверна аналітика»
 
-Ті самі параметри (standard 48, 4 dir, low top-down, single color black outline, basic shading; портрети pixen 64×64 `view: side`, «close-up head and shoulders … flat plain dark grey background»). Файли: `characters/<id>/{south,east,north,west,portrait_neutral}.png`.
-
-| Асет | Роль | Промпт (опис) | Id (спрайт / портрет) |
-|---|---|---|---|
-| `gregor` | шинкар: контекст і гіпотеза | stout medieval tavern keeper ~50, bald head, thick dark moustache, rolled-up sleeves, leather apron over a brown tunic, rag over one shoulder, holding a tankard, shrewd friendly face | `a469b4cc` / `0e579186` |
-| `benno` | оптиміст: плюси тесту | cheerful young medieval merchant ~30, curly red hair, short beard, bright green doublet with gold buttons, coin purse, big optimistic grin; спрайт v2 — «holding a big pewter beer tankard raised in one hand as a toast, other hand on hip» | `ac5635c3` (v1 `624d9fc3`) / `053675c2` |
-| `oskar` | песиміст: мінуси тесту | gloomy old medieval fisherman ~65, long grey beard, dark blue knitted cap, heavy grey oilskin coat, hunched over a mug, arms crossed, sour skeptical expression | `1c0cde4a` / `5239e686` |
-| `adelina` | зважений погляд | calm medieval scribe woman ~35, dark hair in a tight bun, round spectacles, plain grey dress with a white collar, ink-stained fingers, ledger under one arm | `2e95a408` / `dfc4bcd4` |
-
-Меблі таверни (pixen, `no_background`, high top-down, «seen from straight in front and slightly above, perfectly horizontal, symmetrical, not rotated»): `bar_counter` 160×64 — «long wooden tavern bar counter, dark oak planks with a worn top, brass foot rail, three pewter mugs and a green bottle, a rag hanging over the edge» (`cd6661a7`); `table_round` 64×64 — «small round wooden tavern table on a single carved pedestal leg, lit candle in a clay holder, wooden bowl of bread» (`0579adf1`). Прийом «посадити» персонажа: NPC стоїть одразу за столом (y трохи менший за центр стола) — стіл малюється поверх ніг, і фігура читається як сидяча.
-| `nomi_tavern` | кіт таверни (окремий від Номі облоги) | `create_character` quadruped `cat`, size 32: «house cat with patched fur: ginger-orange back and head, white chest, belly and paws, grey-smoky patches on the sides, green eyes, slightly torn left ear, sitting upright, tail curled around the paws»; портрет pixen 64×64 «cat's face … ginger-orange head, white muzzle and chest, grey-smoky patch over one eye, bright green eyes» | `1106247e` / `cce24691` |
+Винесено в окремий проєкт `AnalyticsTavern` (2026-10-01) разом із персонажами, стійкою і круглим столиком; промпти — там, в `assets/PROMPTS.md`.

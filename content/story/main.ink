@@ -15,15 +15,8 @@ INCLUDE months/m09.ink
 INCLUDE betrayal.ink
 INCLUDE idle.ink
 INCLUDE people.ink
-INCLUDE analytics.ink
 
 // --- Resources, 0..100 (content/resources.json says how the HUD shows them) ---
-// «Таверна аналітика» (окремий режим, прототип)
-VAR at_talked_a = false
-VAR at_talked_b = false
-VAR at_talked_c = false
-VAR at_verdict = ""
-
 VAR bread = 60
 VAR gold = 60
 VAR walls = 60

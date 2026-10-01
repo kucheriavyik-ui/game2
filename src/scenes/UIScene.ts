@@ -54,8 +54,6 @@ export class UIScene extends Phaser.Scene {
     this.tablePanel = new TablePanel(this);
     this.resources = new ResourceBar(this, (this.cache.json.get(RESOURCES_KEY) ?? []) as ResourceDef[]);
     this.refreshResources(false);
-    // The analytics tavern has no city to keep: the bars stay hidden there.
-    if (this.registry.get('month') === 'analytics') this.resources.toggle();
     this.toast = this.add
       .text(width / 2, 4, '', textStyle(this, { color: COLORS.accent }))
       .setOrigin(0.5, 0)

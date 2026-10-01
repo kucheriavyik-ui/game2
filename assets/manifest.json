@@ -193,21 +193,6 @@
     },
     "stas": {
       "idle": "characters/stas/south.png"
-    },
-    "gregor": {
-      "idle": "characters/gregor/south.png"
-    },
-    "benno": {
-      "idle": "characters/benno/south.png"
-    },
-    "oskar": {
-      "idle": "characters/oskar/south.png"
-    },
-    "adelina": {
-      "idle": "characters/adelina/south.png"
-    },
-    "nomi_tavern": {
-      "idle": "characters/nomi_tavern/south.png"
     }
   },
   "kits": {
@@ -281,9 +266,7 @@
     "well": "decor/well.png",
     "stall_veg": "decor/stall_veg.png",
     "stall_grain": "decor/stall_grain.png",
-    "city_gate": "decor/city_gate.png",
-    "bar_counter": "decor/bar_counter.png",
-    "table_round": "decor/table_round.png"
+    "city_gate": "decor/city_gate.png"
   },
   "objects": {
     "door_tavern": "objects/door_tavern.png",
@@ -405,11 +388,6 @@
     "magda_neutral": "characters/magda/portrait_neutral.png",
     "kagan_neutral": "characters/kagan/portrait_neutral.png",
     "matey_neutral": "characters/matey/portrait_neutral.png",
-    "stas_neutral": "characters/stas/portrait_neutral.png",
-    "gregor_neutral": "characters/gregor/portrait_neutral.png",
-    "benno_neutral": "characters/benno/portrait_neutral.png",
-    "oskar_neutral": "characters/oskar/portrait_neutral.png",
-    "adelina_neutral": "characters/adelina/portrait_neutral.png",
-    "nomi_tavern_neutral": "characters/nomi_tavern/portrait_neutral.png"
+    "stas_neutral": "characters/stas/portrait_neutral.png"
   }
 }

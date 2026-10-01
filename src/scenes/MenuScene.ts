@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { findMonth, months } from '../systems/LocationLoader';
-import { continueGame, startAnalyticsTavern, startFromMonth, startNewGame } from '../systems/MonthFlow';
+import { continueGame, startFromMonth, startNewGame } from '../systems/MonthFlow';
 import { SaveSystem } from '../systems/SaveSystem';
 import { Settings } from '../systems/Settings';
 import { CONTROLS_TEXT, MenuList, settingsItems, type MenuItem } from '../ui/MenuList';
@@ -71,7 +71,6 @@ export class MenuScene extends Phaser.Scene {
             },
           },
           { label: 'Нова гра', onConfirm: () => this.show(hasSave ? 'confirmNew' : 'chooseMonth') },
-          { label: 'Таверна аналітика (прототип)', onConfirm: () => startAnalyticsTavern(this) },
           { label: 'Налаштування', onConfirm: () => this.show('settings') },
           { label: 'Керування', onConfirm: () => this.show('controls') },
         ],
